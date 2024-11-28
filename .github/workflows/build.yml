@@ -78,7 +78,7 @@ jobs:
       - name: Install lowest dependencies
         if: matrix.composer-mode == 'lowest'
         run: |
-          composer update --prefer-lowest
+          composer update --prefer-lowest &&
           composer update phpunit/phpunit vimeo/psalm
 
       - name: Run tests (phpunit)
@@ -145,7 +145,7 @@ jobs:
           coverage: none
 
       - name: Install dependencies
-        run: composer install
+        run: composer install --no-dev
 
       - uses: actions/download-artifact@v4
         with:
