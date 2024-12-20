@@ -1,5 +1,5 @@
 parameters:
-    level: 3
+    level: 4
     paths:
         - src
     excludePaths:
@@ -13,4 +13,24 @@ parameters:
         -
             identifier: constructor.unusedParameter
             paths:
+                - src/Behat/Behat/Definition/Printer/ConsoleDefinitionPrinter.php
+                - src/Behat/Behat/EventDispatcher/Cli/StopOnFailureController.php
+                - src/Behat/Behat/Output/Node/Printer/ListPrinter.php
+                - src/Behat/Behat/Tester/Runtime/RuntimeFeatureTester.php
                 - src/Behat/Behat/Transformation/Transformation/ReturnTypeTransformation.php
+                - src/Behat/Testwork/Ordering/Cli/OrderController.php
+        -
+            identifier: function.alreadyNarrowedType
+            paths:
+                - src/Behat/Testwork/EventDispatcher/TestworkEventDispatcher.php
+        -
+            identifier: deadCode.unreachable
+            paths:
+                - src/Behat/Testwork/EventDispatcher/TestworkEventDispatcher.php
+
+        -
+            identifier: if.alwaysFalse
+            paths:
+                - src/Behat/Behat/HelperContainer/ContainerInterface.php
+                - src/Behat/Behat/HelperContainer/Exception/ContainerException.php
+                - src/Behat/Behat/HelperContainer/Exception/NotFoundException.php

@@ -20,7 +20,6 @@ use Behat\Testwork\Tester\Exercise;
 use Behat\Testwork\Tester\Result\IntegerTestResult;
 use Behat\Testwork\Tester\Result\ResultInterpreter;
 use Behat\Testwork\Tester\Result\TestResult;
-use Behat\Testwork\Tester\Result\TestResults;
 use Behat\Testwork\Tester\Result\TestWithSetupResult;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -100,14 +99,14 @@ final class ExerciseController implements Controller
     }
 
     /**
-     * {@inheritdoc}
+     * @return int
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $specs = $this->findSpecifications($input);
         $result = $this->testSpecifications($input, $specs);
 
-        if ($input->getArgument('paths') && TestResults::NO_TESTS === $result->getResultCode()) {
+        if ($input->getArgument('paths') && TestResult::NO_TESTS === $result->getResultCode()) {
             throw new WrongPathsException(
                 sprintf(
                     'No specifications found at path(s) `%s`. This might be because of incorrect paths configuration in your `suites`.',

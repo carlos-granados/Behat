@@ -23,8 +23,6 @@ use IteratorAggregate;
  */
 final class TestResults implements TestResult, Countable, IteratorAggregate
 {
-    public const NO_TESTS = -100;
-
     /**
      * @var TestResult[]
      */

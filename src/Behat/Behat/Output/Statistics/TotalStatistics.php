@@ -14,7 +14,6 @@ use Behat\Behat\Tester\Result\StepResult;
 use Behat\Testwork\Counter\Memory;
 use Behat\Testwork\Counter\Timer;
 use Behat\Testwork\Tester\Result\TestResult;
-use Behat\Testwork\Tester\Result\TestResults;
 
 /**
  * Collects and provided exercise statistics.
@@ -125,7 +124,7 @@ final class TotalStatistics implements Statistics
      */
     public function registerScenarioStat(ScenarioStat $stat)
     {
-        if (TestResults::NO_TESTS === $stat->getResultCode()) {
+        if (TestResult::NO_TESTS === $stat->getResultCode()) {
             return;
         }
 

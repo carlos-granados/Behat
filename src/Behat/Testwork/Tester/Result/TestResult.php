@@ -23,6 +23,8 @@ interface TestResult
     public const UNDEFINED = 30;
     public const FAILED = 99;
 
+    public const NO_TESTS = -100;
+
     /**
      * Checks that test has passed.
      *

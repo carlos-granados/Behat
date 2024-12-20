@@ -39,12 +39,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 final class StopOnFailureController implements Controller
 {
-     /**
-      * @deprecated events are now dispatched in the StopOnFailureHandler
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
-
     /**
      * @var StopOnFailureHandler
      */
@@ -54,10 +48,10 @@ final class StopOnFailureController implements Controller
      * Initializes controller.
      *
      * @param EventDispatcherInterface $eventDispatcher
+     * @deprecated $eventDispatcher events are now dispatched in the StopOnFailureHandler
      */
     public function __construct(EventDispatcherInterface $eventDispatcher)
     {
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
