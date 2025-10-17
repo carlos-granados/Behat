@@ -26,7 +26,8 @@
         "symfony/dependency-injection": "^5.4 || ^6.4 || ^7.0",
         "symfony/event-dispatcher": "^5.4 || ^6.4 || ^7.0",
         "symfony/translation": "^5.4 || ^6.4 || ^7.0",
-        "symfony/yaml": "^5.4 || ^6.4 || ^7.0"
+        "symfony/yaml": "^5.4 || ^6.4 || ^7.0",
+        "opis/json-schema": "^2.5"
     },
 
     "require-dev": {
