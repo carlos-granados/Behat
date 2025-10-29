@@ -4,49 +4,17 @@ Feature: Display hook failures location in json printer
   When a hook throws an error I want to see the related item where the code failed
 
   Background:
-    Given a file named "features/one.feature" with:
-      """
-      Feature: First feature
-
-        Scenario: First scenario
-          When I have a simple step
-          And I have a simple step
-
-        Scenario: Second scenario
-          When I have a simple step
-      """
-    And a file named "features/two.feature" with:
-      """
-      Feature: Second feature
-
-        Scenario: First scenario
-          When I have a simple step
-      """
+    Given I initialise the working directory from the "HookFailures" fixtures folder
+    And I provide the following options for all behat invocations:
+      | option      | value |
+      | --no-colors |       |
 
   Scenario: Handling of a error in beforeSuite hook
-    Given a file named "features/bootstrap/FeatureContext.php" with:
-      """
-      <?php
-
-      use Behat\Behat\Context\Context;
-      use Behat\Hook\BeforeSuite;
-      use Behat\Step\When;
-
-      class FeatureContext implements Context
-      {
-          #[BeforeSuite]
-          public static function beforeSuiteHook()
-          {
-              throw new \Exception('Error in beforeSuite hook');
-          }
-
-          #[When('I have a simple step')]
-          public function iHaveASimpleStep()
-          {
-          }
-      }
-      """
-    When I run "behat --no-colors --format=json --out=beforesuite.json"
+    When I run behat with the following additional options:
+      | option    | value            |
+      | --profile | beforeSuite      |
+      | --format  | json             |
+      | --out     | beforesuite.json |
     Then it should fail
     And the "beforesuite.json" file json should be like:
       """
@@ -119,29 +87,11 @@ Feature: Display hook failures location in json printer
     And the file "beforesuite.json" should be a valid document according to the json schema "schema.json"
 
   Scenario: Handling of a error in afterSuite hook
-    Given a file named "features/bootstrap/FeatureContext.php" with:
-      """
-      <?php
-
-      use Behat\Behat\Context\Context;
-      use Behat\Hook\AfterSuite;
-      use Behat\Step\When;
-
-      class FeatureContext implements Context
-      {
-          #[AfterSuite]
-          public static function afterSuiteHook()
-          {
-              throw new \Exception('Error in afterSuite hook');
-          }
-
-          #[When('I have a simple step')]
-          public function iHaveASimpleStep()
-          {
-          }
-      }
-      """
-    When I run "behat --no-colors --format=json --out=aftersuite.json"
+    When I run behat with the following additional options:
+      | option    | value           |
+      | --profile | afterSuite      |
+      | --format  | json            |
+      | --out     | aftersuite.json |
     Then it should fail
     And the "aftersuite.json" file json should be like:
       """
@@ -214,34 +164,11 @@ Feature: Display hook failures location in json printer
     And the file "aftersuite.json" should be a valid document according to the json schema "schema.json"
 
   Scenario: Handling of a error in beforeFeature hook
-    Given a file named "features/bootstrap/FeatureContext.php" with:
-      """
-      <?php
-
-      use Behat\Behat\Context\Context;
-      use Behat\Hook\BeforeFeature;
-      use Behat\Step\When;
-
-      class FeatureContext implements Context
-      {
-          private static $hasThrownError = false;
-
-          #[BeforeFeature]
-          public static function beforeFeatureHook()
-          {
-              if (!self::$hasThrownError) {
-                  self::$hasThrownError = true;
-                  throw new \Exception('Error in beforeFeature hook');
-              }
-          }
-
-          #[When('I have a simple step')]
-          public function iHaveASimpleStep()
-          {
-          }
-      }
-      """
-    When I run "behat --no-colors --format=json --out=beforefeature.json"
+    When I run behat with the following additional options:
+      | option    | value             |
+      | --profile | beforeFeature     |
+      | --format  | json              |
+      | --out     | beforefeature.json |
     Then it should fail
     And the "beforefeature.json" file json should be like:
       """
@@ -314,34 +241,11 @@ Feature: Display hook failures location in json printer
     And the file "beforefeature.json" should be a valid document according to the json schema "schema.json"
 
   Scenario: Handling of a error in afterFeature hook
-    Given a file named "features/bootstrap/FeatureContext.php" with:
-      """
-      <?php
-
-      use Behat\Behat\Context\Context;
-      use Behat\Hook\AfterFeature;
-      use Behat\Step\When;
-
-      class FeatureContext implements Context
-      {
-          private static $hasThrownError = false;
-
-          #[AfterFeature]
-          public static function afterFeatureHook()
-          {
-              if (!self::$hasThrownError) {
-                  self::$hasThrownError = true;
-                  throw new \Exception('Error in afterFeature hook');
-              }
-          }
-
-          #[When('I have a simple step')]
-          public function iHaveASimpleStep()
-          {
-          }
-      }
-      """
-    When I run "behat --no-colors --format=json --out=afterfeature.json"
+    When I run behat with the following additional options:
+      | option    | value            |
+      | --profile | afterFeature     |
+      | --format  | json             |
+      | --out     | afterfeature.json |
     Then it should fail
     And the "afterfeature.json" file json should be like:
       """
@@ -414,34 +318,11 @@ Feature: Display hook failures location in json printer
     And the file "afterfeature.json" should be a valid document according to the json schema "schema.json"
 
   Scenario: Handling of a error in beforeScenario hook
-    Given a file named "features/bootstrap/FeatureContext.php" with:
-      """
-      <?php
-
-      use Behat\Behat\Context\Context;
-      use Behat\Hook\BeforeScenario;
-      use Behat\Step\When;
-
-      class FeatureContext implements Context
-      {
-          private static $hasThrownError = false;
-
-          #[BeforeScenario]
-          public function beforeScenarioHook()
-          {
-              if (!self::$hasThrownError) {
-                  self::$hasThrownError = true;
-                  throw new \Exception('Error in beforeScenario hook');
-              }
-          }
-
-          #[When('I have a simple step')]
-          public function iHaveASimpleStep()
-          {
-          }
-      }
-      """
-    When I run "behat --no-colors --format=json --out=beforescenario.json"
+    When I run behat with the following additional options:
+      | option    | value              |
+      | --profile | beforeScenario     |
+      | --format  | json               |
+      | --out     | beforescenario.json |
     Then it should fail
     And the "beforescenario.json" file json should be like:
       """
@@ -514,34 +395,11 @@ Feature: Display hook failures location in json printer
     And the file "beforescenario.json" should be a valid document according to the json schema "schema.json"
 
   Scenario: Handling of a error in afterScenario hook
-    Given a file named "features/bootstrap/FeatureContext.php" with:
-      """
-      <?php
-
-      use Behat\Behat\Context\Context;
-      use Behat\Hook\AfterScenario;
-      use Behat\Step\When;
-
-      class FeatureContext implements Context
-      {
-          private static $hasThrownError = false;
-
-          #[AfterScenario]
-          public function afterScenarioHook()
-          {
-              if (!self::$hasThrownError) {
-                  self::$hasThrownError = true;
-                  throw new \Exception('Error in afterScenario hook');
-              }
-          }
-
-          #[When('I have a simple step')]
-          public function iHaveASimpleStep()
-          {
-          }
-      }
-      """
-    When I run "behat --no-colors --format=json --out=afterscenario.json"
+    When I run behat with the following additional options:
+      | option    | value             |
+      | --profile | afterScenario     |
+      | --format  | json              |
+      | --out     | afterscenario.json |
     Then it should fail
     And the "afterscenario.json" file json should be like:
       """
@@ -614,34 +472,11 @@ Feature: Display hook failures location in json printer
     And the file "afterscenario.json" should be a valid document according to the json schema "schema.json"
 
   Scenario: Handling of a error in beforeStep hook
-    Given a file named "features/bootstrap/FeatureContext.php" with:
-      """
-      <?php
-
-      use Behat\Behat\Context\Context;
-      use Behat\Hook\BeforeStep;
-      use Behat\Step\When;
-
-      class FeatureContext implements Context
-      {
-          private static $hasThrownError = false;
-
-          #[BeforeStep]
-          public function beforeStepHook()
-          {
-              if (!self::$hasThrownError) {
-                  self::$hasThrownError = true;
-                  throw new \Exception('Error in beforeStep hook');
-              }
-          }
-
-          #[When('I have a simple step')]
-          public function iHaveASimpleStep()
-          {
-          }
-      }
-      """
-    When I run "behat --no-colors --format=json --out=beforestep.json"
+    When I run behat with the following additional options:
+      | option    | value            |
+      | --profile | beforeStep       |
+      | --format  | json             |
+      | --out     | beforestep.json |
     Then it should fail
     And the "beforestep.json" file json should be like:
       """
@@ -714,34 +549,11 @@ Feature: Display hook failures location in json printer
     And the file "beforestep.json" should be a valid document according to the json schema "schema.json"
 
   Scenario: Handling of a error in afterStep hook
-    Given a file named "features/bootstrap/FeatureContext.php" with:
-      """
-      <?php
-
-      use Behat\Behat\Context\Context;
-      use Behat\Hook\AfterStep;
-      use Behat\Step\When;
-
-      class FeatureContext implements Context
-      {
-          private static $hasThrownError = false;
-
-          #[AfterStep]
-          public function afterStepHook()
-          {
-              if (!self::$hasThrownError) {
-                  self::$hasThrownError = true;
-                  throw new \Exception('Error in afterStep hook');
-              }
-          }
-
-          #[When('I have a simple step')]
-          public function iHaveASimpleStep()
-          {
-          }
-      }
-      """
-    When I run "behat --no-colors --format=json --out=afterstep.json"
+    When I run behat with the following additional options:
+      | option    | value           |
+      | --profile | afterStep       |
+      | --format  | json            |
+      | --out     | afterstep.json |
     Then it should fail
     And the "afterstep.json" file json should be like:
       """
