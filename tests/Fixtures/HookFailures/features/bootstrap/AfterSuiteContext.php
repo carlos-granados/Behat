@@ -1,9 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
-namespace HookFailures\Features\Bootstrap;
-
 use Behat\Hook\AfterSuite;
 
 final class AfterSuiteContext extends BaseContext
@@ -14,4 +10,3 @@ final class AfterSuiteContext extends BaseContext
         self::throwFailure('Error in afterSuite hook');
     }
 }
-

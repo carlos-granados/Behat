@@ -1,51 +1,72 @@
 <?php
 
-declare(strict_types=1);
-
-namespace HookFailures\Features\Bootstrap;
-
 use Behat\Config\Config;
 use Behat\Config\Profile;
+use Behat\Config\Suite;
 
 return (new Config())
     ->withProfile((new Profile('beforeSuite'))
-        ->withContexts(
-            HookFailures\Features\Bootstrap\BeforeSuiteContext::class
+        ->withSuite((new Suite('default'))
+            ->withContexts(
+                'BeforeSuiteContext',
+                'SimpleStepContext'
+            )
         )
     )
     ->withProfile((new Profile('afterSuite'))
-        ->withContexts(
-            HookFailures\Features\Bootstrap\AfterSuiteContext::class
+        ->withSuite((new Suite('default'))
+            ->withContexts(
+                'AfterSuiteContext',
+                'SimpleStepContext'
+            )
         )
     )
     ->withProfile((new Profile('beforeFeature'))
-        ->withContexts(
-            HookFailures\Features\Bootstrap\BeforeFeatureContext::class
+        ->withSuite((new Suite('default'))
+            ->withContexts(
+                'BeforeFeatureContext',
+                'SimpleStepContext'
+            )
         )
     )
     ->withProfile((new Profile('afterFeature'))
-        ->withContexts(
-            HookFailures\Features\Bootstrap\AfterFeatureContext::class
+        ->withSuite((new Suite('default'))
+            ->withContexts(
+                'AfterFeatureContext',
+                'SimpleStepContext'
+            )
         )
     )
     ->withProfile((new Profile('beforeScenario'))
-        ->withContexts(
-            HookFailures\Features\Bootstrap\BeforeScenarioContext::class
+        ->withSuite((new Suite('default'))
+            ->withContexts(
+                'BeforeScenarioContext',
+                'SimpleStepContext'
+            )
         )
     )
     ->withProfile((new Profile('afterScenario'))
-        ->withContexts(
-            HookFailures\Features\Bootstrap\AfterScenarioContext::class
+        ->withSuite((new Suite('default'))
+            ->withContexts(
+                'AfterScenarioContext',
+                'SimpleStepContext'
+            )
         )
     )
     ->withProfile((new Profile('beforeStep'))
-        ->withContexts(
-            HookFailures\Features\Bootstrap\BeforeStepContext::class
+        ->withSuite((new Suite('default'))
+            ->withContexts(
+                'BeforeStepContext',
+                'SimpleStepContext'
+            )
         )
     )
     ->withProfile((new Profile('afterStep'))
-        ->withContexts(
-            HookFailures\Features\Bootstrap\AfterStepContext::class
+        ->withSuite((new Suite('default'))
+            ->withContexts(
+                'AfterStepContext',
+                'SimpleStepContext'
+            )
         )
     )
 ;

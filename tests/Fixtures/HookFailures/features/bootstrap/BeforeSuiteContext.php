@@ -1,9 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
-namespace HookFailures\Features\Bootstrap;
-
 use Behat\Hook\BeforeSuite;
 
 final class BeforeSuiteContext extends BaseContext
@@ -14,4 +10,3 @@ final class BeforeSuiteContext extends BaseContext
         self::throwFailure('Error in beforeSuite hook');
     }
 }
-

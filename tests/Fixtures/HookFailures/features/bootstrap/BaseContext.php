@@ -1,22 +1,20 @@
 <?php
 
-declare(strict_types=1);
-
-namespace HookFailures\Features\Bootstrap;
-
 use Behat\Behat\Context\Context;
-use Behat\Step\When;
 use Exception;
 
 abstract class BaseContext implements Context
 {
-    #[When('I have a simple step')]
-    public function iHaveASimpleStep(): void
-    {
-    }
+    protected static bool $thrown = false;
 
     protected static function throwFailure(string $message): void
     {
+        if (self::$thrown) {
+            return;
+        }
+
+        self::$thrown = true;
+
         throw new Exception($message);
     }
 }

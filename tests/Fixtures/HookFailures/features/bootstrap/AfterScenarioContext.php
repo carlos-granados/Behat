@@ -1,9 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
-namespace HookFailures\Features\Bootstrap;
-
 use Behat\Hook\AfterScenario;
 
 final class AfterScenarioContext extends BaseContext
@@ -14,4 +10,3 @@ final class AfterScenarioContext extends BaseContext
         self::throwFailure('Error in afterScenario hook');
     }
 }
-
