@@ -26,6 +26,7 @@ jobs:
         os: [ubuntu-latest]
         composer-mode: [update]
         symfony-version: ['']
+        cucumber-parser: [false]
         include:
           # Build on the lowest supported PHP with the lowest supported dependencies
           - php: 8.1
@@ -56,6 +57,13 @@ jobs:
             composer-mode: update
             symfony-version: '6.4'
 
+          # Dedicated cucumber-parser build
+          - php: 8.2
+            os: ubuntu-latest
+            composer-mode: update
+            symfony-version: ''
+            cucumber-parser: true
+
     steps:
       - uses: actions/checkout@v4
 
@@ -73,6 +81,17 @@ jobs:
           composer config --global --no-plugins allow-plugins.symfony/flex true &&
           composer global require symfony/flex
 
+      - name: Temporary - add gherkin fork
+        if: matrix.cucumber-parser == true
+        run: |
+          composer config github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
+          composer config repositories.0 vcs https://github.com/carlos-granados/gherkin-1
+          composer require behat/gherkin dev-cucumber-gherkin --no-update
+
+      - name: Require cucumber/gherkin
+        if: matrix.cucumber-parser == true
+        run: composer require cucumber/gherkin --no-update
+
       - name: Install latest dependencies
         if: matrix.composer-mode == 'update'
         env:
@@ -83,11 +102,25 @@ jobs:
         if: matrix.composer-mode == 'lowest'
         run: composer update --prefer-lowest
 
+      - name: Configure cucumber parser
+        if: matrix.cucumber-parser == true
+        run: |
+          cat <<'CFG' > behat.cucumber.yml
+          default:
+            gherkin:
+              parser: cucumber
+          CFG
+
       - name: Run tests (phpunit)
         run: ./vendor/bin/phpunit
 
       - name: Run tests (Behat)
+        if: matrix.cucumber-parser == false
         run: ./bin/behat -fprogress --strict
+
+      - name: Run tests (Behat cucumber parser)
+        if: matrix.cucumber-parser == true
+        run: ./bin/behat -fprogress --strict --config=behat.cucumber.yml --tags=@cucumber-parser
 
   static-analysis:
     name: Static analysis

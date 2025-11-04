@@ -1,1 +1,4 @@
 default:
+  gherkin:
+    filters:
+      tags: ~@cucumber-parser
