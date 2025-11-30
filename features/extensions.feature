@@ -12,7 +12,13 @@ Feature: Extensions
 
   Scenario: Extension should be successfully loaded
     When I run "behat features/extensions.feature"
-    Then it should pass
+    Then it should pass with:
+      """
+      ..
+      
+      1 scenario (1 passed)
+      2 steps (2 passed)
+      """
 
   Scenario: Instantiating inexistent extension file
     When I run behat with the following additional options:

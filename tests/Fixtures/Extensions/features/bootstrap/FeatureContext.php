@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use Behat\Behat\Context\Context;
+use Behat\Step\Then;
+use Behat\Step\When;
 
 final class FeatureContext implements Context
 {
