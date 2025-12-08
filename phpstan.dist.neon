@@ -12,6 +12,7 @@ parameters:
             paths:
                 - src/Behat/Behat/Transformation/Transformation/ReturnTypeTransformation.php
         -
-            identifier: function.impossibleType
+            # BC wrapper for symfony/console < 7.4.0
+            message: '#method_exists.+ ''(add|addCommand)'' will always evaluate to (true|false)#'
             paths:
                 - src/Behat/Testwork/Cli/Application.php
