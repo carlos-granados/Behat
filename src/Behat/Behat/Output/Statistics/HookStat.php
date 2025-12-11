@@ -40,7 +40,7 @@ final class HookStat
     ) {
     }
 
-    public function setScope(HookScope $scope)
+    public function setScope(HookScope $scope): void
     {
         $this->scope = $scope;
     }
@@ -50,7 +50,7 @@ final class HookStat
         return $this->name;
     }
 
-    public function isSuccessful()
+    public function isSuccessful(): bool
     {
         return null === $this->error;
     }

@@ -33,7 +33,7 @@ final class AfterSuiteScope implements SuiteScope, AfterTestScope
     ) {
     }
 
-    public function getName()
+    public function getName(): string
     {
         return self::AFTER;
     }
@@ -43,17 +43,17 @@ final class AfterSuiteScope implements SuiteScope, AfterTestScope
         return $this->environment->getSuite();
     }
 
-    public function getEnvironment()
+    public function getEnvironment(): Environment
     {
         return $this->environment;
     }
 
-    public function getSpecificationIterator()
+    public function getSpecificationIterator(): SpecificationIterator
     {
         return $this->iterator;
     }
 
-    public function getTestResult()
+    public function getTestResult(): TestResult
     {
         return $this->result;
     }

@@ -47,7 +47,7 @@ final class SnippetRegistry implements SnippetRepository
     /**
      * Registers snippet generator.
      */
-    public function registerSnippetGenerator(SnippetGenerator $generator)
+    public function registerSnippetGenerator(SnippetGenerator $generator): void
     {
         $this->generators[] = $generator;
         $this->snippetsGenerated = false;
@@ -55,10 +55,8 @@ final class SnippetRegistry implements SnippetRepository
 
     /**
      * Generates and registers snippet.
-     *
-     * @return void
      */
-    public function registerUndefinedStep(Environment $environment, StepNode $step)
+    public function registerUndefinedStep(Environment $environment, StepNode $step): void
     {
         $this->undefinedSteps[] = new UndefinedStep($environment, $step);
         $this->snippetsGenerated = false;
@@ -131,7 +129,7 @@ final class SnippetRegistry implements SnippetRepository
 
         $this->snippets = array_values(
             array_map(
-                fn (array $snippets) => new AggregateSnippet($snippets),
+                fn (array $snippets): AggregateSnippet => new AggregateSnippet($snippets),
                 $snippetsSet
             )
         );

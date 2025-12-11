@@ -49,12 +49,12 @@ final class TurnipPatternPolicy implements PatternPolicy
     ) {
     }
 
-    public function supportsPatternType($type)
+    public function supportsPatternType($type): bool
     {
         return null === $type || 'turnip' === $type;
     }
 
-    public function generatePattern($stepText)
+    public function generatePattern($stepText): Pattern
     {
         $count = 0;
         $pattern = $stepText;
@@ -73,7 +73,7 @@ final class TurnipPatternPolicy implements PatternPolicy
         return new Pattern($methodName, $pattern, $count);
     }
 
-    public function supportsPattern($pattern)
+    public function supportsPattern($pattern): bool
     {
         return true;
     }
@@ -89,10 +89,8 @@ final class TurnipPatternPolicy implements PatternPolicy
 
     /**
      * @param string $pattern
-     *
-     * @return string
      */
-    private function createTransformedRegex($pattern)
+    private function createTransformedRegex($pattern): string
     {
         $regex = preg_quote($pattern, '/');
 
@@ -121,7 +119,7 @@ final class TurnipPatternPolicy implements PatternPolicy
         );
     }
 
-    private function replaceTokenWithRegexCaptureGroup($tokenMatch)
+    private function replaceTokenWithRegexCaptureGroup($tokenMatch): string
     {
         if (strlen((string) $tokenMatch[1]) > 32) {
             throw new InvalidPatternException(
@@ -148,10 +146,8 @@ final class TurnipPatternPolicy implements PatternPolicy
      * Replaces turnip alternative words with regex non-capturing alternating group.
      *
      * @param string $regex
-     *
-     * @return string
      */
-    private function replaceTurnipAlternativeWordsWithRegex($regex)
+    private function replaceTurnipAlternativeWordsWithRegex($regex): string
     {
         $regex = preg_replace(self::ALTERNATIVE_WORD_REGEXP, '(?:\1|\2)', $regex);
         $regex = $this->removeEscapingOfAlternationSyntax($regex);
@@ -170,10 +166,8 @@ final class TurnipPatternPolicy implements PatternPolicy
      * This method adds escaping to all slashes in generated snippets.
      *
      * @param string $pattern
-     *
-     * @return string
      */
-    private function escapeAlternationSyntax($pattern)
+    private function escapeAlternationSyntax($pattern): string
     {
         return str_replace('/', '\/', $pattern);
     }
@@ -185,10 +179,8 @@ final class TurnipPatternPolicy implements PatternPolicy
      * could be matched against your escaped definitions.
      *
      * @param string $regex
-     *
-     * @return string
      */
-    private function removeEscapingOfAlternationSyntax($regex)
+    private function removeEscapingOfAlternationSyntax($regex): string
     {
         return str_replace('\\\/', '/', $regex);
     }

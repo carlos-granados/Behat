@@ -34,20 +34,16 @@ final class ScenarioStat implements Stringable
 
     /**
      * Returns scenario title.
-     *
-     * @return string
      */
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
     /**
      * Returns scenario path.
-     *
-     * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -57,7 +53,7 @@ final class ScenarioStat implements Stringable
      *
      * @return TestResult::*|TestResults::NO_TESTS
      */
-    public function getResultCode()
+    public function getResultCode(): int
     {
         return $this->resultCode;
     }

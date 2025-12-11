@@ -28,7 +28,7 @@ final class ColumnBasedTableTransformation extends RuntimeCallee implements Stri
 {
     public const PATTERN_REGEX = '/^table\:(?:\*|[[:print:]]+)$/u';
 
-    public static function supportsPatternAndMethod($pattern, ReflectionMethod $method)
+    public static function supportsPatternAndMethod($pattern, ReflectionMethod $method): bool
     {
         return 1 === preg_match(self::PATTERN_REGEX, $pattern);
     }
@@ -76,7 +76,7 @@ final class ColumnBasedTableTransformation extends RuntimeCallee implements Stri
         return $result->getReturn();
     }
 
-    public function getPriority()
+    public function getPriority(): int
     {
         return 50;
     }

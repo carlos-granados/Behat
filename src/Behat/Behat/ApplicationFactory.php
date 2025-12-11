@@ -49,7 +49,7 @@ use Composer\InstalledVersions;
  */
 final class ApplicationFactory extends BaseFactory
 {
-    protected function getName()
+    protected function getName(): string
     {
         return 'behat';
     }
@@ -60,7 +60,7 @@ final class ApplicationFactory extends BaseFactory
         return InstalledVersions::getVersion('behat/behat');
     }
 
-    protected function getDefaultExtensions()
+    protected function getDefaultExtensions(): array
     {
         $processor = new ServiceProcessor();
 
@@ -91,7 +91,7 @@ final class ApplicationFactory extends BaseFactory
         ];
     }
 
-    protected function getEnvironmentVariableName()
+    protected function getEnvironmentVariableName(): string
     {
         return 'BEHAT_PARAMS';
     }
@@ -131,9 +131,9 @@ final class ApplicationFactory extends BaseFactory
     /**
      * Returns default formatter factories.
      *
-     * @return FormatterFactory[]
+     * @return list<FormatterFactory>
      */
-    private function getDefaultFormatterFactories(ServiceProcessor $processor)
+    private function getDefaultFormatterFactories(ServiceProcessor $processor): array
     {
         return [
             new PrettyFormatterFactory($processor),

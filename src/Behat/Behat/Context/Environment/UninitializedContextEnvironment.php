@@ -39,7 +39,7 @@ final class UninitializedContextEnvironment extends StaticEnvironment implements
      * @throws ContextNotFoundException   If class does not exist
      * @throws WrongContextClassException if class does not implement Context interface
      */
-    public function registerContextClass($contextClass, ?array $arguments = null)
+    public function registerContextClass($contextClass, ?array $arguments = null): void
     {
         if (!class_exists($contextClass)) {
             throw new ContextNotFoundException(sprintf(
@@ -60,7 +60,7 @@ final class UninitializedContextEnvironment extends StaticEnvironment implements
         $this->contextClasses[$contextClass] = $arguments ?: [];
     }
 
-    public function hasContexts()
+    public function hasContexts(): bool
     {
         return count($this->contextClasses) > 0;
     }
@@ -70,7 +70,7 @@ final class UninitializedContextEnvironment extends StaticEnvironment implements
         return array_keys($this->contextClasses);
     }
 
-    public function hasContextClass($class)
+    public function hasContextClass($class): bool
     {
         return isset($this->contextClasses[$class]);
     }

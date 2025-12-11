@@ -71,7 +71,7 @@ class OnlyFirstBackgroundFiresListener implements EventListener
      *
      * @param string $eventName
      */
-    private function flushStatesIfBeginningOfTheFeature($eventName)
+    private function flushStatesIfBeginningOfTheFeature($eventName): void
     {
         if (FeatureTested::BEFORE !== $eventName) {
             return;
@@ -86,7 +86,7 @@ class OnlyFirstBackgroundFiresListener implements EventListener
      *
      * @param string $eventName
      */
-    private function markBeginningOrEndOfTheBackground($eventName)
+    private function markBeginningOrEndOfTheBackground($eventName): void
     {
         if (BackgroundTested::BEFORE === $eventName) {
             $this->inBackground = true;
@@ -102,7 +102,7 @@ class OnlyFirstBackgroundFiresListener implements EventListener
      *
      * @param string $eventName
      */
-    private function markFirstBackgroundPrintedAfterBackground($eventName)
+    private function markFirstBackgroundPrintedAfterBackground($eventName): void
     {
         if (BackgroundTested::AFTER !== $eventName) {
             return;
@@ -141,20 +141,16 @@ class OnlyFirstBackgroundFiresListener implements EventListener
 
     /**
      * Checks if provided event is a step event which setup or teardown produced any output.
-     *
-     * @return bool
      */
-    private function isStepEventWithOutput(Event $event)
+    private function isStepEventWithOutput(Event $event): bool
     {
         return $this->isBeforeStepEventWithOutput($event) || $this->isAfterStepWithOutput($event);
     }
 
     /**
      * Checks if provided event is a BEFORE step with setup that produced output.
-     *
-     * @return bool
      */
-    private function isBeforeStepEventWithOutput(Event $event)
+    private function isBeforeStepEventWithOutput(Event $event): bool
     {
         if ($event instanceof AfterStepSetup && $event->hasOutput()) {
             $this->stepSetupHadOutput = true;
@@ -167,10 +163,8 @@ class OnlyFirstBackgroundFiresListener implements EventListener
 
     /**
      * Checks if provided event is an AFTER step with teardown that produced output.
-     *
-     * @return bool
      */
-    private function isAfterStepWithOutput(Event $event)
+    private function isAfterStepWithOutput(Event $event): bool
     {
         if ($event instanceof AfterStepTested && ($this->stepSetupHadOutput || $event->hasOutput())) {
             $this->stepSetupHadOutput = false;

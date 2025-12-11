@@ -35,7 +35,7 @@ final class TestResults implements TestResult, Countable, IteratorAggregate
     ) {
     }
 
-    public function isPassed()
+    public function isPassed(): bool
     {
         return self::PASSED == $this->getResultCode();
     }
@@ -68,7 +68,7 @@ final class TestResults implements TestResult, Countable, IteratorAggregate
      *
      * @return TestResult[]
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->results;
     }

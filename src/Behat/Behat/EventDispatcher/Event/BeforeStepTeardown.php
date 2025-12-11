@@ -40,50 +40,40 @@ final class BeforeStepTeardown extends StepTested implements BeforeTeardown
 
     /**
      * Returns feature.
-     *
-     * @return FeatureNode
      */
-    public function getFeature()
+    public function getFeature(): FeatureNode
     {
         return $this->feature;
     }
 
     /**
      * Returns step node.
-     *
-     * @return StepNode
      */
-    public function getStep()
+    public function getStep(): StepNode
     {
         return $this->step;
     }
 
     /**
      * Returns current test result.
-     *
-     * @return TestResult
      */
-    public function getTestResult()
+    public function getTestResult(): TestResult
     {
         return $this->result;
     }
 
     /**
      * Checks if step call produced any output (stdOut or exception).
-     *
-     * @return bool
      */
-    public function hasOutput()
+    public function hasOutput(): bool
     {
         return $this->resultHasException() || $this->resultCallHasOutput();
     }
 
     /**
      * Checks if result has produced exception.
-     *
-     * @return bool
      */
-    private function resultHasException()
+    private function resultHasException(): bool
     {
         return $this->result instanceof ExceptionResult && $this->result->getException();
     }

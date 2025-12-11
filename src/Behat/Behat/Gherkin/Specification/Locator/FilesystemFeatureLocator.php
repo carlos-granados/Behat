@@ -16,6 +16,7 @@ use Behat\Gherkin\Gherkin;
 use Behat\Gherkin\Node\FeatureNode;
 use Behat\Testwork\Specification\Locator\SpecificationLocator;
 use Behat\Testwork\Specification\NoSpecificationsIterator;
+use Behat\Testwork\Specification\SpecificationIterator;
 use Behat\Testwork\Suite\Exception\SuiteConfigurationException;
 use Behat\Testwork\Suite\Suite;
 use RecursiveDirectoryIterator;
@@ -42,7 +43,7 @@ final class FilesystemFeatureLocator implements SpecificationLocator
     ) {
     }
 
-    public function getLocatorExamples()
+    public function getLocatorExamples(): array
     {
         return [
             'a dir <comment>(features/)</comment>',
@@ -53,7 +54,7 @@ final class FilesystemFeatureLocator implements SpecificationLocator
         ];
     }
 
-    public function locateSpecifications(Suite $suite, $locator)
+    public function locateSpecifications(Suite $suite, $locator): SpecificationIterator
     {
         if (!$suite->hasSetting('paths')) {
             return new NoSpecificationsIterator($suite);
@@ -103,9 +104,9 @@ final class FilesystemFeatureLocator implements SpecificationLocator
      *
      * @param string $path
      *
-     * @return string[]
+     * @return list<string>
      */
-    private function findFeatureFiles($path)
+    private function findFeatureFiles($path): array
     {
         $absolutePath = $this->findAbsolutePath($path);
 

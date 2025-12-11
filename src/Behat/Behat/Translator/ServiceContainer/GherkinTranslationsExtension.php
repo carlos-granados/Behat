@@ -27,20 +27,20 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 final class GherkinTranslationsExtension implements Extension
 {
-    public function getConfigKey()
+    public function getConfigKey(): string
     {
         return 'gherkin_translations';
     }
 
-    public function initialize(ExtensionManager $extensionManager)
+    public function initialize(ExtensionManager $extensionManager): void
     {
     }
 
-    public function configure(ArrayNodeDefinition $builder)
+    public function configure(ArrayNodeDefinition $builder): void
     {
     }
 
-    public function load(ContainerBuilder $container, array $config)
+    public function load(ContainerBuilder $container, array $config): void
     {
         $this->loadController($container);
     }
@@ -52,7 +52,7 @@ final class GherkinTranslationsExtension implements Extension
     /**
      * Loads translator controller.
      */
-    private function loadController(ContainerBuilder $container)
+    private function loadController(ContainerBuilder $container): void
     {
         $definition = new Definition(GherkinTranslationsController::class, [
             new Reference(TranslatorExtension::TRANSLATOR_ID),

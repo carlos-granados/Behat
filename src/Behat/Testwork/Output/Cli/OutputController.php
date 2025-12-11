@@ -139,7 +139,7 @@ class OutputController implements Controller
      *
      * @param bool $decorated
      */
-    private function configureOutputs(array $formats, array $outputs, $decorated = false)
+    private function configureOutputs(array $formats, array $outputs, $decorated = false): void
     {
         if (1 == count($outputs) && !$this->isStandardOutput($outputs[0])) {
             $outputPath = $this->locateOutputPath($outputs[0]);
@@ -167,10 +167,8 @@ class OutputController implements Controller
      * Checks if provided output identifier represents standard output.
      *
      * @param string $outputId
-     *
-     * @return bool
      */
-    private function isStandardOutput($outputId)
+    private function isStandardOutput($outputId): bool
     {
         return 'std' === $outputId || 'null' === $outputId || 'false' === $outputId;
     }
@@ -179,10 +177,8 @@ class OutputController implements Controller
      * Returns whether the file path is an absolute path.
      *
      * @param string $file A file path
-     *
-     * @return bool
      */
-    private function isAbsolutePath($file)
+    private function isAbsolutePath($file): bool
     {
         return $file[0] == '/' || $file[0] == '\\'
             || (
@@ -195,10 +191,8 @@ class OutputController implements Controller
 
     /**
      * Returns formatters description.
-     *
-     * @return string
      */
-    private function getFormatterDescriptions()
+    private function getFormatterDescriptions(): string
     {
         return implode(
             PHP_EOL,
@@ -219,7 +213,7 @@ class OutputController implements Controller
      *
      * @param string $jsonSettings
      */
-    private function loadJsonSettings($jsonSettings)
+    private function loadJsonSettings($jsonSettings): void
     {
         $settings = @json_decode($jsonSettings, true);
 

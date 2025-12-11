@@ -35,20 +35,16 @@ final class CallResults implements Countable, IteratorAggregate
 
     /**
      * Merges results from provided collection into the current one.
-     *
-     * @return CallResults
      */
-    public static function merge(CallResults $first, CallResults $second)
+    public static function merge(CallResults $first, CallResults $second): self
     {
         return new self(array_merge($first->toArray(), $second->toArray()));
     }
 
     /**
      * Checks if any call in collection throws an exception.
-     *
-     * @return bool
      */
-    public function hasExceptions()
+    public function hasExceptions(): bool
     {
         foreach ($this->results as $result) {
             if ($result->hasException()) {
@@ -61,10 +57,8 @@ final class CallResults implements Countable, IteratorAggregate
 
     /**
      * Checks if any call in collection produces an output.
-     *
-     * @return bool
      */
-    public function hasStdOuts()
+    public function hasStdOuts(): bool
     {
         foreach ($this->results as $result) {
             if ($result->hasStdOut()) {
@@ -96,7 +90,7 @@ final class CallResults implements Countable, IteratorAggregate
      *
      * @return CallResult[]
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->results;
     }

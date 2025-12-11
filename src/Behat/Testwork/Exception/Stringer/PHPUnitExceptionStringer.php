@@ -26,13 +26,13 @@ use Throwable;
  */
 final class PHPUnitExceptionStringer implements ExceptionStringer
 {
-    public function supportsException(Exception $exception)
+    public function supportsException(Exception $exception): bool
     {
         return $exception instanceof PHPUnit_Framework_Exception
             || $exception instanceof \PHPUnit\Framework\Exception;
     }
 
-    public function stringException(Exception $exception, $verbosity)
+    public function stringException(Exception $exception, $verbosity): string
     {
         // PHPUnit assertion exceptions do not include detailed expected / observed info in their messages. Instead,
         // test result printers within PHPUnit are expected to format and present that information separately. The
