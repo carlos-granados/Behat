@@ -34,10 +34,8 @@ final class CallResult
 
     /**
      * Returns call.
-     *
-     * @return Call
      */
-    public function getCall()
+    public function getCall(): Call
     {
         return $this->call;
     }
@@ -55,30 +53,24 @@ final class CallResult
      *
      * @phpstan-assert-if-true Exception $this->exception
      * @phpstan-assert-if-true Exception $this->getException()
-     *
-     * @return bool
      */
-    public function hasException()
+    public function hasException(): bool
     {
         return $this->exception instanceof Exception;
     }
 
     /**
      * Returns exception thrown by call (if any).
-     *
-     * @return Exception|null
      */
-    public function getException()
+    public function getException(): ?Exception
     {
         return $this->exception;
     }
 
     /**
      * Checks if call produced stdOut.
-     *
-     * @return bool
      */
-    public function hasStdOut()
+    public function hasStdOut(): bool
     {
         return null !== $this->stdOut;
     }

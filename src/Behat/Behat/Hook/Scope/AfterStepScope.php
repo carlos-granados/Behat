@@ -38,10 +38,8 @@ final class AfterStepScope implements StepScope, AfterTestScope
 
     /**
      * Returns hook scope name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::AFTER;
     }
@@ -58,40 +56,32 @@ final class AfterStepScope implements StepScope, AfterTestScope
 
     /**
      * Returns hook environment.
-     *
-     * @return Environment
      */
-    public function getEnvironment()
+    public function getEnvironment(): Environment
     {
         return $this->environment;
     }
 
     /**
      * Returns scope feature.
-     *
-     * @return FeatureNode
      */
-    public function getFeature()
+    public function getFeature(): FeatureNode
     {
         return $this->feature;
     }
 
     /**
      * Returns scope step.
-     *
-     * @return StepNode
      */
-    public function getStep()
+    public function getStep(): StepNode
     {
         return $this->step;
     }
 
     /**
      * Returns test result.
-     *
-     * @return TestResult
      */
-    public function getTestResult()
+    public function getTestResult(): TestResult
     {
         return $this->result;
     }

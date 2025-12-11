@@ -32,17 +32,20 @@ final class ContextEnvironmentReader implements EnvironmentReader
     /**
      * Registers context loader.
      */
-    public function registerContextReader(ContextReader $contextReader)
+    public function registerContextReader(ContextReader $contextReader): void
     {
         $this->contextReaders[] = $contextReader;
     }
 
-    public function supportsEnvironment(Environment $environment)
+    public function supportsEnvironment(Environment $environment): bool
     {
         return $environment instanceof ContextEnvironment;
     }
 
-    public function readEnvironmentCallees(Environment $environment)
+    /**
+     * @return list<Callee>
+     */
+    public function readEnvironmentCallees(Environment $environment): array
     {
         if (!$environment instanceof ContextEnvironment) {
             throw new EnvironmentReadException(sprintf(
@@ -67,9 +70,9 @@ final class ContextEnvironmentReader implements EnvironmentReader
      *
      * @param string             $contextClass
      *
-     * @return Callee[]
+     * @return list<Callee>
      */
-    private function readContextCallees(ContextEnvironment $environment, $contextClass)
+    private function readContextCallees(ContextEnvironment $environment, $contextClass): array
     {
         $callees = [];
         foreach ($this->contextReaders as $loader) {

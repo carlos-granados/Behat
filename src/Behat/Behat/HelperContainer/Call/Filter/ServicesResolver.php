@@ -29,7 +29,7 @@ use Psr\Container\ContainerInterface;
  */
 final class ServicesResolver implements CallFilter
 {
-    public function supportsCall(Call $call)
+    public function supportsCall(Call $call): bool
     {
         return ($call instanceof DefinitionCall || $call instanceof TransformationCall)
             && $call->getEnvironment() instanceof ServiceContainerEnvironment;
@@ -128,11 +128,9 @@ final class ServicesResolver implements CallFilter
     /**
      * Repackages definition call with new arguments.
      *
-     * @return DefinitionCall
-     *
      * @throws UnsupportedCallException
      */
-    private function repackageDefinitionCall(DefinitionCall $call, array $newArguments)
+    private function repackageDefinitionCall(DefinitionCall $call, array $newArguments): DefinitionCall
     {
         $definition = $call->getCallee();
 
@@ -149,11 +147,9 @@ final class ServicesResolver implements CallFilter
     /**
      * Repackages transformation call with new arguments.
      *
-     * @return TransformationCall
-     *
      * @throws UnsupportedCallException
      */
-    private function repackageTransformationCall(TransformationCall $call, array $newArguments)
+    private function repackageTransformationCall(TransformationCall $call, array $newArguments): TransformationCall
     {
         $transformation = $call->getCallee();
 

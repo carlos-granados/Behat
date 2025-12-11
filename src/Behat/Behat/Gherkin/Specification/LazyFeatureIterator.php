@@ -67,7 +67,7 @@ final class LazyFeatureIterator implements SpecificationIterator
         $this->filters = array_merge($this->getSuiteFilters($this->suite), $filters);
     }
 
-    public function getSuite()
+    public function getSuite(): Suite
     {
         return $this->suite;
     }
@@ -101,9 +101,9 @@ final class LazyFeatureIterator implements SpecificationIterator
     /**
      * Returns list of filters from suite settings.
      *
-     * @return FeatureFilterInterface[]
+     * @return list<FeatureFilterInterface>
      */
-    private function getSuiteFilters(Suite $suite)
+    private function getSuiteFilters(Suite $suite): array
     {
         if (!$suite->hasSetting('filters') || !is_array($suite->getSetting('filters'))) {
             return [];
@@ -123,11 +123,9 @@ final class LazyFeatureIterator implements SpecificationIterator
      * @param string $type
      * @param string $filterString
      *
-     * @return FeatureFilterInterface
-     *
      * @throws SuiteConfigurationException If filter type is not recognised
      */
-    private function createFilter($type, $filterString, Suite $suite)
+    private function createFilter($type, $filterString, Suite $suite): FeatureFilterInterface
     {
         if ('role' === $type) {
             return new RoleFilter($filterString);
@@ -156,7 +154,7 @@ final class LazyFeatureIterator implements SpecificationIterator
     /**
      * Parses paths consequently.
      */
-    private function moveToNextAvailableFeature()
+    private function moveToNextAvailableFeature(): void
     {
         while (!count($this->features) && $this->position < count($this->paths)) {
             $this->features = $this->parseFeature($this->paths[$this->position]);

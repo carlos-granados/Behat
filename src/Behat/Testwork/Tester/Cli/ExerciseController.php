@@ -49,10 +49,10 @@ final class ExerciseController implements Controller
     ) {
     }
 
-    public function configure(Command $command)
+    public function configure(Command $command): void
     {
         $locatorsExamples = implode(PHP_EOL, array_map(
-            fn ($locator) => '- ' . $locator,
+            fn ($locator): string => '- ' . $locator,
             $this->specificationFinder->getExampleLocators()
         ));
 
@@ -76,10 +76,7 @@ final class ExerciseController implements Controller
             );
     }
 
-    /**
-     * @return int
-     */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $paths = $this->extractUniquePaths($input);
         $specs = $this->findSpecifications($paths);
@@ -125,10 +122,8 @@ final class ExerciseController implements Controller
      * Tests exercise specifications.
      *
      * @param SpecificationIterator[] $specifications
-     *
-     * @return TestResult
      */
-    private function testSpecifications(InputInterface $input, array $specifications)
+    private function testSpecifications(InputInterface $input, array $specifications): TestResult
     {
         $skip = $input->getOption('dry-run') || $this->skip;
 

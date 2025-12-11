@@ -32,7 +32,7 @@ final class JUnitOutlineStoreListener implements EventListener
     ) {
     }
 
-    public function listenEvent(Formatter $formatter, Event $event, $eventName)
+    public function listenEvent(Formatter $formatter, Event $event, $eventName): void
     {
         $this->printHeaderOnBeforeSuiteTestedEvent($formatter, $event);
         $this->printFooterOnAfterSuiteTestedEvent($formatter, $event);
@@ -46,7 +46,7 @@ final class JUnitOutlineStoreListener implements EventListener
         $this->suitePrinter->printHeader($formatter, $event->getSuite());
     }
 
-    private function printFooterOnAfterSuiteTestedEvent(Formatter $formatter, Event $event)
+    private function printFooterOnAfterSuiteTestedEvent(Formatter $formatter, Event $event): void
     {
         if (!$event instanceof AfterSuiteTested) {
             return;

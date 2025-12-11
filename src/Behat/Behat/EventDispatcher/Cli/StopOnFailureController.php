@@ -34,7 +34,7 @@ final class StopOnFailureController implements Controller
     /**
      * @required
      */
-    public function setStopOnFailureHandler(StopOnFailureHandler $stopOnFailureHandler)
+    public function setStopOnFailureHandler(StopOnFailureHandler $stopOnFailureHandler): void
     {
         $this->stopOnFailureHandler = $stopOnFailureHandler;
     }
@@ -42,7 +42,7 @@ final class StopOnFailureController implements Controller
     /**
      * Configures command to be executable by the controller.
      */
-    public function configure(Command $command)
+    public function configure(Command $command): void
     {
         $command->addOption(
             '--stop-on-failure',

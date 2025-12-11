@@ -23,6 +23,7 @@ use Behat\Testwork\Hook\Tester\Setup\HookedSetup;
 use Behat\Testwork\Hook\Tester\Setup\HookedTeardown;
 use Behat\Testwork\Output\Formatter;
 use Behat\Testwork\Output\Node\EventListener\EventListener;
+use Exception;
 
 /**
  * Listens and records hook stats.
@@ -40,7 +41,7 @@ final class HookStatsListener implements EventListener
     ) {
     }
 
-    public function listenEvent(Formatter $formatter, Event $event, $eventName)
+    public function listenEvent(Formatter $formatter, Event $event, $eventName): void
     {
         $this->captureHookStatsOnEvent($event);
     }
@@ -48,7 +49,7 @@ final class HookStatsListener implements EventListener
     /**
      * Captures hook stats on hooked event.
      */
-    private function captureHookStatsOnEvent(Event $event)
+    private function captureHookStatsOnEvent(Event $event): void
     {
         if ($event instanceof AfterSetup && $event->getSetup() instanceof HookedSetup) {
             $this->captureBeforeHookStats($event->getSetup());
@@ -62,7 +63,7 @@ final class HookStatsListener implements EventListener
     /**
      * Captures before hook stats.
      */
-    private function captureBeforeHookStats(HookedSetup $setup)
+    private function captureBeforeHookStats(HookedSetup $setup): void
     {
         $hookCallResults = $setup->getHookCallResults();
 
@@ -74,7 +75,7 @@ final class HookStatsListener implements EventListener
     /**
      * Captures before hook stats.
      */
-    private function captureAfterHookStats(HookedTeardown $teardown)
+    private function captureAfterHookStats(HookedTeardown $teardown): void
     {
         $hookCallResults = $teardown->getHookCallResults();
 
@@ -86,7 +87,7 @@ final class HookStatsListener implements EventListener
     /**
      * Captures hook call result.
      */
-    private function captureHookStat(CallResult $hookCallResult)
+    private function captureHookStat(CallResult $hookCallResult): void
     {
         $call = $hookCallResult->getCall();
         assert($call instanceof HookCall);
@@ -94,7 +95,7 @@ final class HookStatsListener implements EventListener
         $scope = $call->getScope();
         $path = $callee->getPath();
         $stdOut = $hookCallResult->getStdOut();
-        $error = $hookCallResult->getException()
+        $error = $hookCallResult->getException() instanceof Exception
             ? $this->exceptionPresenter->presentException($hookCallResult->getException())
             : null;
 

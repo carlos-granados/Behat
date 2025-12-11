@@ -30,17 +30,15 @@ final class ResultInterpreter
     /**
      * Registers result interpretation.
      */
-    public function registerResultInterpretation(ResultInterpretation $interpretation)
+    public function registerResultInterpretation(ResultInterpretation $interpretation): void
     {
         $this->interpretations[] = $interpretation;
     }
 
     /**
      * Interprets result as a UNIX return code (0 for success, 1 for failure).
-     *
-     * @return int
      */
-    public function interpretResult(TestResult $result)
+    public function interpretResult(TestResult $result): int
     {
         foreach ($this->interpretations as $interpretation) {
             if ($interpretation->isFailure($result)) {

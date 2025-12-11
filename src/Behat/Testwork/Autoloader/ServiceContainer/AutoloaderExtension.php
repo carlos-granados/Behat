@@ -42,23 +42,21 @@ final class AutoloaderExtension implements Extension
 
     /**
      * Returns the extension config key.
-     *
-     * @return string
      */
-    public function getConfigKey()
+    public function getConfigKey(): string
     {
         return 'autoload';
     }
 
-    public function initialize(ExtensionManager $extensionManager)
+    public function initialize(ExtensionManager $extensionManager): void
     {
     }
 
-    public function configure(ArrayNodeDefinition $builder)
+    public function configure(ArrayNodeDefinition $builder): void
     {
         $builder = $builder
             ->beforeNormalization()
-                ->ifString()->then(fn ($path) => ['' => $path])
+                ->ifString()->then(fn ($path): array => ['' => $path])
             ->end()
 
             ->defaultValue($this->defaultPaths)
@@ -72,7 +70,7 @@ final class AutoloaderExtension implements Extension
         ;
     }
 
-    public function load(ContainerBuilder $container, array $config)
+    public function load(ContainerBuilder $container, array $config): void
     {
         $this->loadAutoloader($container);
         $this->loadController($container);
@@ -87,7 +85,7 @@ final class AutoloaderExtension implements Extension
     /**
      * Loads Symfony2 autoloader.
      */
-    private function loadAutoloader(ContainerBuilder $container)
+    private function loadAutoloader(ContainerBuilder $container): void
     {
         $definition = new Definition(ClassLoader::class);
         $container->setDefinition(self::CLASS_LOADER_ID, $definition);
@@ -96,7 +94,7 @@ final class AutoloaderExtension implements Extension
     /**
      * Loads controller.
      */
-    private function loadController(ContainerBuilder $container)
+    private function loadController(ContainerBuilder $container): void
     {
         $definition = new Definition(AutoloaderController::class, [
             new Reference(self::CLASS_LOADER_ID),
@@ -109,7 +107,7 @@ final class AutoloaderExtension implements Extension
     /**
      * Sets provided prefixes to container.
      */
-    private function setLoaderPrefixes(ContainerBuilder $container, array $prefixes)
+    private function setLoaderPrefixes(ContainerBuilder $container, array $prefixes): void
     {
         $container->setParameter('class_loader.prefixes', $prefixes);
     }
@@ -117,7 +115,7 @@ final class AutoloaderExtension implements Extension
     /**
      * Processes container loader prefixes.
      */
-    private function processLoaderPrefixes(ContainerBuilder $container)
+    private function processLoaderPrefixes(ContainerBuilder $container): void
     {
         $loaderDefinition = $container->getDefinition(self::CLASS_LOADER_ID);
         $prefixes = $container->getParameter('class_loader.prefixes');
