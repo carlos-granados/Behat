@@ -11,6 +11,7 @@
 namespace Behat\Testwork\Suite\Generator;
 
 use Behat\Testwork\Suite\GenericSuite;
+use Behat\Testwork\Suite\Suite;
 
 /**
  * Generates generic test suites.
@@ -27,12 +28,12 @@ final class GenericSuiteGenerator implements SuiteGenerator
     ) {
     }
 
-    public function supportsTypeAndSettings($type, array $settings)
+    public function supportsTypeAndSettings($type, array $settings): bool
     {
         return null === $type;
     }
 
-    public function generateSuite($suiteName, array $settings)
+    public function generateSuite($suiteName, array $settings): Suite
     {
         return new GenericSuite($suiteName, $this->mergeDefaultSettings($settings));
     }

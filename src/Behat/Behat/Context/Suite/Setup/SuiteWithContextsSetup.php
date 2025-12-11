@@ -42,7 +42,7 @@ final class SuiteWithContextsSetup implements SuiteSetup
     /**
      * Registers class generator.
      */
-    public function registerClassGenerator(ClassGenerator $generator)
+    public function registerClassGenerator(ClassGenerator $generator): void
     {
         $this->classGenerators[] = $generator;
     }
@@ -52,7 +52,7 @@ final class SuiteWithContextsSetup implements SuiteSetup
         return $suite->hasSetting('contexts');
     }
 
-    public function setupSuite(Suite $suite)
+    public function setupSuite(Suite $suite): void
     {
         foreach ($this->getNormalizedContextClasses($suite) as $class) {
             if (class_exists($class)) {
@@ -75,7 +75,7 @@ final class SuiteWithContextsSetup implements SuiteSetup
     private function getNormalizedContextClasses(Suite $suite)
     {
         return array_map(
-            fn ($context) => is_array($context) ? current(array_keys($context)) : $context,
+            fn ($context): mixed => is_array($context) ? current(array_keys($context)) : $context,
             $this->getSuiteContexts($suite)
         );
     }
@@ -110,7 +110,7 @@ final class SuiteWithContextsSetup implements SuiteSetup
      *
      * @param string $path
      */
-    private function createContextDirectory($path)
+    private function createContextDirectory($path): void
     {
         mkdir($path, 0777, true);
 
@@ -125,7 +125,7 @@ final class SuiteWithContextsSetup implements SuiteSetup
      * @param string $path
      * @param string $content
      */
-    private function createContextFile($path, $content)
+    private function createContextFile($path, $content): void
     {
         file_put_contents($path, $content);
 
@@ -139,11 +139,9 @@ final class SuiteWithContextsSetup implements SuiteSetup
      *
      * @param string $class
      *
-     * @return string
-     *
      * @throws ContextNotFoundException If class file could not be determined
      */
-    private function findClassFile($class)
+    private function findClassFile($class): string
     {
         [$classpath, $classname] = $this->findClasspathAndClass($class);
         $classpath .= str_replace('_', DIRECTORY_SEPARATOR, $classname) . '.php';
@@ -188,7 +186,7 @@ final class SuiteWithContextsSetup implements SuiteSetup
      *
      * @param string $classpath
      */
-    private function ensureContextDirectory($classpath)
+    private function ensureContextDirectory($classpath): void
     {
         if (!is_dir(dirname($classpath))) {
             $this->createContextDirectory(dirname($classpath));
@@ -200,9 +198,9 @@ final class SuiteWithContextsSetup implements SuiteSetup
      *
      * @param string $class
      *
-     * @return array
+     * @return array{?string, string}
      */
-    private function findClasspathAndClass($class)
+    private function findClasspathAndClass($class): array
     {
         if (false !== $pos = strrpos($class, '\\')) {
             // namespaced class name

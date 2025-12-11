@@ -34,10 +34,8 @@ final class BeforeStepScope implements StepScope
 
     /**
      * Returns hook scope name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::BEFORE;
     }
@@ -54,30 +52,24 @@ final class BeforeStepScope implements StepScope
 
     /**
      * Returns hook environment.
-     *
-     * @return Environment
      */
-    public function getEnvironment()
+    public function getEnvironment(): Environment
     {
         return $this->environment;
     }
 
     /**
      * Returns scope feature.
-     *
-     * @return FeatureNode
      */
-    public function getFeature()
+    public function getFeature(): FeatureNode
     {
         return $this->feature;
     }
 
     /**
      * Returns scope step.
-     *
-     * @return StepNode
      */
-    public function getStep()
+    public function getStep(): StepNode
     {
         return $this->step;
     }

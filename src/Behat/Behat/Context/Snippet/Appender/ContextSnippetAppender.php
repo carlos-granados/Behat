@@ -30,12 +30,12 @@ final class ContextSnippetAppender implements SnippetAppender
     ) {
     }
 
-    public function supportsSnippet(AggregateSnippet $snippet)
+    public function supportsSnippet(AggregateSnippet $snippet): bool
     {
         return 'context' === $snippet->getType();
     }
 
-    public function appendSnippet(AggregateSnippet $snippet)
+    public function appendSnippet(AggregateSnippet $snippet): void
     {
         foreach ($snippet->getTargets() as $contextClass) {
             $reflection = new ReflectionClass($contextClass);
@@ -62,10 +62,8 @@ final class ContextSnippetAppender implements SnippetAppender
      *
      * @param string $class
      * @param string $contextFileContent
-     *
-     * @return bool
      */
-    private function isClassImported($class, $contextFileContent)
+    private function isClassImported($class, $contextFileContent): bool
     {
         $classImportRegex = sprintf(
             '@use[^;]*%s.*;@ms',
@@ -95,7 +93,7 @@ final class ContextSnippetAppender implements SnippetAppender
      *
      * @param string           $path
      */
-    private function logSnippetAddition(AggregateSnippet $snippet, $path)
+    private function logSnippetAddition(AggregateSnippet $snippet, $path): void
     {
         if (!$this->logger instanceof FilesystemLogger) {
             return;

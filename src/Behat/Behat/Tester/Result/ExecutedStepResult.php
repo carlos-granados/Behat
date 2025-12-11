@@ -33,20 +33,16 @@ final class ExecutedStepResult implements StepResult, DefinedStepResult, Excepti
 
     /**
      * Returns definition search result.
-     *
-     * @return SearchResult
      */
-    public function getSearchResult()
+    public function getSearchResult(): SearchResult
     {
         return $this->searchResult;
     }
 
     /**
      * Returns definition call result or null if no call were made.
-     *
-     * @return CallResult
      */
-    public function getCallResult()
+    public function getCallResult(): CallResult
     {
         return $this->callResult;
     }
@@ -56,7 +52,7 @@ final class ExecutedStepResult implements StepResult, DefinedStepResult, Excepti
         return $this->searchResult->getMatchedDefinition();
     }
 
-    public function hasException()
+    public function hasException(): bool
     {
         return null !== $this->getException();
     }
@@ -69,7 +65,7 @@ final class ExecutedStepResult implements StepResult, DefinedStepResult, Excepti
     /**
      * @return self::PENDING|self::FAILED|self::PASSED
      */
-    public function getResultCode()
+    public function getResultCode(): int
     {
         if ($this->callResult->hasException() && $this->callResult->getException() instanceof PendingException) {
             return self::PENDING;
@@ -82,7 +78,7 @@ final class ExecutedStepResult implements StepResult, DefinedStepResult, Excepti
         return self::PASSED;
     }
 
-    public function isPassed()
+    public function isPassed(): bool
     {
         return self::PASSED == $this->getResultCode();
     }

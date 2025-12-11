@@ -17,7 +17,7 @@ namespace Behat\Behat\Tester\Result;
  */
 final class UndefinedStepResult implements StepResult
 {
-    public function isPassed()
+    public function isPassed(): bool
     {
         return false;
     }
@@ -25,7 +25,7 @@ final class UndefinedStepResult implements StepResult
     /**
      * @return self::UNDEFINED
      */
-    public function getResultCode()
+    public function getResultCode(): int
     {
         return self::UNDEFINED;
     }

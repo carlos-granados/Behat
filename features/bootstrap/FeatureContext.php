@@ -70,7 +70,7 @@ class FeatureContext implements Context
      *
      * @AfterSuite
      */
-    public static function cleanTestFolders()
+    public static function cleanTestFolders(): void
     {
         (new Filesystem())->remove(sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'behat');
     }
@@ -80,7 +80,7 @@ class FeatureContext implements Context
      *
      * @BeforeScenario
      */
-    public function prepareTestFolders()
+    public function prepareTestFolders(): void
     {
         $dir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'behat' . DIRECTORY_SEPARATOR .
             md5(microtime() . random_int(0, 10000));
@@ -103,7 +103,7 @@ class FeatureContext implements Context
      * @param string       $filename name of the file (relative path)
      * @param PyStringNode $content  PyString string instance
      */
-    public function aFileNamedWith($filename, PyStringNode $content)
+    public function aFileNamedWith($filename, PyStringNode $content): void
     {
         $content = strtr((string) $content, ["'''" => '"""']);
         $this->createFileInWorkingDir($filename, $content);
@@ -116,7 +116,7 @@ class FeatureContext implements Context
      *
      * @param string $filename name of the file (relative path)
      */
-    public function aFileNamed($filename)
+    public function aFileNamed($filename): void
     {
         $this->createFileInWorkingDir($filename, '');
     }
@@ -149,7 +149,7 @@ class FeatureContext implements Context
      *
      * @Given /^(?:there is )?a some feature context$/
      */
-    public function aNoopFeatureContext()
+    public function aNoopFeatureContext(): void
     {
         $filename = 'features/bootstrap/FeatureContext.php';
         $content = <<<'EOL'
@@ -169,7 +169,7 @@ EOL;
      *
      * @Given /^(?:there is )?a some feature scenarios/
      */
-    public function aNoopFeature()
+    public function aNoopFeature(): void
     {
         $filename = 'features/bootstrap/FeatureContext.php';
         $content = <<<'EOL'
@@ -187,7 +187,7 @@ EOL;
      *
      * @param string $path
      */
-    public function iAmInThePath($path)
+    public function iAmInThePath($path): void
     {
         $this->moveToNewPath($path);
     }
@@ -199,7 +199,7 @@ EOL;
      *
      * @param   string $path
      */
-    public function fileShouldExist($path)
+    public function fileShouldExist($path): void
     {
         Assert::assertFileExists($this->workingDir . DIRECTORY_SEPARATOR . $path);
     }
@@ -209,7 +209,7 @@ EOL;
      *
      * @When /^the "([^"]*)" environment variable is set to "([^"]*)"$/
      */
-    public function iSetEnvironmentVariable($name, $value)
+    public function iSetEnvironmentVariable($name, $value): void
     {
         $this->env = [$name => (string) $value];
     }
@@ -219,7 +219,7 @@ EOL;
      *
      * @When /^"BEHAT_PARAMS" environment variable is set to:$/
      */
-    public function iSetBehatParamsEnvironmentVariable(PyStringNode $value)
+    public function iSetBehatParamsEnvironmentVariable(PyStringNode $value): void
     {
         $this->env = ['BEHAT_PARAMS' => (string) $value];
     }
@@ -261,7 +261,7 @@ EOL;
      *
      * @param string $argumentsString
      */
-    public function iRunBehat($argumentsString = '')
+    public function iRunBehat($argumentsString = ''): void
     {
         $argumentsString = strtr($argumentsString, ['\'' => '"']);
 
@@ -308,7 +308,7 @@ EOL;
      * @param string $answerString
      * @param string $argumentsString
      */
-    public function iRunBehatInteractively($answerString, $argumentsString)
+    public function iRunBehatInteractively($answerString, $argumentsString): void
     {
         $this->env['SHELL_INTERACTIVE'] = true;
 
@@ -323,7 +323,7 @@ EOL;
      *
      * @When /^I run behat in debug mode$/
      */
-    public function iRunBehatInDebugMode()
+    public function iRunBehatInDebugMode(): void
     {
         $this->options = '';
         $this->iRunBehat('--debug');
@@ -336,7 +336,7 @@ EOL;
      *
      * @param 'pass'|'fail' $success
      */
-    public function itShouldPassOrFailWith($success, PyStringNode $text)
+    public function itShouldPassOrFailWith($success, PyStringNode $text): void
     {
         $isCorrect = $this->exitCodeIsCorrect($success);
 
@@ -371,7 +371,7 @@ EOL;
      *
      * @param 'pass'|'fail' $success
      */
-    public function itShouldPassOrFailWithNoOutput($success)
+    public function itShouldPassOrFailWithNoOutput($success): void
     {
         Assert::assertEmpty($this->getOutput());
         $this->itShouldPassOrFail($success);
@@ -385,7 +385,7 @@ EOL;
      * @param string       $path file path
      * @param PyStringNode $text file content
      */
-    public function fileShouldContain($path, PyStringNode $text)
+    public function fileShouldContain($path, PyStringNode $text): void
     {
         $path = $this->workingDir . '/' . $path;
         Assert::assertFileExists($path);
@@ -438,7 +438,7 @@ EOL;
      * @param string       $path file path
      * @param PyStringNode $text file content
      */
-    public function fileXmlShouldBeLike($path, PyStringNode $text)
+    public function fileXmlShouldBeLike($path, PyStringNode $text): void
     {
         $path = $this->workingDir . '/' . $path;
         $this->checkXmlFileContents($path, $text);
@@ -452,7 +452,7 @@ EOL;
      * @param string       $path file path
      * @param PyStringNode $text file content
      */
-    public function fileJSONShouldBeLike($path, PyStringNode $text)
+    public function fileJSONShouldBeLike($path, PyStringNode $text): void
     {
         $path = $this->workingDir . '/' . $path;
         $this->checkJSONFileContents($path, $text);
@@ -465,7 +465,7 @@ EOL;
         Assert::assertFileDoesNotExist($path);
     }
 
-    private function checkXmlFileContents($path, PyStringNode $text)
+    private function checkXmlFileContents($path, PyStringNode $text): void
     {
         Assert::assertFileExists($path);
 
@@ -485,7 +485,7 @@ EOL;
         Assert::assertEquals(trim($dom->saveXML(null, LIBXML_NOEMPTYTAG)), $fileContent);
     }
 
-    private function checkJSONFileContents($path, PyStringNode $text)
+    private function checkJSONFileContents($path, PyStringNode $text): void
     {
         Assert::assertFileExists($path);
 
@@ -520,7 +520,7 @@ EOL;
      *
      * @param PyStringNode $text PyString text instance
      */
-    public function theOutputShouldContain(PyStringNode $text)
+    public function theOutputShouldContain(PyStringNode $text): void
     {
         if (str_contains($this->getOutput(), (string) $this->getExpectedOutput($text))) {
             return;
@@ -531,7 +531,7 @@ EOL;
         );
     }
 
-    private function getExpectedOutput(PyStringNode $expectedText)
+    private function getExpectedOutput(PyStringNode $expectedText): string
     {
         $text = strtr($expectedText, [
             '\'\'\'' => '"""',
@@ -544,38 +544,38 @@ EOL;
         if ('/' !== DIRECTORY_SEPARATOR) {
             $text = preg_replace_callback(
                 '/[ "](features|tests)\/[^\n "]+/',
-                fn ($matches) => str_replace('/', DIRECTORY_SEPARATOR, $matches[0]),
+                fn ($matches): string => str_replace('/', DIRECTORY_SEPARATOR, $matches[0]),
                 $text
             );
             $text = preg_replace_callback(
                 '/\<span class\="path"\>features\/[^\<]+/',
-                fn ($matches) => str_replace('/', DIRECTORY_SEPARATOR, $matches[0]),
+                fn ($matches): string => str_replace('/', DIRECTORY_SEPARATOR, $matches[0]),
                 (string) $text
             );
             $text = preg_replace_callback(
                 '/\+[fd] [^ ]+/',
-                fn ($matches) => str_replace('/', DIRECTORY_SEPARATOR, $matches[0]),
+                fn ($matches): string => str_replace('/', DIRECTORY_SEPARATOR, $matches[0]),
                 (string) $text
             );
 
             // error stacktrace
             $text = preg_replace_callback(
                 '/#\d+ [^:]+:/',
-                fn ($matches) => str_replace('/', DIRECTORY_SEPARATOR, $matches[0]),
+                fn ($matches): string => str_replace('/', DIRECTORY_SEPARATOR, $matches[0]),
                 (string) $text
             );
 
             // texts with absolute paths
             $text = preg_replace_callback(
                 '/\{BASE_PATH\}[^\n \<"]+/',
-                fn ($matches) => str_replace('/', DIRECTORY_SEPARATOR, $matches[0]),
+                fn ($matches): string => str_replace('/', DIRECTORY_SEPARATOR, $matches[0]),
                 (string) $text
             );
 
             // texts in editor URLs
             $text = preg_replace_callback(
                 '/open\?file[^\<"]+/',
-                fn ($matches) => str_replace('/', DIRECTORY_SEPARATOR, $matches[0]),
+                fn ($matches): string => str_replace('/', DIRECTORY_SEPARATOR, $matches[0]),
                 (string) $text
             );
         }
@@ -592,7 +592,7 @@ EOL;
      *
      * @param 'pass'|'fail' $success
      */
-    public function itShouldPassOrFail($success)
+    public function itShouldPassOrFail($success): void
     {
         $isCorrect = $this->exitCodeIsCorrect($success);
 
@@ -613,7 +613,7 @@ EOL;
      * @param string $xmlFile
      * @param string $schemaPath relative to features/bootstrap/schema
      */
-    public function xmlShouldBeValid($xmlFile, $schemaPath)
+    public function xmlShouldBeValid($xmlFile, $schemaPath): void
     {
         $path = $this->workingDir . '/' . $xmlFile;
         $this->checkXmlIsValid($path, $schemaPath);
@@ -693,7 +693,7 @@ EOL;
         $this->filesystem->dumpFile($this->workingDir . DIRECTORY_SEPARATOR . $filename, $content);
     }
 
-    private function moveToNewPath($path)
+    private function moveToNewPath($path): void
     {
         $newWorkingDir = $this->workingDir . '/' . $path;
         $this->filesystem->mkdir($newWorkingDir);

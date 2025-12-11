@@ -53,7 +53,7 @@ final class ExceptionPresenter
     /**
      * Registers exception stringer.
      */
-    public function registerExceptionStringer(ExceptionStringer $stringer)
+    public function registerExceptionStringer(ExceptionStringer $stringer): void
     {
         $this->stringers[] = $stringer;
     }
@@ -63,7 +63,7 @@ final class ExceptionPresenter
      *
      * @param int $defaultVerbosity
      */
-    public function setDefaultVerbosity($defaultVerbosity)
+    public function setDefaultVerbosity($defaultVerbosity): void
     {
         $this->defaultVerbosity = $defaultVerbosity;
     }
@@ -102,7 +102,7 @@ final class ExceptionPresenter
         return trim($this->configurablePathPrinter->processPathsInText($exception->getMessage()) . ' (' . $exception::class . ')');
     }
 
-    private function removeBehatCallsFromTrace(Exception $exception)
+    private function removeBehatCallsFromTrace(Exception $exception): string
     {
         $traceOutput = '';
         foreach ($exception->getTrace() as $i => $trace) {

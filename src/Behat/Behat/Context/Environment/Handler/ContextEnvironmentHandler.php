@@ -62,7 +62,7 @@ final class ContextEnvironmentHandler implements EnvironmentHandler
     /**
      * Registers context class resolver.
      */
-    public function registerClassResolver(ClassResolver $resolver)
+    public function registerClassResolver(ClassResolver $resolver): void
     {
         $this->classResolvers[] = $resolver;
     }
@@ -72,7 +72,7 @@ final class ContextEnvironmentHandler implements EnvironmentHandler
         return $suite->hasSetting('contexts');
     }
 
-    public function buildEnvironment(Suite $suite)
+    public function buildEnvironment(Suite $suite): Environment
     {
         $environment = new UninitializedContextEnvironment($suite);
         foreach ($this->getNormalizedContextSettings($suite) as $context) {
@@ -82,12 +82,12 @@ final class ContextEnvironmentHandler implements EnvironmentHandler
         return $environment;
     }
 
-    public function supportsEnvironmentAndSubject(Environment $environment, $testSubject = null)
+    public function supportsEnvironmentAndSubject(Environment $environment, $testSubject = null): bool
     {
         return $environment instanceof UninitializedContextEnvironment;
     }
 
-    public function isolateEnvironment(Environment $environment, $testSubject = null)
+    public function isolateEnvironment(Environment $environment, $testSubject = null): InitializedContextEnvironment
     {
         if (!$environment instanceof UninitializedContextEnvironment) {
             throw new EnvironmentIsolationException(sprintf(

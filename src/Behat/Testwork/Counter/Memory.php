@@ -26,10 +26,8 @@ final class Memory implements Stringable
 
     /**
      * Returns current memory usage.
-     *
-     * @return int
      */
-    public function getMemoryUsage()
+    public function getMemoryUsage(): int
     {
         return memory_get_usage();
     }
@@ -48,10 +46,8 @@ final class Memory implements Stringable
      * Humanizes usage information.
      *
      * @param int $bytes
-     *
-     * @return string
      */
-    private function humanize($bytes)
+    private function humanize($bytes): string
     {
         $e = intval(floor(log($bytes) / log(1024)));
 

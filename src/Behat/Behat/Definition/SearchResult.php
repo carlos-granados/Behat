@@ -31,20 +31,16 @@ final class SearchResult
 
     /**
      * Checks if result contains a match.
-     *
-     * @return bool
      */
-    public function hasMatch()
+    public function hasMatch(): bool
     {
         return $this->definition instanceof Definition;
     }
 
     /**
      * Returns matched definition.
-     *
-     * @return Definition|null
      */
-    public function getMatchedDefinition()
+    public function getMatchedDefinition(): ?Definition
     {
         return $this->definition;
     }
@@ -61,10 +57,8 @@ final class SearchResult
 
     /**
      * Returns matched definition arguments.
-     *
-     * @return array|null
      */
-    public function getMatchedArguments()
+    public function getMatchedArguments(): ?array
     {
         return $this->arguments;
     }

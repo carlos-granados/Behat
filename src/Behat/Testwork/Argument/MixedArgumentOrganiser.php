@@ -101,12 +101,12 @@ final class MixedArgumentOrganiser implements ArgumentOrganiser
      * @param ReflectionParameter[] $parameters
      * @param mixed[]               $arguments
      *
-     * @return array
+     * @return array{array<string, mixed>, list<mixed>, list<mixed>}
      */
-    private function splitArguments(array $parameters, array $arguments)
+    private function splitArguments(array $parameters, array $arguments): array
     {
         $parameterNames = array_map(
-            fn (ReflectionParameter $parameter) => $parameter->getName(),
+            fn (ReflectionParameter $parameter): string => $parameter->getName(),
             $parameters
         );
 
@@ -130,10 +130,8 @@ final class MixedArgumentOrganiser implements ArgumentOrganiser
      * Checks that provided argument key is a string and it matches some parameter name.
      *
      * @param string[] $parameterNames
-     *
-     * @return bool
      */
-    private function isStringKeyAndExistsInParameters($argumentKey, $parameterNames)
+    private function isStringKeyAndExistsInParameters($argumentKey, $parameterNames): bool
     {
         return is_string($argumentKey) && in_array($argumentKey, $parameterNames);
     }
@@ -142,10 +140,8 @@ final class MixedArgumentOrganiser implements ArgumentOrganiser
      * Check if a given value is typehinted in the argument list.
      *
      * @param  ReflectionParameter[] $parameters
-     *
-     * @return bool
      */
-    private function isParameterTypehintedInArgumentList(array $parameters, $value)
+    private function isParameterTypehintedInArgumentList(array $parameters, $value): bool
     {
         if (!is_object($value)) {
             return false;
@@ -182,7 +178,7 @@ final class MixedArgumentOrganiser implements ArgumentOrganiser
      *
      * @return mixed[]
      */
-    private function prepareNamedArguments(array $parameters, array $namedArguments)
+    private function prepareNamedArguments(array $parameters, array $namedArguments): array
     {
         $arguments = [];
 
@@ -217,7 +213,7 @@ final class MixedArgumentOrganiser implements ArgumentOrganiser
      *
      * @return mixed[] Ordered list of arguments, index is the constructor argument position, value is what will be injected
      */
-    private function prepareTypehintedArguments(array $parameters, array $typehintedArguments)
+    private function prepareTypehintedArguments(array $parameters, array $typehintedArguments): array
     {
         $arguments = [];
 
@@ -252,7 +248,7 @@ final class MixedArgumentOrganiser implements ArgumentOrganiser
     {
         return array_filter(
             $parameters,
-            fn ($parameter, $num) => !$this->isArgumentDefined($num)
+            fn ($parameter, $num): bool => !$this->isArgumentDefined($num)
             && $this->getReflectionClassesFromParameter($parameter),
             ARRAY_FILTER_USE_BOTH
         );
@@ -312,15 +308,13 @@ final class MixedArgumentOrganiser implements ArgumentOrganiser
      * @param  mixed[]               &$candidates Resolved arguments
      * @param  mixed[]               &$arguments  Argument mapping
      * @param  callable              $predicate   Callable predicate to apply to each candidate
-     *
-     * @return void
      */
     private function applyPredicateToTypehintedArguments(
         array $parameters,
         array &$candidates,
         array &$arguments,
         $predicate,
-    ) {
+    ): void {
         $filtered = $this->filterApplicableTypehintedParameters($parameters);
 
         foreach ($filtered as $num => $parameter) {
@@ -344,7 +338,7 @@ final class MixedArgumentOrganiser implements ArgumentOrganiser
         array &$candidates,
         array &$arguments,
         $predicate,
-    ) {
+    ): bool {
         foreach ($candidates as $candidateIndex => $candidate) {
             foreach ($this->getReflectionClassesFromParameter($parameter) as $class) {
                 if ($predicate($class, $candidate)) {
@@ -369,10 +363,8 @@ final class MixedArgumentOrganiser implements ArgumentOrganiser
      *
      * @param  ReflectionClass $reflectionClass Typehinted argument
      * @param  mixed           $candidate       Resolved argument
-     *
-     * @return bool
      */
-    private function classMatchingPredicateForTypehintedArguments(ReflectionClass $reflectionClass, $candidate)
+    private function classMatchingPredicateForTypehintedArguments(ReflectionClass $reflectionClass, $candidate): bool
     {
         return $reflectionClass->getName() === $candidate::class;
     }
@@ -398,7 +390,7 @@ final class MixedArgumentOrganiser implements ArgumentOrganiser
      *
      * @return mixed[]
      */
-    private function prepareNumberedArguments(array $parameters, array $numberedArguments)
+    private function prepareNumberedArguments(array $parameters, array $numberedArguments): array
     {
         $arguments = [];
 
@@ -424,7 +416,7 @@ final class MixedArgumentOrganiser implements ArgumentOrganiser
      *
      * @return mixed[]
      */
-    private function prepareDefaultArguments(array $parameters)
+    private function prepareDefaultArguments(array $parameters): array
     {
         $arguments = [];
 
@@ -449,7 +441,7 @@ final class MixedArgumentOrganiser implements ArgumentOrganiser
      *
      * @return mixed[]
      */
-    private function reorderArguments(array $parameters, array $arguments)
+    private function reorderArguments(array $parameters, array $arguments): array
     {
         $orderedArguments = [];
 
@@ -471,7 +463,7 @@ final class MixedArgumentOrganiser implements ArgumentOrganiser
      *
      * This is used to share state between get*Arguments() methods.
      */
-    private function markAllArgumentsUndefined()
+    private function markAllArgumentsUndefined(): void
     {
         $this->definedArguments = [];
     }
@@ -481,7 +473,7 @@ final class MixedArgumentOrganiser implements ArgumentOrganiser
      *
      * @param int $position
      */
-    private function markArgumentDefined($position)
+    private function markArgumentDefined($position): void
     {
         $this->definedArguments[$position] = true;
     }
@@ -490,10 +482,8 @@ final class MixedArgumentOrganiser implements ArgumentOrganiser
      * Checks if an argument at provided position is defined.
      *
      * @param int $position
-     *
-     * @return bool
      */
-    private function isArgumentDefined($position)
+    private function isArgumentDefined($position): bool
     {
         return isset($this->definedArguments[$position]);
     }

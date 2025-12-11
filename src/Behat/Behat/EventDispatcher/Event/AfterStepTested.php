@@ -41,50 +41,40 @@ final class AfterStepTested extends StepTested implements AfterTested
 
     /**
      * Returns feature.
-     *
-     * @return FeatureNode
      */
-    public function getFeature()
+    public function getFeature(): FeatureNode
     {
         return $this->feature;
     }
 
     /**
      * Returns step node.
-     *
-     * @return StepNode
      */
-    public function getStep()
+    public function getStep(): StepNode
     {
         return $this->step;
     }
 
     /**
      * Returns current test result.
-     *
-     * @return StepResult
      */
-    public function getTestResult()
+    public function getTestResult(): StepResult
     {
         return $this->result;
     }
 
     /**
      * Returns current test teardown.
-     *
-     * @return Teardown
      */
-    public function getTeardown()
+    public function getTeardown(): Teardown
     {
         return $this->teardown;
     }
 
     /**
      * Checks if step call, setup or teardown produced any output (stdOut or exception).
-     *
-     * @return bool
      */
-    public function hasOutput()
+    public function hasOutput(): bool
     {
         return $this->teardownHasOutput() || $this->resultHasException() || $this->resultCallHasOutput();
     }
@@ -101,10 +91,8 @@ final class AfterStepTested extends StepTested implements AfterTested
 
     /**
      * Checks if result has produced exception.
-     *
-     * @return bool
      */
-    private function resultHasException()
+    private function resultHasException(): bool
     {
         return $this->result instanceof ExceptionResult && $this->result->getException();
     }

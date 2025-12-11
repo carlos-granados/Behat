@@ -31,12 +31,12 @@ final class DefinitionArgumentsTransformer implements CallFilter
     /**
      * Registers new argument transformer.
      */
-    public function registerArgumentTransformer(ArgumentTransformer $transformer)
+    public function registerArgumentTransformer(ArgumentTransformer $transformer): void
     {
         $this->argumentTransformers[] = $transformer;
     }
 
-    public function supportsCall(Call $call)
+    public function supportsCall(Call $call): bool
     {
         return $call instanceof DefinitionCall;
     }

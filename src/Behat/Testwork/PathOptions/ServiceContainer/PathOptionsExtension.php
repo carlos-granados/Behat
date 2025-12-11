@@ -30,16 +30,16 @@ final class PathOptionsExtension implements Extension
 {
     public const CONFIGURABLE_PATH_PRINTER_ID = 'configurable.path.printer';
 
-    public function getConfigKey()
+    public function getConfigKey(): string
     {
         return 'path_options';
     }
 
-    public function initialize(ExtensionManager $extensionManager)
+    public function initialize(ExtensionManager $extensionManager): void
     {
     }
 
-    public function configure(ArrayNodeDefinition $builder)
+    public function configure(ArrayNodeDefinition $builder): void
     {
         $builder = $builder
             ->addDefaultsIfNotSet()
@@ -61,7 +61,7 @@ final class PathOptionsExtension implements Extension
         ;
     }
 
-    public function load(ContainerBuilder $container, array $config)
+    public function load(ContainerBuilder $container, array $config): void
     {
         $this->loadConfigurablePathPrinter(
             $container,
@@ -94,7 +94,7 @@ final class PathOptionsExtension implements Extension
         $container->setDefinition(self::CONFIGURABLE_PATH_PRINTER_ID, $definition);
     }
 
-    private function loadPathOptionsController(ContainerBuilder $container)
+    private function loadPathOptionsController(ContainerBuilder $container): void
     {
         $definition = new Definition(PathOptionsController::class, [
             new Reference(self::CONFIGURABLE_PATH_PRINTER_ID),

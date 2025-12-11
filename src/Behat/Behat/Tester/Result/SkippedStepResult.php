@@ -29,10 +29,8 @@ final class SkippedStepResult implements StepResult, DefinedStepResult
 
     /**
      * Returns definition search result.
-     *
-     * @return SearchResult
      */
-    public function getSearchResult()
+    public function getSearchResult(): SearchResult
     {
         return $this->searchResult;
     }
@@ -42,7 +40,7 @@ final class SkippedStepResult implements StepResult, DefinedStepResult
         return $this->searchResult->getMatchedDefinition();
     }
 
-    public function isPassed()
+    public function isPassed(): bool
     {
         return false;
     }
@@ -50,7 +48,7 @@ final class SkippedStepResult implements StepResult, DefinedStepResult
     /**
      * @return self::SKIPPED
      */
-    public function getResultCode()
+    public function getResultCode(): int
     {
         return self::SKIPPED;
     }

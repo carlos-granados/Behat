@@ -27,9 +27,9 @@ final class ServiceProcessor
      *
      * @param string           $tag
      *
-     * @return Reference[]
+     * @return list<Reference>
      */
-    public function findAndSortTaggedServices(ContainerBuilder $container, $tag)
+    public function findAndSortTaggedServices(ContainerBuilder $container, $tag): array
     {
         $serviceTags = [];
         foreach ($container->findTaggedServiceIds($tag) as $id => $tags) {
@@ -38,8 +38,8 @@ final class ServiceProcessor
             $serviceTags[] = array_merge(['priority' => 0], $firstTags, ['id' => $id]);
         }
 
-        usort($serviceTags, fn ($tag1, $tag2) => $tag2['priority'] - $tag1['priority']);
-        $serviceReferences = array_map(fn ($tag) => new Reference($tag['id']), $serviceTags);
+        usort($serviceTags, fn ($tag1, $tag2): int|float => $tag2['priority'] - $tag1['priority']);
+        $serviceReferences = array_map(fn ($tag): Reference => new Reference($tag['id']), $serviceTags);
 
         return $serviceReferences;
     }
@@ -53,7 +53,7 @@ final class ServiceProcessor
      * @param string           $target     The id of the service being decorated
      * @param string           $wrapperTag The tag used by wrappers
      */
-    public function processWrapperServices(ContainerBuilder $container, $target, $wrapperTag)
+    public function processWrapperServices(ContainerBuilder $container, $target, $wrapperTag): void
     {
         $references = $this->findAndSortTaggedServices($container, $wrapperTag);
 

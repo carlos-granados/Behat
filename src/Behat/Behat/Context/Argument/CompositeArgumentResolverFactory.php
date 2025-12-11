@@ -29,7 +29,7 @@ final class CompositeArgumentResolverFactory implements ArgumentResolverFactory
     /**
      * Registers factory.
      */
-    public function registerFactory(ArgumentResolverFactory $factory)
+    public function registerFactory(ArgumentResolverFactory $factory): void
     {
         $this->factories[] = $factory;
     }
@@ -38,7 +38,7 @@ final class CompositeArgumentResolverFactory implements ArgumentResolverFactory
     {
         return array_reduce(
             $this->factories,
-            fn (array $resolvers, ArgumentResolverFactory $factory) => array_merge($resolvers, $factory->createArgumentResolvers($environment)),
+            fn (array $resolvers, ArgumentResolverFactory $factory): array => array_merge($resolvers, $factory->createArgumentResolvers($environment)),
             []
         );
     }

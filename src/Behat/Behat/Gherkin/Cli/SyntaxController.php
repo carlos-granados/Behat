@@ -45,7 +45,7 @@ final class SyntaxController implements Controller
     /**
      * Configures command to be executable by the controller.
      */
-    public function configure(Command $command)
+    public function configure(Command $command): void
     {
         $command
             ->addOption(
@@ -83,10 +83,8 @@ final class SyntaxController implements Controller
      * Keywords dumper.
      *
      * @param array $keywords keywords list
-     *
-     * @return string
      */
-    public function dumpKeywords(array $keywords)
+    public function dumpKeywords(array $keywords): string
     {
         $dump = '<gherkin_keyword>' . implode('</gherkin_keyword>|<gherkin_keyword>', $keywords) . '</gherkin_keyword>';
 
