@@ -4,6 +4,13 @@
     xsi:noNamespaceSchemaLocation="https://github.com/Roave/BackwardCompatibilityCheck/raw/refs/heads/8.18.x/Resources/schema.xsd">
     <baseline>
         <!--
+          In the 4.x branch, the baseline will contain all changes from the latest 3.x release, until we release
+          4.0.0-alpha1.
+          When we release 4.0.0-alpha1, we will reset the baseline so that it shows changes in 4.0.0 (or intermediate
+          alpha/beta releases).
+        -->
+
+        <!--
           Adding strict types to a parameter may be a technical BC break, but historically we have not considered them
           to be if they match the phpdoc. Parameter type changes will be reviewed manually by maintainers.
         -->
@@ -14,5 +21,30 @@
         <ignored-regex>#CHANGED: The return type of Behat\\Testwork\\Environment\\Call\\EnvironmentCall\#getEnvironment\(\) changed#</ignored-regex>
         <ignored-regex>#CHANGED: The return type of Behat\\Testwork\\Environment\\Call\\EnvironmentCall\#getCallee\(\) changed#</ignored-regex>
         <ignored-regex>#CHANGED: The return type of Behat\\Testwork\\Environment\\Call\\EnvironmentCall\#getArguments\(\) changed#</ignored-regex>
+
+        <!-- Addition of strict return types is expected throughout the 4.0 release -->
+        <ignored-regex>#CHANGED: The return type of .+? changed from no type to#</ignored-regex>
+
+        <!--
+        When running in the 4.x branch, the BC checker installs symfony 8, therefore reports BC breaks in symfony
+        classes that we extend (since the 3.x release it compares to installed symfony 7)
+        -->
+        <ignored-regex>#REMOVED: Method Symfony\\Component\\Console\\Command\\Command.+? was removed#</ignored-regex>
+        <ignored-regex>#REMOVED: Method Symfony\\Component\\Console\\Application.+? was removed#</ignored-regex>
+
+        <!-- Individually list removed methods / constants (which were deprecated in 3.x) -->
+        <ignored-regex>#REMOVED: Method Behat\\Behat\\Output\\Node\\EventListener\\JUnit\\JUnitOutlineStoreListener\#getCurrentOutline\(\) was removed#</ignored-regex>
+        <ignored-regex>#REMOVED: Constant Behat\\Behat\\ApplicationFactory::VERSION#</ignored-regex>
+
+        <!--
+        Group changes to constructors (e.g. removing deprecated params) by class. The BC checker reports errors for each
+        parameter, but we don't need that level of granularity. It's enough to have a clear list of the classes that
+        have changed).
+        -->
+        <ignored-regex>#REMOVED: Method Behat\\Behat\\EventDispatcher\\Cli\\StopOnFailureController\#__construct\(\) was removed#</ignored-regex>
+        <ignored-regex>#CHANGED: The parameter .+? of Behat\\Behat\\Output\\Node\\Printer\\ListPrinter\#__construct\(\)#</ignored-regex>
+        <ignored-regex>#CHANGED: The parameter .+? of Behat\\Behat\\Output\\Node\\Printer\\JUnit\\JUnitScenarioPrinter\#__construct\(\)#</ignored-regex>
+        <ignored-regex>#CHANGED: (The parameter|Parameter) .+? of Behat\\Behat\\Definition\\Printer\\ConsoleDefinitionPrinter\#__construct\(\)#</ignored-regex>
+        <ignored-regex>#CHANGED: The parameter .+? of Behat\\Testwork\\Ordering\\Cli\\OrderController\#__construct\(\)#</ignored-regex>
     </baseline>
 </roave-bc-check>
