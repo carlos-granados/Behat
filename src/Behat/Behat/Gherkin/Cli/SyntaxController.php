@@ -27,10 +27,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 final class SyntaxController implements Controller
 {
-    /**
-     * @var KeywordsDumper
-     */
-    private $keywordsDumper;
+    private readonly KeywordsDumper $keywordsDumper;
 
     /**
      * Initializes controller.
@@ -60,10 +57,8 @@ final class SyntaxController implements Controller
 
     /**
      * Executes controller.
-     *
-     * @return int|null
      */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): ?int
     {
         if (!$input->getOption('story-syntax')) {
             return null;
