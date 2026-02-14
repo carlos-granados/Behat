@@ -14,8 +14,7 @@ use Behat\Behat\Definition\Exception\InvalidPatternException;
 use Behat\Behat\Definition\Pattern\Pattern;
 use Behat\Behat\Definition\Pattern\SimpleStepMethodNameSuggester;
 use Behat\Behat\Definition\Pattern\StepMethodNameSuggester;
-
-use function preg_replace;
+use Behat\Behat\Util\StrictRegex;
 
 /**
  * Defines a way to handle turnip patterns.
@@ -57,17 +56,17 @@ final class TurnipPatternPolicy implements PatternPolicy
     public function generatePattern($stepText): Pattern
     {
         $count = 0;
-        $pattern = $stepText;
+        $pattern = (string) $stepText;
         foreach (self::$placeholderPatterns as $replacePattern) {
-            $pattern = preg_replace_callback(
+            $pattern = StrictRegex::replaceCallback(
                 $replacePattern,
                 function () use (&$count) { return ':arg' . ++$count; },
-                (string) $pattern
+                $pattern
             );
         }
         $pattern = $this->escapeAlternationSyntax($pattern);
         $methodName = $this->methodNameSuggester->suggest(
-            preg_replace(self::$placeholderPatterns, '', $stepText),
+            StrictRegex::replace(self::$placeholderPatterns, '', $stepText),
         );
 
         return new Pattern($methodName, $pattern, $count);
@@ -105,16 +104,14 @@ final class TurnipPatternPolicy implements PatternPolicy
      * Replaces turnip tokens with regex capture groups.
      *
      * @param string $regex
-     *
-     * @return string
      */
-    private function replaceTokensWithRegexCaptureGroups($regex)
+    private function replaceTokensWithRegexCaptureGroups($regex): string
     {
         $tokenRegex = self::TOKEN_REGEX;
 
-        return preg_replace_callback(
+        return StrictRegex::replaceCallback(
             self::PLACEHOLDER_REGEXP,
-            [$this, 'replaceTokenWithRegexCaptureGroup'],
+            $this->replaceTokenWithRegexCaptureGroup(...),
             $regex
         );
     }
@@ -134,12 +131,10 @@ final class TurnipPatternPolicy implements PatternPolicy
      * Replaces turnip optional ending with regex non-capturing optional group.
      *
      * @param string $regex
-     *
-     * @return string
      */
-    private function replaceTurnipOptionalEndingWithRegex($regex)
+    private function replaceTurnipOptionalEndingWithRegex($regex): string
     {
-        return preg_replace(self::OPTIONAL_WORD_REGEXP, '(?:\1)?(?:\2)?(?:\3)?', $regex);
+        return StrictRegex::replace(self::OPTIONAL_WORD_REGEXP, '(?:\1)?(?:\2)?(?:\3)?', $regex);
     }
 
     /**
@@ -149,7 +144,7 @@ final class TurnipPatternPolicy implements PatternPolicy
      */
     private function replaceTurnipAlternativeWordsWithRegex($regex): string
     {
-        $regex = preg_replace(self::ALTERNATIVE_WORD_REGEXP, '(?:\1|\2)', $regex);
+        $regex = StrictRegex::replace(self::ALTERNATIVE_WORD_REGEXP, '(?:\1|\2)', $regex);
         $regex = $this->removeEscapingOfAlternationSyntax($regex);
 
         return $regex;

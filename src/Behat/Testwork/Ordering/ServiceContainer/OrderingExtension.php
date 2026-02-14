@@ -33,10 +33,7 @@ final class OrderingExtension implements Extension
 {
     public const ORDERER_TAG = 'tester.orderer';
 
-    /**
-     * @var ServiceProcessor
-     */
-    private $processor;
+    private readonly ServiceProcessor $processor;
 
     /**
      * Initializes extension.

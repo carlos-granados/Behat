@@ -36,10 +36,7 @@ final class PrettySkippedStepPrinter implements StepPrinter
      * @var string
      */
     private $indentText;
-    /**
-     * @var string
-     */
-    private $subIndentText;
+    private readonly string $subIndentText;
 
     /**
      * Initializes printer.
@@ -99,7 +96,7 @@ final class PrettySkippedStepPrinter implements StepPrinter
         foreach ($arguments as $argument) {
             $text = $this->getArgumentString($argument, !$formatter->getParameter('multiline'));
 
-            $indentedText = implode("\n", array_map([$this, 'subIndent'], explode("\n", $text)));
+            $indentedText = implode("\n", array_map($this->subIndent(...), explode("\n", $text)));
             $formatter->getOutputPrinter()->writeln(sprintf('{+%s}%s{-%s}', $style, $indentedText, $style));
         }
     }

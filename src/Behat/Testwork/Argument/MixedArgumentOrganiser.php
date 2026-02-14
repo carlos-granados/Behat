@@ -37,7 +37,7 @@ final class MixedArgumentOrganiser implements ArgumentOrganiser
      *
      * @return mixed[]
      */
-    public function organiseArguments(ReflectionFunctionAbstract $function, array $arguments)
+    public function organiseArguments(ReflectionFunctionAbstract $function, array $arguments): array
     {
         return $this->prepareArguments($function, $arguments);
     }
@@ -49,7 +49,7 @@ final class MixedArgumentOrganiser implements ArgumentOrganiser
      *
      * @return mixed[]
      */
-    private function prepareArguments(ReflectionFunctionAbstract $function, array $arguments)
+    private function prepareArguments(ReflectionFunctionAbstract $function, array $arguments): array
     {
         $parameters = $function->getParameters();
 
@@ -223,7 +223,7 @@ final class MixedArgumentOrganiser implements ArgumentOrganiser
             $parameters,
             $candidates,
             $arguments,
-            [$this, 'classMatchingPredicateForTypehintedArguments']
+            $this->classMatchingPredicateForTypehintedArguments(...)
         );
 
         // This iteration maps up everything else, providing the argument is an instanceof the parameter.
@@ -231,7 +231,7 @@ final class MixedArgumentOrganiser implements ArgumentOrganiser
             $parameters,
             $candidates,
             $arguments,
-            [$this, 'isInstancePredicateForTypehintedArguments']
+            $this->isInstancePredicateForTypehintedArguments(...)
         );
 
         return $arguments;
@@ -374,10 +374,8 @@ final class MixedArgumentOrganiser implements ArgumentOrganiser
      *
      * @param  ReflectionClass $reflectionClass Typehinted argument
      * @param  mixed           $candidate       Resolved argument
-     *
-     * @return bool
      */
-    private function isInstancePredicateForTypehintedArguments(ReflectionClass $reflectionClass, $candidate)
+    private function isInstancePredicateForTypehintedArguments(ReflectionClass $reflectionClass, $candidate): bool
     {
         return $reflectionClass->isInstance($candidate);
     }

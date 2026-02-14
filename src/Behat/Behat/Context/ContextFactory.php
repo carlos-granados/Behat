@@ -31,10 +31,7 @@ final class ContextFactory
      * @var ContextInitializer[]
      */
     private $contextInitializers = [];
-    /**
-     * @var Validator
-     */
-    private $validator;
+    private readonly Validator $validator;
 
     /**
      * Initialises factory.
@@ -64,7 +61,7 @@ final class ContextFactory
     /**
      * Creates and initializes context class.
      *
-     * @param string             $class
+     * @param class-string<Context> $class
      * @param ArgumentResolver[] $singleUseResolvers
      *
      * @return Context
@@ -109,7 +106,7 @@ final class ContextFactory
     /**
      * Creates context instance.
      */
-    private function createInstance(ReflectionClass $reflection, array $arguments)
+    private function createInstance(ReflectionClass $reflection, array $arguments): Context
     {
         if (count($arguments)) {
             return $reflection->newInstanceArgs(array_values($arguments));
