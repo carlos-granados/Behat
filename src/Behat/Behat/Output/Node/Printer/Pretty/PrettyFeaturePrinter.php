@@ -27,10 +27,7 @@ final class PrettyFeaturePrinter implements FeaturePrinter
      * @var string
      */
     private $indentText;
-    /**
-     * @var string
-     */
-    private $subIndentText;
+    private readonly string $subIndentText;
 
     /**
      * Initializes printer.
@@ -67,7 +64,7 @@ final class PrettyFeaturePrinter implements FeaturePrinter
             return;
         }
 
-        $tags = array_map([$this, 'prependTagWithTagSign'], $tags);
+        $tags = array_map($this->prependTagWithTagSign(...), $tags);
         $printer->writeln(sprintf('%s{+tag}%s{-tag}', $this->indentText, implode(' ', $tags)));
     }
 

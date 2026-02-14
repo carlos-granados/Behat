@@ -23,14 +23,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
  */
 final class ContainerLoader
 {
-    /**
-     * @var ConfigurationTree
-     */
-    private $configuration;
-    /**
-     * @var Processor
-     */
-    private $processor;
+    private readonly ConfigurationTree $configuration;
+    private readonly Processor $processor;
 
     /**
      * Initialize extension.
@@ -57,10 +51,8 @@ final class ContainerLoader
 
     /**
      * Processes config against extensions.
-     *
-     * @return array
      */
-    private function processConfig(array $configs)
+    private function processConfig(array $configs): array
     {
         $tree = $this->configuration->getConfigTree($this->extensionManager->getExtensions());
 
