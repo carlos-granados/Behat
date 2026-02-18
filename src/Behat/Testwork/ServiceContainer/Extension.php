@@ -11,7 +11,6 @@
 namespace Behat\Testwork\ServiceContainer;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
@@ -22,7 +21,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-interface Extension extends CompilerPassInterface
+interface Extension
 {
     /**
      * Returns the extension config key.
