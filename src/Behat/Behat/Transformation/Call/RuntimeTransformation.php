@@ -35,6 +35,8 @@ final class RuntimeTransformation extends RuntimeCallee implements Stringable, T
         $callable,
         $description = null,
     ) {
+        @trigger_error('RuntimeTransformation is deprecated and will be removed in 4.0. Use specific transformations instead.', E_USER_DEPRECATED);
+
         parent::__construct($callable, $description);
     }
 

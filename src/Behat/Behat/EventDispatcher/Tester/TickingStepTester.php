@@ -36,6 +36,7 @@ final class TickingStepTester implements StepTester
     public function __construct(
         private readonly StepTester $baseTester,
     ) {
+        @trigger_error('TickingStepTester is deprecated since signal handling now uses pcntl_signal_dispatch. It will be removed in 4.0.', E_USER_DEPRECATED);
     }
 
     public function setUp(Environment $env, FeatureNode $feature, StepNode $step, $skip)

@@ -32,6 +32,7 @@ class StepStat implements Stringable
         private readonly ?string $error = null,
         private readonly ?string $stdOut = null,
     ) {
+        @trigger_error('StepStat is deprecated in favour of StepStatV2 and will be removed in 4.0.', E_USER_DEPRECATED);
     }
 
     /**

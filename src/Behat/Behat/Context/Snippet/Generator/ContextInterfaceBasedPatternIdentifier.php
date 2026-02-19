@@ -27,6 +27,8 @@ final class ContextInterfaceBasedPatternIdentifier implements PatternIdentifier
             return null;
         }
 
+        @trigger_error('ContextInterfaceBasedPatternIdentifier is deprecated in favour of --snippet-type and will be removed in 4.0.', E_USER_DEPRECATED);
+
         return $contextClass::getAcceptedSnippetType();
     }
 }

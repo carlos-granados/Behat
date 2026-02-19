@@ -51,10 +51,12 @@ final class WrongPathsException extends RuntimeException implements TesterExcept
     /**
      * Returns path that caused exception.
      *
-     * @deprecated
+     * @deprecated Use getPaths() instead. Will be removed in 4.0.
      */
     public function getPath(): string
     {
+        @trigger_error('WrongPathsException::getPath() is deprecated, use getPaths() instead. It will be removed in 4.0.', E_USER_DEPRECATED);
+
         return implode(', ', $this->paths);
     }
 }

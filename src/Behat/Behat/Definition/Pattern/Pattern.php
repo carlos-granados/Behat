@@ -27,10 +27,12 @@ final class Pattern
     /**
      * Returns canonical step text.
      *
-     * @deprecated see getSuggestedMethodName
+     * @deprecated Use getSuggestedMethodName() instead. Will be removed in 4.0.
      */
     public function getCanonicalText(): string
     {
+        @trigger_error('Pattern::getCanonicalText() is deprecated. Use getSuggestedMethodName() instead. It will be removed in 4.0.', E_USER_DEPRECATED);
+
         return $this->suggestedMethodName;
     }
 

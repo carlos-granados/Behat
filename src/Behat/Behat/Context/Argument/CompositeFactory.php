@@ -28,6 +28,11 @@ final class CompositeFactory implements SuiteScopedResolverFactory
      */
     private $factories = [];
 
+    public function __construct()
+    {
+        @trigger_error('CompositeFactory is deprecated and will be removed in 4.0. Use CompositeArgumentResolverFactory instead.', E_USER_DEPRECATED);
+    }
+
     /**
      * Registers factory.
      */
