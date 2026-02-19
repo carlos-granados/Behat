@@ -26,6 +26,8 @@ final class ContextInterfaceBasedContextIdentifier implements TargetContextIdent
     {
         foreach ($environment->getContextClasses() as $class) {
             if (in_array(SnippetAcceptingContext::class, class_implements($class))) {
+                @trigger_error('ContextInterfaceBasedContextIdentifier is deprecated in favour of --snippets-for and will be removed in 4.0.', E_USER_DEPRECATED);
+
                 return $class;
             }
         }

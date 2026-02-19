@@ -82,10 +82,12 @@ final class JUnitOutlineStoreListener implements EventListener
     /**
      * @return OutlineNode
      *
-     * @deprecated this method will be removed in the next major as the JUnit formatter no longer uses this information
+     * @deprecated This method will be removed in 4.0 as the JUnit formatter no longer uses this information.
      */
     public function getCurrentOutline(ExampleNode $scenario)
     {
+        @trigger_error('JUnitOutlineStoreListener::getCurrentOutline() is deprecated and will be removed in 4.0 as the JUnit formatter no longer uses this information.', E_USER_DEPRECATED);
+
         return $this->lineScenarioMap[$scenario->getLine()];
     }
 }

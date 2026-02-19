@@ -40,8 +40,13 @@ class StreamOutputPrinter implements OutputPrinter
         $this->flush();
     }
 
+    /**
+     * @deprecated since 3.1, to be removed in 4.0
+     */
     public function getOutputPath()
     {
+        @trigger_error('StreamOutputPrinter::getOutputPath() is deprecated since 3.1 and will be removed in 4.0.', E_USER_DEPRECATED);
+
         return $this->outputFactory->getOutputPath();
     }
 
@@ -51,8 +56,13 @@ class StreamOutputPrinter implements OutputPrinter
         $this->flush();
     }
 
+    /**
+     * @deprecated since 3.1, to be removed in 4.0
+     */
     public function getOutputStyles()
     {
+        @trigger_error('StreamOutputPrinter::getOutputStyles() is deprecated since 3.1 and will be removed in 4.0.', E_USER_DEPRECATED);
+
         return $this->outputFactory->getOutputStyles();
     }
 
@@ -62,8 +72,13 @@ class StreamOutputPrinter implements OutputPrinter
         $this->flush();
     }
 
+    /**
+     * @deprecated since 3.1, to be removed in 4.0
+     */
     public function isOutputDecorated()
     {
+        @trigger_error('StreamOutputPrinter::isOutputDecorated() is deprecated since 3.1 and will be removed in 4.0.', E_USER_DEPRECATED);
+
         return $this->outputFactory->isOutputDecorated();
     }
 
@@ -73,8 +88,13 @@ class StreamOutputPrinter implements OutputPrinter
         $this->flush();
     }
 
+    /**
+     * @deprecated since 3.1, to be removed in 4.0
+     */
     public function getOutputVerbosity()
     {
+        @trigger_error('StreamOutputPrinter::getOutputVerbosity() is deprecated since 3.1 and will be removed in 4.0.', E_USER_DEPRECATED);
+
         return $this->outputFactory->getOutputVerbosity();
     }
 

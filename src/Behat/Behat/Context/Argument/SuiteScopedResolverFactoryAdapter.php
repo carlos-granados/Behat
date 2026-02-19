@@ -29,6 +29,7 @@ final class SuiteScopedResolverFactoryAdapter implements ArgumentResolverFactory
     public function __construct(
         private readonly SuiteScopedResolverFactory $factory,
     ) {
+        @trigger_error('SuiteScopedResolverFactoryAdapter is deprecated since 3.4. Use ArgumentResolverFactory instead. It will be removed in 4.0.', E_USER_DEPRECATED);
     }
 
     public function createArgumentResolvers(Environment $environment)
