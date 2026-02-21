@@ -516,6 +516,7 @@ Feature: Convert config
               ]))
                   ->withOutputVerbosity(OutputFactory::VERBOSITY_VERBOSE))
               ->withGherkinOptions((new GherkinOptions())
+                  ->withCacheDir('/tmp/gherkin-cache')
                   ->withFilter(new NameFilter('john'))
                   ->withFilter(new RoleFilter('admin')))
               ->withPrintUnusedDefinitions()

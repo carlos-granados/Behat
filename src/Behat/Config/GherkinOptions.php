@@ -13,8 +13,10 @@ use PhpParser\Node\Expr;
 
 final class GherkinOptions implements ConfigConverterInterface
 {
+    private const CACHE_SETTING = 'cache';
     private const FILTERS_SETTING = 'filters';
 
+    private const CACHE_FUNCTION = 'withCacheDir';
     private const FILTER_FUNCTION = 'withFilter';
 
     public function __construct(
@@ -25,6 +27,16 @@ final class GherkinOptions implements ConfigConverterInterface
     public function toArray(): array
     {
         return $this->settings;
+    }
+
+    /**
+     * Sets the parser cache directory (defaults to the system tmp dir, if writable).
+     */
+    public function withCacheDir(string $dir): self
+    {
+        $this->settings[self::CACHE_SETTING] = $dir;
+
+        return $this;
     }
 
     public function withFilter(FilterInterface $filter): self
@@ -46,12 +58,26 @@ final class GherkinOptions implements ConfigConverterInterface
         $optionsObject = ConfigConverterTools::createObject(self::class);
         $expr = $optionsObject;
 
+        $this->addCacheToExpr($expr);
         $this->addFiltersToExpr($expr);
 
         $arguments = count($this->settings) === 0 ? [] : [$this->settings];
         ConfigConverterTools::addArgumentsToConstructor($arguments, $optionsObject);
 
         return $expr;
+    }
+
+    private function addCacheToExpr(Expr &$expr): void
+    {
+        if (isset($this->settings[self::CACHE_SETTING])) {
+            $expr = ConfigConverterTools::addMethodCall(
+                self::class,
+                self::CACHE_FUNCTION,
+                [$this->settings[self::CACHE_SETTING]],
+                $expr
+            );
+            unset($this->settings[self::CACHE_SETTING]);
+        }
     }
 
     private function addFiltersToExpr(Expr &$expr): void

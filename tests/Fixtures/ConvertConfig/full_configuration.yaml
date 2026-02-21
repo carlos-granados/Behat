@@ -24,6 +24,7 @@ default:
             filters:
                 tags: "@run"
     gherkin:
+        cache: '/tmp/gherkin-cache'
         filters:
             name: "john"
             role: "admin"
