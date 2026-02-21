@@ -335,7 +335,7 @@ Feature: Convert config
       """
     And the "class_references.yaml" file should have been removed from the working directory
 
-  Scenario: Profile filters
+  Scenario: Gherkin filters
     When I run behat with the following additional options:
       | option   | value                |
       | --config | profile_filters.yaml |
@@ -347,12 +347,14 @@ Feature: Convert config
       use Behat\Config\Config;
       use Behat\Config\Filter\NameFilter;
       use Behat\Config\Filter\RoleFilter;
+      use Behat\Config\GherkinOptions;
       use Behat\Config\Profile;
 
       return (new Config())
           ->withProfile((new Profile('default'))
-              ->withFilter(new NameFilter('john'))
-              ->withFilter(new RoleFilter('admin')));
+              ->withGherkinOptions((new GherkinOptions())
+                  ->withFilter(new NameFilter('john'))
+                  ->withFilter(new RoleFilter('admin'))));
       """
     And the "profile_filters.yaml" file should have been removed from the working directory
 
@@ -496,6 +498,7 @@ Feature: Convert config
       use Behat\Config\Formatter\Formatter;
       use Behat\Config\Formatter\PrettyFormatter;
       use Behat\Config\Formatter\ProgressFormatter;
+      use Behat\Config\GherkinOptions;
       use Behat\Config\Profile;
       use Behat\Config\Suite;
       use Behat\Config\TesterOptions;
@@ -512,8 +515,9 @@ Feature: Convert config
                   'other_property' => 'value',
               ]))
                   ->withOutputVerbosity(OutputFactory::VERBOSITY_VERBOSE))
-              ->withFilter(new NameFilter('john'))
-              ->withFilter(new RoleFilter('admin'))
+              ->withGherkinOptions((new GherkinOptions())
+                  ->withFilter(new NameFilter('john'))
+                  ->withFilter(new RoleFilter('admin')))
               ->withPrintUnusedDefinitions()
               ->withPathOptions(
                   printAbsolutePaths: true,

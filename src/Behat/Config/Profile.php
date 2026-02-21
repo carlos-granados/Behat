@@ -6,10 +6,6 @@ namespace Behat\Config;
 
 use Behat\Config\Converter\ConfigConverterTools;
 use Behat\Config\Filter\FilterInterface;
-use Behat\Config\Filter\NameFilter;
-use Behat\Config\Filter\NarrativeFilter;
-use Behat\Config\Filter\RoleFilter;
-use Behat\Config\Filter\TagFilter;
 use Behat\Config\Formatter\Formatter;
 use Behat\Config\Formatter\FormatterConfigInterface;
 use Behat\Config\Formatter\JSONFormatter;
@@ -25,7 +21,6 @@ final class Profile implements ConfigConverterInterface
     private const SUITES_SETTING = 'suites';
     private const EXTENSIONS_SETTING = 'extensions';
     private const GHERKIN_SETTING = 'gherkin';
-    private const FILTERS_SETTING = 'filters';
     private const FORMATTERS_SETTING = 'formatters';
     private const DEFINITIONS_SETTING = 'definitions';
     private const PRINT_UNUSED_DEFINITIONS_SETTING = 'print_unused_definitions';
@@ -36,7 +31,7 @@ final class Profile implements ConfigConverterInterface
 
     private const DISABLE_FORMATTER_FUNCTION = 'disableFormatter';
     private const FORMATTER_FUNCTION = 'withFormatter';
-    private const FILTER_FUNCTION = 'withFilter';
+    private const GHERKIN_FUNCTION = 'withGherkinOptions';
     private const UNUSED_DEFINITIONS_FUNCTION = 'withPrintUnusedDefinitions';
     private const EXTENSION_FUNCTION = 'withExtension';
     private const SUITE_FUNCTION = 'withSuite';
@@ -80,15 +75,15 @@ final class Profile implements ConfigConverterInterface
         return $this;
     }
 
+    /**
+     * @deprecated see withGherkinOptions()->withFilter(). This method will be removed in 4.0
+     */
     public function withFilter(FilterInterface $filter): self
     {
-        if (array_key_exists($filter->name(), $this->settings[self::GHERKIN_SETTING][self::FILTERS_SETTING] ?? [])) {
-            throw new ConfigurationLoadingException(sprintf('The filter "%s" already exists.', $filter->name()));
-        }
-
-        $this->settings[self::GHERKIN_SETTING][self::FILTERS_SETTING][$filter->name()] = $filter->value();
-
-        return $this;
+        return $this->withGherkinOptions(
+            (new GherkinOptions($this->settings[self::GHERKIN_SETTING] ?? []))
+                ->withFilter($filter)
+        );
     }
 
     public function withFormatter(FormatterConfigInterface $formatter): self
@@ -101,6 +96,13 @@ final class Profile implements ConfigConverterInterface
     public function disableFormatter(string $name): self
     {
         $this->settings[self::FORMATTERS_SETTING][$name] = false;
+
+        return $this;
+    }
+
+    public function withGherkinOptions(GherkinOptions $gherkin): self
+    {
+        $this->settings[self::GHERKIN_SETTING] = $gherkin->toArray();
 
         return $this;
     }
@@ -157,7 +159,7 @@ final class Profile implements ConfigConverterInterface
         $expr = $profileObject;
 
         $this->addFormattersToExpr($expr);
-        $this->addFiltersToExpr($expr);
+        $this->addGherkinOptionsToExpr($expr);
         $this->addUnusedDefinitionsToExpr($expr);
         $this->addPathOptionsToExpr($expr);
         $this->addTesterOptionsToExpr($expr);
@@ -211,35 +213,21 @@ final class Profile implements ConfigConverterInterface
         unset($this->settings[self::FORMATTERS_SETTING]);
     }
 
-    private function addFiltersToExpr(Expr &$expr): void
+    private function addGherkinOptionsToExpr(Expr &$expr): void
     {
-        if (!isset($this->settings[self::GHERKIN_SETTING][self::FILTERS_SETTING])) {
+        if (!isset($this->settings[self::GHERKIN_SETTING])) {
             return;
         }
-        foreach ($this->settings[self::GHERKIN_SETTING][self::FILTERS_SETTING] as $name => $filterValue) {
-            $filter = match ($name) {
-                NameFilter::NAME => new NameFilter($filterValue),
-                NarrativeFilter::NAME => new NarrativeFilter($filterValue),
-                RoleFilter::NAME => new RoleFilter($filterValue),
-                TagFilter::NAME => new TagFilter($filterValue),
-                default => null,
-            };
-            if ($filter !== null) {
-                $expr = ConfigConverterTools::addMethodCall(
-                    self::class,
-                    self::FILTER_FUNCTION,
-                    [$filter->toPhpExpr()],
-                    $expr
-                );
-                unset($this->settings[self::GHERKIN_SETTING][self::FILTERS_SETTING][$name]);
-            }
-        }
-        if ($this->settings[self::GHERKIN_SETTING][self::FILTERS_SETTING] === []) {
-            unset($this->settings[self::GHERKIN_SETTING][self::FILTERS_SETTING]);
-            if ($this->settings[self::GHERKIN_SETTING] === []) {
-                unset($this->settings[self::GHERKIN_SETTING]);
-            }
-        }
+
+        $optionsObject = new GherkinOptions($this->settings[self::GHERKIN_SETTING]);
+        $expr = ConfigConverterTools::addMethodCall(
+            self::class,
+            self::GHERKIN_FUNCTION,
+            [$optionsObject->toPhpExpr()],
+            $expr
+        );
+
+        unset($this->settings[self::GHERKIN_SETTING]);
     }
 
     private function addUnusedDefinitionsToExpr(Expr &$expr): void
