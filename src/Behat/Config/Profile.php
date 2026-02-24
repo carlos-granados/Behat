@@ -76,7 +76,7 @@ final class Profile implements ConfigConverterInterface
     }
 
     /**
-     * @deprecated see withGherkinOptions()->withFilter(). This method will be removed in 4.0
+     * @deprecated use withGherkinOptions()->withFilter(). This method will be removed in 4.0
      */
     public function withFilter(FilterInterface $filter): self
     {
