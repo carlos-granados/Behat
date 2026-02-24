@@ -65,5 +65,12 @@
         <ignored-regex>#REMOVED: These ancestors of Behat\\Config\\.+? have been removed: \["Behat\\\\Config\\\\ConfigConverterInterface"\]#</ignored-regex>
         <ignored-regex>#REMOVED: Method Behat\\Config\\.+?\#toPhpExpr\(\) was removed#</ignored-regex>
         <ignored-regex>#REMOVED: Constant Behat\\Config\\Formatter\\PrettyFormatter::PRINT_SKIPPED_STEPS_PARAMETER_NAME was removed#</ignored-regex>
+
+
+        <!--
+        `Behat\Testwork\ServiceContainer\Extension` is now a standalone interface and no longer extends the third-party
+        `CompilerPassInterface`
+        -->
+        <ignored-regex>#REMOVED: These ancestors of .+?Extension have been removed: \["Symfony\\\\Component\\\\DependencyInjection\\\\Compiler\\\\CompilerPassInterface"\]#</ignored-regex>
     </baseline>
 </roave-bc-check>
