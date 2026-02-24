@@ -18,6 +18,7 @@ use ReflectionMethod;
  * Represents a simple self-contained transformation capable of changing a single argument.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
+ *
  * @api
  */
 interface SimpleArgumentTransformation extends Transformation
