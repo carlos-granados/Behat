@@ -10,7 +10,6 @@
 
 namespace Behat\Behat\EventDispatcher\ServiceContainer;
 
-use Behat\Behat\EventDispatcher\Cli\StopOnFailureController;
 use Behat\Behat\EventDispatcher\Event\ExampleTested;
 use Behat\Behat\EventDispatcher\Event\ScenarioTested;
 use Behat\Behat\EventDispatcher\Tester\EventDispatchingBackgroundTester;
@@ -19,9 +18,7 @@ use Behat\Behat\EventDispatcher\Tester\EventDispatchingOutlineTester;
 use Behat\Behat\EventDispatcher\Tester\EventDispatchingScenarioTester;
 use Behat\Behat\EventDispatcher\Tester\EventDispatchingStepTester;
 use Behat\Behat\Tester\ServiceContainer\TesterExtension;
-use Behat\Testwork\Cli\ServiceContainer\CliExtension;
 use Behat\Testwork\EventDispatcher\ServiceContainer\EventDispatcherExtension as BaseExtension;
-use Behat\Testwork\Tester\ServiceContainer\TesterExtension as TestworkTesterExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -37,7 +34,6 @@ class EventDispatcherExtension extends BaseExtension
     {
         parent::load($container, $config);
 
-        $this->loadStopOnFailureController($container);
         $this->loadEventDispatchingBackgroundTester($container);
         $this->loadEventDispatchingFeatureTester($container);
         $this->loadEventDispatchingOutlineTester($container);
@@ -45,18 +41,6 @@ class EventDispatcherExtension extends BaseExtension
         $this->loadEventDispatchingExampleTester($container);
         $this->loadEventDispatchingStepTester($container);
         $this->loadTickingStepTester($container);
-    }
-
-    /**
-     * Loads stop on failure controller.
-     */
-    protected function loadStopOnFailureController(ContainerBuilder $container)
-    {
-        $definition = new Definition(StopOnFailureController::class, [
-        ]);
-        $definition->addMethodCall('setStopOnFailureHandler', [new Reference(TestworkTesterExtension::STOP_ON_FAILURE_ID)]);
-        $definition->addTag(CliExtension::CONTROLLER_TAG, ['priority' => 100]);
-        $container->setDefinition(CliExtension::CONTROLLER_TAG . '.stop_on_failure', $definition);
     }
 
     /**

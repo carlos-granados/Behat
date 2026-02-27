@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Behat\Behat\EventDispatcher\Cli;
+namespace Behat\Testwork\Tester\Cli;
 
 use Behat\Testwork\Cli\Controller;
 use Behat\Testwork\Tester\Handler\StopOnFailureHandler;
@@ -19,8 +19,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Stops tests on first scenario failure.
- *
- * TODO this should be moved in the Behat\Testwork\Tester\Cli namespace
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
