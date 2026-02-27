@@ -19,6 +19,7 @@ use Behat\Testwork\ServiceContainer\ServiceProcessor;
 use Behat\Testwork\Specification\ServiceContainer\SpecificationExtension;
 use Behat\Testwork\Suite\ServiceContainer\SuiteExtension;
 use Behat\Testwork\Tester\Cli\ExerciseController;
+use Behat\Testwork\Tester\Cli\StopOnFailureController;
 use Behat\Testwork\Tester\Cli\StrictController;
 use Behat\Testwork\Tester\Handler\StopOnFailureHandler;
 use Behat\Testwork\Tester\Result\Interpretation\SoftInterpretation;
@@ -98,6 +99,7 @@ abstract class TesterExtension implements Extension
     public function load(ContainerBuilder $container, array $config)
     {
         $this->loadExerciseController($container, $config['skip']);
+        $this->loadStopOnFailureController($container);
         $this->loadStopOnFailureHandler($container, $config['stop_on_failure']);
         $this->loadStrictController($container, $config['strict']);
         $this->loadResultInterpreter($container);
@@ -130,6 +132,17 @@ abstract class TesterExtension implements Extension
         ]);
         $definition->addTag(CliExtension::CONTROLLER_TAG, ['priority' => 0]);
         $container->setDefinition(CliExtension::CONTROLLER_TAG . '.exercise', $definition);
+    }
+
+    /**
+     * Loads stop on failure controller.
+     */
+    protected function loadStopOnFailureController(ContainerBuilder $container): void
+    {
+        $definition = new Definition(StopOnFailureController::class);
+        $definition->addMethodCall('setStopOnFailureHandler', [new Reference(self::STOP_ON_FAILURE_ID)]);
+        $definition->addTag(CliExtension::CONTROLLER_TAG, ['priority' => 100]);
+        $container->setDefinition(CliExtension::CONTROLLER_TAG . '.stop_on_failure', $definition);
     }
 
     /**

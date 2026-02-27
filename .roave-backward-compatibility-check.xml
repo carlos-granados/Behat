@@ -72,5 +72,13 @@
         `CompilerPassInterface`
         -->
         <ignored-regex>#REMOVED: These ancestors of .+?Extension have been removed: \["Symfony\\\\Component\\\\DependencyInjection\\\\Compiler\\\\CompilerPassInterface"\]#</ignored-regex>
+
+        <!--
+        The `StopOnFailureController` had been added to the `Behat\Behat\EventDispatcher\Cli` namespace but it
+        better belongs in the `Behat\Testwork\Tester\Cli` namespace, so it has been moved
+        -->
+        <ignored-regex>#REMOVED: Class Behat\\Behat\\EventDispatcher\\Cli\\StopOnFailureController has been deleted#</ignored-regex>
+        <ignored-regex>#REMOVED: Method Behat\\Behat\\EventDispatcher\\ServiceContainer\\EventDispatcherExtension\#loadStopOnFailureController\(\) was removed#</ignored-regex>
+
     </baseline>
 </roave-bc-check>
