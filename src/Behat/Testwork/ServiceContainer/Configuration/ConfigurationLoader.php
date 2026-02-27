@@ -197,6 +197,8 @@ final class ConfigurationLoader
 
             $config = $phpConfig->toArray();
         } else {
+            @trigger_error(sprintf('Loading YAML configuration files is deprecated and will be removed in Behat 4.0. Please convert "%s" to a PHP configuration file. You can use the --convert-config option to do this automatically.', $configPath), E_USER_DEPRECATED);
+
             $config = (array) Yaml::parse(file_get_contents($configPath));
         }
 
