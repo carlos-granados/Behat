@@ -60,6 +60,8 @@ final class HookAnnotationReader implements AnnotationReader
             return null;
         }
 
+        @trigger_error('Using annotations to define hooks is deprecated and will be removed in Behat 4.0. Use PHP attributes instead.', E_USER_DEPRECATED);
+
         $type = strtolower($match[1]);
         $class = self::$classes[$type];
         $pattern = $match[2] ?? null;
