@@ -42,6 +42,8 @@ class TransformationAnnotationReader implements AnnotationReader
             return null;
         }
 
+        @trigger_error('Using annotations to define transformations is deprecated and will be removed in Behat 4.0. Use PHP attributes instead.', E_USER_DEPRECATED);
+
         $pattern = $match[1];
 
         return TransformationCalleeFactory::create($contextClass, $method, $pattern, $description);
