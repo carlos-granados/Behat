@@ -47,14 +47,4 @@ final class WrongPathsException extends RuntimeException implements TesterExcept
     {
         return $this->paths;
     }
-
-    /**
-     * Returns path that caused exception.
-     *
-     * @deprecated
-     */
-    public function getPath(): string
-    {
-        return implode(', ', $this->paths);
-    }
 }
