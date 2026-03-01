@@ -24,16 +24,6 @@ final class Pattern
     ) {
     }
 
-    /**
-     * Returns canonical step text.
-     *
-     * @deprecated see getSuggestedMethodName
-     */
-    public function getCanonicalText(): string
-    {
-        return $this->suggestedMethodName;
-    }
-
     public function getSuggestedMethodName(): string
     {
         return $this->suggestedMethodName;
