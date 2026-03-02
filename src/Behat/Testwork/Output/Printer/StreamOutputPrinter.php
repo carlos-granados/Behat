@@ -40,20 +40,10 @@ class StreamOutputPrinter implements OutputPrinter
         $this->flush();
     }
 
-    public function getOutputPath()
-    {
-        return $this->outputFactory->getOutputPath();
-    }
-
     public function setOutputStyles(array $styles)
     {
         $this->outputFactory->setOutputStyles($styles);
         $this->flush();
-    }
-
-    public function getOutputStyles()
-    {
-        return $this->outputFactory->getOutputStyles();
     }
 
     public function setOutputDecorated($decorated)
@@ -62,20 +52,10 @@ class StreamOutputPrinter implements OutputPrinter
         $this->flush();
     }
 
-    public function isOutputDecorated()
-    {
-        return $this->outputFactory->isOutputDecorated();
-    }
-
     public function setOutputVerbosity($level)
     {
         $this->outputFactory->setOutputVerbosity($level);
         $this->flush();
-    }
-
-    public function getOutputVerbosity()
-    {
-        return $this->outputFactory->getOutputVerbosity();
     }
 
     public function write($messages)
