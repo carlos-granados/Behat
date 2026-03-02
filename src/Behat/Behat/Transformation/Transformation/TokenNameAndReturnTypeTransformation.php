@@ -78,13 +78,8 @@ final class TokenNameAndReturnTypeTransformation extends RuntimeCallee implement
         return 100;
     }
 
-    public function getPattern()
-    {
-        return $this->tokenTransformation->getPattern();
-    }
-
     public function __toString()
     {
-        return 'NamedReturnTypeTransform ' . $this->getPattern();
+        return 'NamedReturnTypeTransform ' . (string) $this->tokenTransformation;
     }
 }
