@@ -12,7 +12,6 @@ namespace Behat\Testwork\Exception;
 
 use Behat\Testwork\Call\Exception\FatalThrowableError;
 use Behat\Testwork\Exception\Stringer\ExceptionStringer;
-use Behat\Testwork\Output\Printer\OutputPrinter;
 use Behat\Testwork\PathOptions\Printer\ConfigurablePathPrinter;
 use Exception;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -39,7 +38,7 @@ final class ExceptionPresenter
      */
     public function __construct(
         ?string $basePath = null,
-        private int $defaultVerbosity = OutputPrinter::VERBOSITY_NORMAL,
+        private int $defaultVerbosity = OutputInterface::VERBOSITY_NORMAL,
         ?ConfigurablePathPrinter $configurablePathPrinter = null,
     ) {
         // Historically, this class accepted a null (or not present) value for basePath. This was never passed by Behat,
