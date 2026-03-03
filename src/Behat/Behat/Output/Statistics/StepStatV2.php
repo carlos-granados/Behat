@@ -93,32 +93,12 @@ final class StepStatV2 implements Stringable
     }
 
     /**
-     * Returns step text.
-     *
-     * @deprecated Use getStepText() instead
-     */
-    public function getText(): string
-    {
-        return $this->stepText;
-    }
-
-    /**
-     * Returns step path.
-     *
-     * @deprecated Use getStepPath() instead
-     */
-    public function getPath(): string
-    {
-        return $this->stepPath;
-    }
-
-    /**
      * Returns string representation for a stat.
      *
      * @return string
      */
     public function __toString()
     {
-        return $this->getPath();
+        return $this->getStepPath();
     }
 }
