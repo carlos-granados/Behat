@@ -18,7 +18,7 @@ use Stringable;
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-final class StepStatV2 extends StepStat implements Stringable
+final class StepStatV2 implements Stringable
 {
     /**
      * @param StepResult::* $resultCode
@@ -32,7 +32,6 @@ final class StepStatV2 extends StepStat implements Stringable
         private readonly ?string $error = null,
         private readonly ?string $stdOut = null,
     ) {
-        parent::__construct($stepText, $stepPath, $resultCode, $error, $stdOut);
     }
 
     /**
@@ -91,6 +90,26 @@ final class StepStatV2 extends StepStat implements Stringable
     public function getStdOut(): ?string
     {
         return $this->stdOut;
+    }
+
+    /**
+     * Returns step text.
+     *
+     * @deprecated Use getStepText() instead
+     */
+    public function getText(): string
+    {
+        return $this->stepText;
+    }
+
+    /**
+     * Returns step path.
+     *
+     * @deprecated Use getStepPath() instead
+     */
+    public function getPath(): string
+    {
+        return $this->stepPath;
     }
 
     /**
