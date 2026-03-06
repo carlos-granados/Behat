@@ -141,6 +141,6 @@ final class ContainerLoader
         $tempContainer->addObjectResource($extension);
         $extension->load($container, $config);
         $container->merge($tempContainer);
-        $container->addCompilerPass($extension);
+        $container->addCompilerPass(new ExtensionCompilerPass($extension));
     }
 }
