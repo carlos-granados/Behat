@@ -4,6 +4,9 @@ imports:
 default:
     testers:
         strict: true
+    deprecations:
+        print_behat_deprecations: true
+        fail_on_behat_deprecations: true
     formatters:
         pretty:
             paths:    false

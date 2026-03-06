@@ -471,12 +471,20 @@ Feature: Convert config
           ->withProfile((new Profile('not-strict'))
               ->withTesterOptions((new TesterOptions())
                   ->withStrictResultInterpretation(false)))
+          ->withProfile((new Profile('print-deprecations'))
+              ->withTesterOptions((new TesterOptions())
+                  ->withPrintBehatDeprecations()))
+          ->withProfile((new Profile('fail-on-deprecations'))
+              ->withTesterOptions((new TesterOptions())
+                  ->withFailOnBehatDeprecations()))
           ->withProfile((new Profile('complete'))
               ->withTesterOptions((new TesterOptions())
                   ->withStrictResultInterpretation()
                   ->withStopOnFailure(false)
                   ->withSkipAllTests()
-                  ->withErrorReporting(E_ALL & ~(E_WARNING | E_NOTICE | E_DEPRECATED))));
+                  ->withErrorReporting(E_ALL & ~(E_WARNING | E_NOTICE | E_DEPRECATED))
+                  ->withPrintBehatDeprecations()
+                  ->withFailOnBehatDeprecations()));
       """
     And the "tester_options.yaml" file should have been removed from the working directory
 
@@ -531,7 +539,9 @@ Feature: Convert config
                   ]
               )
               ->withTesterOptions((new TesterOptions())
-                  ->withStrictResultInterpretation())
+                  ->withStrictResultInterpretation()
+                  ->withPrintBehatDeprecations()
+                  ->withFailOnBehatDeprecations())
               ->withExtension(new Extension('custom_extension.php'))
               ->withSuite((new Suite('my_suite'))
                   ->addContext(

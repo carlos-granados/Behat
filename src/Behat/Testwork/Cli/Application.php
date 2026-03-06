@@ -10,6 +10,7 @@
 
 namespace Behat\Testwork\Cli;
 
+use Behat\Testwork\Deprecation\DeprecationCollector;
 use Behat\Testwork\ServiceContainer\Configuration\ConfigurationLoader;
 use Behat\Testwork\ServiceContainer\ContainerLoader;
 use Behat\Testwork\ServiceContainer\Exception\ConfigurationLoadingException;
@@ -93,6 +94,9 @@ final class Application extends BaseApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output): int
     {
+        // Register deprecation collector as early as possible
+        DeprecationCollector::getInstance()->register();
+
         $isXdebugAllowed = $input->hasParameterOption('--xdebug')
             || (extension_loaded('xdebug') && xdebug_is_debugger_active());
 
@@ -125,24 +129,10 @@ final class Application extends BaseApplication
             $this->configurationLoader->setConfigurationFilePath($path);
         }
 
-        $this->addCommand($this->createCommand($input, $output));
+        $command = $this->createCommand($input, $output);
+        $this->addCommands([$command]);
 
         return parent::doRun($input, $output);
-    }
-
-    public function addCommand(callable|SymfonyCommand $command): ?SymfonyCommand
-    {
-        // Provide compatibility with all supported symfony/console versions
-        // Attempt to use the `addCommand` method added in symfony/console 7.4.0
-        // (`add` was deprecated in 7.4.0 and removed in 8.0.0)
-        if (method_exists(parent::class, 'addCommand')) {
-            return parent::addCommand($command);
-        }
-
-        // Otherwise assert we are on an older version with `add` and call that.
-        assert(method_exists($this, 'add'));
-
-        return $this->add($command);
     }
 
     protected function getDefaultCommands(): array
