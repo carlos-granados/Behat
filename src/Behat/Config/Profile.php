@@ -13,7 +13,6 @@ final class Profile
     private const SUITES_SETTING = 'suites';
     private const EXTENSIONS_SETTING = 'extensions';
     private const GHERKIN_SETTING = 'gherkin';
-    private const FILTERS_SETTING = 'filters';
     private const FORMATTERS_SETTING = 'formatters';
     private const DEFINITIONS_SETTING = 'definitions';
     private const PRINT_UNUSED_DEFINITIONS_SETTING = 'print_unused_definitions';
@@ -55,15 +54,15 @@ final class Profile
         return $this;
     }
 
+    /**
+     * @deprecated use withGherkinOptions()->withFilter(). This method will be removed in 4.0
+     */
     public function withFilter(FilterInterface $filter): self
     {
-        if (array_key_exists($filter->name(), $this->settings[self::GHERKIN_SETTING][self::FILTERS_SETTING] ?? [])) {
-            throw new ConfigurationLoadingException(sprintf('The filter "%s" already exists.', $filter->name()));
-        }
-
-        $this->settings[self::GHERKIN_SETTING][self::FILTERS_SETTING][$filter->name()] = $filter->value();
-
-        return $this;
+        return $this->withGherkinOptions(
+            (new GherkinOptions($this->settings[self::GHERKIN_SETTING] ?? []))
+                ->withFilter($filter)
+        );
     }
 
     public function withFormatter(FormatterConfigInterface $formatter): self
@@ -76,6 +75,13 @@ final class Profile
     public function disableFormatter(string $name): self
     {
         $this->settings[self::FORMATTERS_SETTING][$name] = false;
+
+        return $this;
+    }
+
+    public function withGherkinOptions(GherkinOptions $gherkin): self
+    {
+        $this->settings[self::GHERKIN_SETTING] = $gherkin->toArray();
 
         return $this;
     }
