@@ -25,9 +25,9 @@ use ReflectionMethod;
 final class AttributeContextReader implements ContextReader
 {
     /**
-     * @var AttributeReader[]
+     * @var list<AttributeReader>
      */
-    private $readers = [];
+    private array $readers = [];
 
     /**
      * Registers attribute reader.

@@ -24,13 +24,13 @@ use ReflectionClass;
 final class ContextFactory
 {
     /**
-     * @var ArgumentResolver[]
+     * @var list<ArgumentResolver>
      */
-    private $argumentResolvers = [];
+    private array $argumentResolvers = [];
     /**
-     * @var ContextInitializer[]
+     * @var list<ContextInitializer>
      */
-    private $contextInitializers = [];
+    private array $contextInitializers = [];
     private readonly Validator $validator;
 
     /**

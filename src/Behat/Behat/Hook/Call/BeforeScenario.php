@@ -11,11 +11,14 @@
 namespace Behat\Behat\Hook\Call;
 
 use Behat\Behat\Hook\Scope\ScenarioScope;
+use Behat\Testwork\Call\RuntimeCallee;
 
 /**
  * Represents a BeforeScenario hook.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
+ *
+ * @phpstan-import-type TBehatCallable from RuntimeCallee
  */
 final class BeforeScenario extends RuntimeScenarioHook
 {
@@ -23,10 +26,10 @@ final class BeforeScenario extends RuntimeScenarioHook
      * Initializes hook.
      *
      * @param string|null $filterString
-     * @param callable    $callable
-     * @param string|null $description
+     *
+     * @phpstan-param TBehatCallable $callable
      */
-    public function __construct($filterString, $callable, $description = null)
+    public function __construct($filterString, callable|array $callable, ?string $description = null)
     {
         parent::__construct(ScenarioScope::BEFORE, $filterString, $callable, $description);
     }

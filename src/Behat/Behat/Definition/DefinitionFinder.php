@@ -23,9 +23,9 @@ use Behat\Testwork\Environment\Environment;
 final class DefinitionFinder
 {
     /**
-     * @var SearchEngine[]
+     * @var list<SearchEngine>
      */
-    private $engines = [];
+    private array $engines = [];
 
     /**
      * Registers definition search engine.

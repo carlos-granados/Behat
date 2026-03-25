@@ -24,9 +24,9 @@ use Behat\Testwork\Call\Filter\CallFilter;
 final class DefinitionArgumentsTransformer implements CallFilter
 {
     /**
-     * @var ArgumentTransformer[]
+     * @var list<ArgumentTransformer>
      */
-    private $argumentTransformers = [];
+    private array $argumentTransformers = [];
 
     /**
      * Registers new argument transformer.
@@ -78,10 +78,8 @@ final class DefinitionArgumentsTransformer implements CallFilter
 
     /**
      * Transforms call argument using registered transformers.
-     *
-     * @param int|string $index
      */
-    private function transformArgument(DefinitionCall $definitionCall, $index, $value)
+    private function transformArgument(DefinitionCall $definitionCall, int|string $index, $value)
     {
         foreach ($this->argumentTransformers as $transformer) {
             if (!$transformer->supportsDefinitionAndArgument($definitionCall, $index, $value)) {

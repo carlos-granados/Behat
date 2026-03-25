@@ -27,10 +27,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 final class StopOnFailureController implements Controller
 {
-    /**
-     * @var StopOnFailureHandler
-     */
-    private $stopOnFailureHandler;
+    private StopOnFailureHandler $stopOnFailureHandler;
 
     /**
      * Initializes controller.
@@ -62,7 +59,7 @@ final class StopOnFailureController implements Controller
         );
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): null
     {
         if (!$input->getOption('stop-on-failure')) {
             return null;

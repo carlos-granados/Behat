@@ -29,9 +29,9 @@ final class AnnotatedContextReader implements ContextReader
     public const DOCLINE_TRIMMER_REGEX = '/^\/\*\*\s*|^\s*\*\s*|\s*\*\/$|\s*$/';
 
     /**
-     * @var string[]
+     * @var list<string>
      */
-    private static $ignoreAnnotations = [
+    private static array $ignoreAnnotations = [
         '@param',
         '@return',
         '@throws',
@@ -40,9 +40,9 @@ final class AnnotatedContextReader implements ContextReader
         '@todo',
     ];
     /**
-     * @var AnnotationReader[]
+     * @var list<AnnotationReader>
      */
-    private $readers = [];
+    private array $readers = [];
 
     /**
      * Initializes reader.
@@ -140,30 +140,24 @@ final class AnnotatedContextReader implements ContextReader
 
     /**
      * Merges multiline strings (strings ending with "\").
-     *
-     * @param string $docBlock
      */
-    private function mergeMultilines($docBlock): string
+    private function mergeMultilines(string $docBlock): string
     {
         return StrictRegex::replace("#\\\\$\s*+\*\s*+([^\\\\$]++)#m", '$1', $docBlock);
     }
 
     /**
      * Checks if provided doc lien is empty.
-     *
-     * @param string $docLine
      */
-    private function isEmpty($docLine): bool
+    private function isEmpty(string $docLine): bool
     {
-        return '' == $docLine;
+        return '' === $docLine;
     }
 
     /**
      * Checks if provided doc line is not an annotation.
-     *
-     * @param string $docLine
      */
-    private function isNotAnnotation($docLine): bool
+    private function isNotAnnotation(string $docLine): bool
     {
         return !str_starts_with($docLine, '@');
     }
@@ -172,12 +166,11 @@ final class AnnotatedContextReader implements ContextReader
      * Reads callee from provided doc line using registered annotation readers.
      *
      * @param string      $class
-     * @param string      $docLine
      * @param string|null $description
      *
      * @return Callee|null
      */
-    private function readDocLineCallee($class, ReflectionMethod $method, $docLine, $description = null)
+    private function readDocLineCallee($class, ReflectionMethod $method, string $docLine, $description = null)
     {
         if ($this->isIgnoredAnnotation($docLine)) {
             return null;
@@ -194,10 +187,8 @@ final class AnnotatedContextReader implements ContextReader
 
     /**
      * Checks if provided doc line is one of the ignored annotations.
-     *
-     * @param string $docLine
      */
-    private function isIgnoredAnnotation($docLine): bool
+    private function isIgnoredAnnotation(string $docLine): bool
     {
         $lowDocLine = strtolower($docLine);
         foreach (self::$ignoreAnnotations as $ignoredAnnotation) {

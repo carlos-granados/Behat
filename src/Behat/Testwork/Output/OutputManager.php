@@ -21,9 +21,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 final class OutputManager
 {
     /**
-     * @var Formatter[]
+     * @var array<string,Formatter>
      */
-    private $formatters = [];
+    private array $formatters = [];
 
     /**
      * Initializes manager.
@@ -82,7 +82,7 @@ final class OutputManager
      *
      * @return Formatter[]
      */
-    public function getFormatters()
+    public function getFormatters(): array
     {
         return $this->formatters;
     }

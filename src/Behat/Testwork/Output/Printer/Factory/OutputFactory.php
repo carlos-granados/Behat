@@ -27,16 +27,10 @@ abstract class OutputFactory
      * @var string|null
      */
     private $outputPath;
-    /**
-     * @var array
-     */
-    private $outputStyles = [];
+    private array $outputStyles = [];
 
     private ?bool $outputDecorated = null;
-    /**
-     * @var int
-     */
-    private $verbosityLevel = 0;
+    private int $verbosityLevel = 0;
 
     /**
      * Sets output path.
@@ -78,10 +72,8 @@ abstract class OutputFactory
 
     /**
      * Forces output to be decorated.
-     *
-     * @param bool $decorated
      */
-    public function setOutputDecorated($decorated)
+    public function setOutputDecorated(?bool $decorated)
     {
         $this->outputDecorated = $decorated;
     }

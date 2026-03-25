@@ -23,21 +23,18 @@ use Behat\Testwork\Environment\Environment;
 final class SnippetRegistry implements SnippetRepository
 {
     /**
-     * @var SnippetGenerator[]
+     * @var list<SnippetGenerator>
      */
-    private $generators = [];
+    private array $generators = [];
     /**
-     * @var UndefinedStep[]
+     * @var list<UndefinedStep>
      */
     private $undefinedSteps = [];
     /**
-     * @var AggregateSnippet[]
+     * @var list<AggregateSnippet>
      */
     private $snippets = [];
-    /**
-     * @var bool
-     */
-    private $snippetsGenerated = false;
+    private bool $snippetsGenerated = false;
 
     /**
      * @var list<CannotGenerateStepPatternException>
@@ -65,7 +62,7 @@ final class SnippetRegistry implements SnippetRepository
     /**
      * Returns all generated snippets.
      *
-     * @return AggregateSnippet[]
+     * @return list<AggregateSnippet>
      */
     public function getSnippets()
     {
@@ -77,7 +74,7 @@ final class SnippetRegistry implements SnippetRepository
     /**
      * Returns steps for which there was no snippet generated.
      *
-     * @return UndefinedStep[]
+     * @return list<UndefinedStep>
      */
     public function getUndefinedSteps()
     {

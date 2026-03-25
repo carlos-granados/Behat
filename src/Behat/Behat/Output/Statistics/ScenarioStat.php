@@ -62,10 +62,8 @@ final class ScenarioStat implements Stringable
 
     /**
      * Returns string representation for a stat.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getPath();
     }

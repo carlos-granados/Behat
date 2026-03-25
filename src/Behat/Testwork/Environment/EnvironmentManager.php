@@ -25,13 +25,13 @@ use Behat\Testwork\Suite\Suite;
 final class EnvironmentManager
 {
     /**
-     * @var EnvironmentHandler[]
+     * @var list<EnvironmentHandler>
      */
-    private $handlers = [];
+    private array $handlers = [];
     /**
-     * @var EnvironmentReader[]
+     * @var list<EnvironmentReader>
      */
-    private $readers = [];
+    private array $readers = [];
 
     /**
      * Registers environment handler.

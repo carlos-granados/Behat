@@ -21,14 +21,14 @@ use Behat\Testwork\ServiceContainer\Exception\ExtensionInitializationException;
 final class ExtensionManager
 {
     /**
-     * @var Extension[]
+     * @var array<string,Extension> Map of extensions by config key
      */
-    private $extensions = [];
+    private array $extensions = [];
     /**
-     * @var Extension[string]
+     * @var array<string,Extension> Map of extensions by locator (phar file name, php file name, class name)
      */
-    private $locatedExtensions = [];
-    private $debugInformation = [
+    private array $locatedExtensions = [];
+    private array $debugInformation = [
         'extensions_list' => [],
     ];
 
@@ -64,7 +64,7 @@ final class ExtensionManager
      *
      * @return Extension
      */
-    public function activateExtension($locator)
+    public function activateExtension(string $locator)
     {
         $extension = $this->initialize($locator);
 
@@ -88,9 +88,9 @@ final class ExtensionManager
     /**
      * Returns all available extensions.
      *
-     * @return Extension[]
+     * @return array<string,Extension>
      */
-    public function getExtensions()
+    public function getExtensions(): array
     {
         return $this->extensions;
     }
@@ -117,10 +117,8 @@ final class ExtensionManager
 
     /**
      * Returns array with extensions debug information.
-     *
-     * @return array
      */
-    public function debugInformation()
+    public function debugInformation(): array
     {
         return $this->debugInformation;
     }

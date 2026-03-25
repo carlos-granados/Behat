@@ -111,9 +111,9 @@ final class PhaseStatistics implements Statistics
     /**
      * Returns skipped scenario stats.
      *
-     * @return ScenarioStat[]
+     * @return list<ScenarioStat>
      */
-    public function getSkippedScenarios()
+    public function getSkippedScenarios(): array
     {
         return $this->statistics->getSkippedScenarios();
     }
@@ -121,9 +121,9 @@ final class PhaseStatistics implements Statistics
     /**
      * Returns failed scenario stats.
      *
-     * @return ScenarioStat[]
+     * @return list<ScenarioStat>
      */
-    public function getFailedScenarios()
+    public function getFailedScenarios(): array
     {
         return $this->statistics->getFailedScenarios();
     }
@@ -133,7 +133,7 @@ final class PhaseStatistics implements Statistics
      *
      * @return array<StepResult::*, int>
      */
-    public function getStepStatCounts()
+    public function getStepStatCounts(): array
     {
         return $this->statistics->getStepStatCounts();
     }
@@ -141,9 +141,9 @@ final class PhaseStatistics implements Statistics
     /**
      * Returns failed step stats.
      *
-     * @return StepStat[]
+     * @return list<StepStat>
      */
-    public function getFailedSteps()
+    public function getFailedSteps(): array
     {
         return $this->statistics->getFailedSteps();
     }
@@ -151,9 +151,9 @@ final class PhaseStatistics implements Statistics
     /**
      * Returns pending step stats.
      *
-     * @return StepStat[]
+     * @return list<StepStat>
      */
-    public function getPendingSteps()
+    public function getPendingSteps(): array
     {
         return $this->statistics->getPendingSteps();
     }
@@ -161,9 +161,9 @@ final class PhaseStatistics implements Statistics
     /**
      * Returns failed hook stats.
      *
-     * @return HookStat[]
+     * @return list<HookStat>
      */
-    public function getFailedHookStats()
+    public function getFailedHookStats(): array
     {
         return $this->statistics->getFailedHookStats();
     }
