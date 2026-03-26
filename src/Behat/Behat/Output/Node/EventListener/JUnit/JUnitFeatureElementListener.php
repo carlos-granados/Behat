@@ -35,14 +35,14 @@ use Behat\Testwork\Output\Node\EventListener\EventListener;
 final class JUnitFeatureElementListener implements EventListener
 {
     /**
-     * @var AfterStepTested[]
+     * @var array<int,AfterStepTested>
      */
-    private $afterStepTestedEvents = [];
+    private array $afterStepTestedEvents = [];
 
     /**
-     * @var AfterStepSetup[]
+     * @var array<int,AfterStepSetup>
      */
-    private $afterStepSetupEvents = [];
+    private array $afterStepSetupEvents = [];
 
     private ?AfterSuiteSetup $afterSuiteSetup = null;
 

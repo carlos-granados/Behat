@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Behat\Config\Formatter;
 
+/**
+ * @api
+ */
 class Formatter implements FormatterConfigInterface
 {
     private const OUTPUT_VERBOSITY_SETTING = 'output_verbosity';
@@ -11,6 +14,9 @@ class Formatter implements FormatterConfigInterface
     private const OUTPUT_DECORATE_SETTING = 'output_decorate';
     private const OUTPUT_STYLES_SETTING = 'output_styles';
 
+    /**
+     * @api
+     */
     public function __construct(
         private readonly string $name,
         private array $settings = [],

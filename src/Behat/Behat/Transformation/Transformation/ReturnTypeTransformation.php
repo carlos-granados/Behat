@@ -28,6 +28,8 @@ use Stringable;
  * By-type object transformation.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
+ *
+ * @phpstan-import-type TBehatCallable from RuntimeCallee
  */
 final class ReturnTypeTransformation extends RuntimeCallee implements Stringable, SimpleArgumentTransformation
 {
@@ -46,10 +48,10 @@ final class ReturnTypeTransformation extends RuntimeCallee implements Stringable
      * Initializes transformation.
      *
      * @param string      $pattern
-     * @param callable    $callable
-     * @param string|null $description
+     *
+     * @phpstan-param TBehatCallable $callable
      */
-    public function __construct($pattern, $callable, $description = null)
+    public function __construct($pattern, callable|array $callable, ?string $description = null)
     {
         parent::__construct($callable, $description);
     }
@@ -95,7 +97,7 @@ final class ReturnTypeTransformation extends RuntimeCallee implements Stringable
         return '';
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return 'ReturnTypeTransform';
     }
@@ -142,7 +144,7 @@ final class ReturnTypeTransformation extends RuntimeCallee implements Stringable
     /**
      * Extracts parameters from provided definition call.
      *
-     * @return ReflectionParameter[]
+     * @return list<ReflectionParameter>
      */
     private function getCallParameters(DefinitionCall $definitionCall)
     {
@@ -164,11 +166,9 @@ final class ReturnTypeTransformation extends RuntimeCallee implements Stringable
     /**
      * Returns closure to filter parameter by name.
      *
-     * @param string $index
-     *
      * @return Closure
      */
-    private function hasName($index)
+    private function hasName(string $index)
     {
         return fn (ReflectionParameter $parameter): bool => $index === $parameter->getName();
     }

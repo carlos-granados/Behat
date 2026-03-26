@@ -31,25 +31,19 @@ use Behat\Testwork\Suite\Suite;
 final class LazyFeatureIterator implements SpecificationIterator
 {
     /**
-     * @var string[]
+     * @var list<string>
      */
     private $paths = [];
     /**
-     * @var FeatureFilterInterface[]
+     * @var list<FeatureFilterInterface>
      */
     private readonly array $filters;
+    private int $position = 0;
     /**
-     * @var int
-     */
-    private $position = 0;
-    /**
-     * @var FeatureNode[]
+     * @var list<FeatureNode>
      */
     private $features = [];
-    /**
-     * @var FeatureNode
-     */
-    private $currentFeature;
+    private ?FeatureNode $currentFeature = null;
 
     /**
      * Initializes specifications.
@@ -85,7 +79,7 @@ final class LazyFeatureIterator implements SpecificationIterator
 
     public function valid(): bool
     {
-        return null !== $this->currentFeature;
+        return $this->currentFeature instanceof FeatureNode;
     }
 
     public function key(): int
@@ -120,12 +114,11 @@ final class LazyFeatureIterator implements SpecificationIterator
     /**
      * Creates filter of provided type.
      *
-     * @param string $type
      * @param string $filterString
      *
      * @throws SuiteConfigurationException If filter type is not recognised
      */
-    private function createFilter($type, $filterString, Suite $suite): FeatureFilterInterface
+    private function createFilter(string $type, $filterString, Suite $suite): FeatureFilterInterface
     {
         if ('role' === $type) {
             return new RoleFilter($filterString);

@@ -16,13 +16,12 @@ use Behat\Testwork\Hook\Scope\HookScope;
  * Represents hook stat.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
+ *
+ * @api
  */
 final class HookStat
 {
-    /**
-     * @var HookScope|null
-     */
-    private $scope;
+    private ?HookScope $scope = null;
 
     /**
      * Initializes hook stat.

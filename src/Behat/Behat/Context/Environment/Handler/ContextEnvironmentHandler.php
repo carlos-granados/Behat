@@ -36,9 +36,9 @@ final class ContextEnvironmentHandler implements EnvironmentHandler
 {
     private readonly ArgumentResolverFactory $resolverFactory;
     /**
-     * @var ClassResolver[]
+     * @var list<ClassResolver>
      */
-    private $classResolvers = [];
+    private array $classResolvers = [];
 
     /**
      * Initializes handler.
@@ -110,7 +110,7 @@ final class ContextEnvironmentHandler implements EnvironmentHandler
     private function getNormalizedContextSettings(Suite $suite): array
     {
         return array_map(
-            function ($context) {
+            function (array|string $context): array {
                 $class = $context;
                 $arguments = [];
 

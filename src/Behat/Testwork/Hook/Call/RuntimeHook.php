@@ -18,6 +18,8 @@ use Stringable;
  * Represents a hook executed during the execution runtime.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
+ *
+ * @phpstan-import-type TBehatCallable from RuntimeCallee
  */
 abstract class RuntimeHook extends RuntimeCallee implements Stringable, Hook
 {
@@ -25,13 +27,13 @@ abstract class RuntimeHook extends RuntimeCallee implements Stringable, Hook
      * Initializes hook.
      *
      * @param string      $scopeName
-     * @param callable    $callable
-     * @param string|null $description
+     *
+     * @phpstan-param TBehatCallable $callable
      */
     public function __construct(
         private $scopeName,
-        $callable,
-        $description = null,
+        callable|array $callable,
+        ?string $description = null,
     ) {
         parent::__construct($callable, $description);
     }

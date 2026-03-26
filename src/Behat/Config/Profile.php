@@ -8,6 +8,9 @@ use Behat\Config\Filter\FilterInterface;
 use Behat\Config\Formatter\FormatterConfigInterface;
 use Behat\Testwork\ServiceContainer\Exception\ConfigurationLoadingException;
 
+/**
+ * @api
+ */
 final class Profile
 {
     private const SUITES_SETTING = 'suites';
@@ -21,6 +24,9 @@ final class Profile
     private const EDITOR_URL_SETTING = 'editor_url';
     private const REMOVE_PREFIX_SETTING = 'remove_prefix';
 
+    /**
+     * @api
+     */
     public function __construct(
         private readonly string $name,
         private array $settings = [],

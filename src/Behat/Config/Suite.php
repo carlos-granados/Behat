@@ -7,12 +7,18 @@ namespace Behat\Config;
 use Behat\Config\Filter\FilterInterface;
 use Behat\Testwork\ServiceContainer\Exception\ConfigurationLoadingException;
 
+/**
+ * @api
+ */
 final class Suite
 {
     private const CONTEXTS_SETTING = 'contexts';
     private const PATHS_SETTING = 'paths';
     private const FILTERS_SETTING = 'filters';
 
+    /**
+     * @api
+     */
     public function __construct(
         private readonly string $name,
         private array $settings = [],

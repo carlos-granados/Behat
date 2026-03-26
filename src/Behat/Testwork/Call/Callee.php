@@ -16,6 +16,10 @@ use ReflectionFunctionAbstract;
  * Represents callable object.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
+ *
+ * @api
+ *
+ * @phpstan-type TBehatCallable callable|array{class-string, string}
  */
 interface Callee
 {
@@ -50,7 +54,7 @@ interface Callee
     /**
      * Returns callable.
      *
-     * @return callable|array{class-string, string}
+     * @phpstan-return TBehatCallable
      */
     public function getCallable();
 

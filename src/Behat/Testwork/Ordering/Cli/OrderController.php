@@ -26,10 +26,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 final class OrderController implements Controller
 {
-    /**
-     * @var array
-     */
-    private $orderers = [];
+    private array $orderers = [];
 
     public function __construct(
         private readonly OrderedExercise $exercise,
@@ -51,10 +48,8 @@ final class OrderController implements Controller
 
     /**
      * Executes controller.
-     *
-     * @return int|null
      */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): null
     {
         $orderer = $input->getOption('order');
 
@@ -62,7 +57,7 @@ final class OrderController implements Controller
             return null;
         }
 
-        if (!array_key_exists($orderer, $this->orderers)) {
+        if (!array_key_exists((string) $orderer, $this->orderers)) {
             throw new InvalidOrderException(sprintf("Order option '%s' was not recognised", $orderer));
         }
 

@@ -24,10 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 final class StopOnFailureController implements Controller
 {
-    /**
-     * @var StopOnFailureHandler
-     */
-    private $stopOnFailureHandler;
+    private StopOnFailureHandler $stopOnFailureHandler;
 
     /**
      * @required
@@ -50,7 +47,7 @@ final class StopOnFailureController implements Controller
         );
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): null
     {
         if (!$input->getOption('stop-on-failure')) {
             return null;
