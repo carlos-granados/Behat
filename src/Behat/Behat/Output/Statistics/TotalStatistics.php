@@ -20,6 +20,8 @@ use Behat\Testwork\Tester\Result\TestResults;
  * Collects and provided exercise statistics.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
+ *
+ * @api
  */
 final class TotalStatistics implements Statistics
 {
@@ -28,31 +30,31 @@ final class TotalStatistics implements Statistics
     /**
      * @var array<TestResult::*, int>
      */
-    private $scenarioCounters = [];
+    private array $scenarioCounters = [];
     /**
      * @var array<StepResult::*, int>
      */
-    private $stepCounters = [];
+    private array $stepCounters = [];
     /**
-     * @var ScenarioStat[]
+     * @var list<ScenarioStat>
      */
-    private $failedScenarioStats = [];
+    private array $failedScenarioStats = [];
     /**
-     * @var ScenarioStat[]
+     * @var list<ScenarioStat>
      */
-    private $skippedScenarioStats = [];
+    private array $skippedScenarioStats = [];
     /**
-     * @var StepStat[]
+     * @var list<StepStat>
      */
-    private $failedStepStats = [];
+    private array $failedStepStats = [];
     /**
-     * @var StepStat[]
+     * @var list<StepStat>
      */
-    private $pendingStepStats = [];
+    private array $pendingStepStats = [];
     /**
-     * @var HookStat[]
+     * @var list<HookStat>
      */
-    private $failedHookStats = [];
+    private array $failedHookStats = [];
 
     /**
      * Initializes statistics.
@@ -169,9 +171,9 @@ final class TotalStatistics implements Statistics
     /**
      * Returns skipped scenario stats.
      *
-     * @return ScenarioStat[]
+     * @return list<ScenarioStat>
      */
-    public function getSkippedScenarios()
+    public function getSkippedScenarios(): array
     {
         return $this->skippedScenarioStats;
     }
@@ -179,9 +181,9 @@ final class TotalStatistics implements Statistics
     /**
      * Returns failed scenario stats.
      *
-     * @return ScenarioStat[]
+     * @return list<ScenarioStat>
      */
-    public function getFailedScenarios()
+    public function getFailedScenarios(): array
     {
         return $this->failedScenarioStats;
     }
@@ -191,7 +193,7 @@ final class TotalStatistics implements Statistics
      *
      * @return array<StepResult::*, int>
      */
-    public function getStepStatCounts()
+    public function getStepStatCounts(): array
     {
         return $this->stepCounters;
     }
@@ -199,9 +201,9 @@ final class TotalStatistics implements Statistics
     /**
      * Returns failed step stats.
      *
-     * @return StepStat[]
+     * @return list<StepStat>
      */
-    public function getFailedSteps()
+    public function getFailedSteps(): array
     {
         return $this->failedStepStats;
     }
@@ -209,9 +211,9 @@ final class TotalStatistics implements Statistics
     /**
      * Returns pending step stats.
      *
-     * @return StepStat[]
+     * @return list<StepStat>
      */
-    public function getPendingSteps()
+    public function getPendingSteps(): array
     {
         return $this->pendingStepStats;
     }
@@ -219,9 +221,9 @@ final class TotalStatistics implements Statistics
     /**
      * Returns failed hook stats.
      *
-     * @return HookStat[]
+     * @return list<HookStat>
      */
-    public function getFailedHookStats()
+    public function getFailedHookStats(): array
     {
         return $this->failedHookStats;
     }

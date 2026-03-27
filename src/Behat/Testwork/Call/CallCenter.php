@@ -27,21 +27,21 @@ use Throwable;
 final class CallCenter
 {
     /**
-     * @var CallFilter[]
+     * @var list<CallFilter>
      */
-    private $callFilters = [];
+    private array $callFilters = [];
     /**
-     * @var CallHandler[]
+     * @var list<CallHandler>
      */
-    private $callHandlers = [];
+    private array $callHandlers = [];
     /**
-     * @var ResultFilter[]
+     * @var list<ResultFilter>
      */
-    private $resultFilters = [];
+    private array $resultFilters = [];
     /**
-     * @var ExceptionHandler[]
+     * @var list<ExceptionHandler>
      */
-    private $exceptionHandlers = [];
+    private array $exceptionHandlers = [];
 
     /**
      * Registers call filter.
@@ -150,12 +150,8 @@ final class CallCenter
 
     /**
      * Handles exception using registered handlers and returns a handled one.
-     *
-     * @param Throwable $exception
-     *
-     * @return Exception
      */
-    private function handleException($exception)
+    private function handleException(Throwable $exception): Exception
     {
         foreach ($this->exceptionHandlers as $handler) {
             if (!$handler->supportsException($exception)) {

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Behat\Config\Formatter;
 
+/**
+ * @api
+ */
 final class PrettyFormatter extends Formatter
 {
     public const NAME = 'pretty';
@@ -16,6 +19,8 @@ final class PrettyFormatter extends Formatter
     public const PRINT_SKIPPED_STEPS_SETTING = 'print_skipped_steps';
 
     /**
+     * @api
+     *
      * @param bool $timer show time and memory usage at the end of the test run
      * @param bool $expand print each example of a scenario outline separately
      * @param bool $paths display the file path and line number for each scenario

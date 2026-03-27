@@ -18,6 +18,8 @@ use Stringable;
  * Represents a step definition created and executed in the runtime.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
+ *
+ * @phpstan-import-type TBehatCallable from RuntimeCallee
  */
 abstract class RuntimeDefinition extends RuntimeCallee implements Stringable, Definition
 {
@@ -28,14 +30,14 @@ abstract class RuntimeDefinition extends RuntimeCallee implements Stringable, De
      *
      * @param string      $type
      * @param string      $pattern
-     * @param callable    $callable
-     * @param string|null $description
+     *
+     * @phpstan-param TBehatCallable $callable
      */
     public function __construct(
         private $type,
         private $pattern,
-        $callable,
-        $description = null,
+        callable|array $callable,
+        ?string $description = null,
     ) {
         parent::__construct($callable, $description);
     }

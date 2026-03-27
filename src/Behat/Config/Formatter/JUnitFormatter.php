@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Behat\Config\Formatter;
 
+/**
+ * @api
+ */
 final class JUnitFormatter extends Formatter
 {
     public const NAME = 'junit';
@@ -11,6 +14,8 @@ final class JUnitFormatter extends Formatter
     private const TIMER_SETTING = 'timer';
 
     /**
+     * @api
+     *
      * @param bool $timer include run time attributes in generated report
      */
     public function __construct(

@@ -23,9 +23,9 @@ final class ResultInterpreter
     public const FAIL = 1;
 
     /**
-     * @var ResultInterpretation[]
+     * @var list<ResultInterpretation>
      */
-    private $interpretations = [];
+    private array $interpretations = [];
 
     /**
      * Registers result interpretation.

@@ -12,6 +12,7 @@ namespace Behat\Behat\Transformation\Call;
 
 use Behat\Behat\Transformation\Transformation;
 use Behat\Testwork\Call\RuntimeCallee;
+use Behat\Testwork\Deprecation\DeprecationCollector;
 use Stringable;
 
 /**
@@ -20,6 +21,8 @@ use Stringable;
  * @deprecated Will be removed in 4.0. Use specific transformations instead
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
+ *
+ * @phpstan-import-type TBehatCallable from RuntimeCallee
  */
 final class RuntimeTransformation extends RuntimeCallee implements Stringable, Transformation
 {
@@ -27,14 +30,16 @@ final class RuntimeTransformation extends RuntimeCallee implements Stringable, T
      * Initializes transformation.
      *
      * @param string      $pattern
-     * @param callable    $callable
-     * @param string|null $description
+     *
+     * @phpstan-param TBehatCallable $callable
      */
     public function __construct(
         private $pattern,
-        $callable,
-        $description = null,
+        callable|array $callable,
+        ?string $description = null,
     ) {
+        DeprecationCollector::trigger('RuntimeTransformation is deprecated and will be removed in 4.0. Use specific transformations instead.');
+
         parent::__construct($callable, $description);
     }
 
@@ -43,7 +48,7 @@ final class RuntimeTransformation extends RuntimeCallee implements Stringable, T
         return $this->pattern;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return 'Transform ' . $this->getPattern();
     }

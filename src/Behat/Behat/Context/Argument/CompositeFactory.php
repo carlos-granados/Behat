@@ -10,6 +10,7 @@
 
 namespace Behat\Behat\Context\Argument;
 
+use Behat\Testwork\Deprecation\DeprecationCollector;
 use Behat\Testwork\Suite\Suite;
 
 /**
@@ -24,9 +25,14 @@ use Behat\Testwork\Suite\Suite;
 final class CompositeFactory implements SuiteScopedResolverFactory
 {
     /**
-     * @var SuiteScopedResolverFactory[]
+     * @var list<SuiteScopedResolverFactory>
      */
-    private $factories = [];
+    private array $factories = [];
+
+    public function __construct()
+    {
+        DeprecationCollector::trigger('CompositeFactory is deprecated and will be removed in 4.0. Use CompositeArgumentResolverFactory instead.');
+    }
 
     /**
      * Registers factory.

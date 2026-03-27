@@ -18,6 +18,8 @@ use Stringable;
  * Behat scenario stat.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
+ *
+ * @api
  */
 final class ScenarioStat implements Stringable
 {
@@ -60,10 +62,8 @@ final class ScenarioStat implements Stringable
 
     /**
      * Returns string representation for a stat.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getPath();
     }

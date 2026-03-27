@@ -44,12 +44,12 @@ final class OutlineTableListener implements EventListener
     private bool $headerPrinted = false;
 
     /**
-     * @var AfterStepSetup[]
+     * @var array<int,AfterStepSetup>
      */
     private array $stepBeforeTestedEvents = [];
 
     /**
-     * @var AfterStepTested[]
+     * @var array<int,AfterStepTested>
      */
     private array $stepAfterTestedEvents = [];
 
@@ -199,7 +199,7 @@ final class OutlineTableListener implements EventListener
     /**
      * Returns currently captured step events results.
      *
-     * @return StepResult[]
+     * @return array<int,StepResult>
      */
     private function getStepTestResults(): array
     {

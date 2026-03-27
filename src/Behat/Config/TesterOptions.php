@@ -2,11 +2,16 @@
 
 namespace Behat\Config;
 
+/**
+ * @api
+ */
 final class TesterOptions
 {
     private const TESTERS_SETTINGS_GROUP = 'testers';
 
     private const CALLS_SETTINGS_GROUP = 'calls';
+
+    private const DEPRECATIONS_SETTINGS_GROUP = 'deprecations';
 
     private const STRICT_SETTING = 'strict';
 
@@ -16,6 +21,13 @@ final class TesterOptions
 
     private const ERROR_REPORTING_SETTING = 'error_reporting';
 
+    private const PRINT_BEHAT_DEPRECATIONS_SETTING = 'print_behat_deprecations';
+
+    private const FAIL_ON_BEHAT_DEPRECATIONS_SETTING = 'fail_on_behat_deprecations';
+
+    /**
+     * @api
+     */
     public function __construct(
         private array $settings = [],
     ) {
@@ -62,6 +74,26 @@ final class TesterOptions
     public function withStopOnFailure(bool $stopOnFailure = true): self
     {
         $this->settings[self::TESTERS_SETTINGS_GROUP][self::STOP_ON_FAILURE_SETTING] = $stopOnFailure;
+
+        return $this;
+    }
+
+    /**
+     * Control whether Behat should print deprecation warnings at the end of the test run.
+     */
+    public function withPrintBehatDeprecations(bool $printDeprecations = true): self
+    {
+        $this->settings[self::DEPRECATIONS_SETTINGS_GROUP][self::PRINT_BEHAT_DEPRECATIONS_SETTING] = $printDeprecations;
+
+        return $this;
+    }
+
+    /**
+     * Control whether Behat should exit with an error code if deprecations were triggered.
+     */
+    public function withFailOnBehatDeprecations(bool $failOnDeprecations = true): self
+    {
+        $this->settings[self::DEPRECATIONS_SETTINGS_GROUP][self::FAIL_ON_BEHAT_DEPRECATIONS_SETTING] = $failOnDeprecations;
 
         return $this;
     }

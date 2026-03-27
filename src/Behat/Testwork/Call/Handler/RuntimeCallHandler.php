@@ -23,10 +23,7 @@ use Exception;
  */
 final class RuntimeCallHandler implements CallHandler
 {
-    /**
-     * @var bool
-     */
-    private $obStarted = false;
+    private bool $obStarted = false;
     private readonly Validator $validator;
 
     private ?int $previousErrorReporting = null;
@@ -102,10 +99,8 @@ final class RuntimeCallHandler implements CallHandler
 
     /**
      * Returns buffered stdout.
-     *
-     * @return string|null
      */
-    private function getBufferedStdOut()
+    private function getBufferedStdOut(): ?string
     {
         return ob_get_length() ? ob_get_contents() : null;
     }

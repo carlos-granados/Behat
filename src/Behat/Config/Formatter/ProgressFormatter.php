@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Behat\Config\Formatter;
 
+/**
+ * @api
+ */
 final class ProgressFormatter extends Formatter
 {
     public const NAME = 'progress';
@@ -12,6 +15,8 @@ final class ProgressFormatter extends Formatter
     private const SHORT_SUMMARY_SETTING = 'short_summary';
 
     /**
+     * @api
+     *
      * @param bool $timer show time and memory usage at the end of the test run
      * @param ShowOutputOption $showOutput show the test stdout output as part of the
      *                                     formatter output (yes, no, on-fail, in-summary)

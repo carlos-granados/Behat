@@ -8,11 +8,17 @@ use Behat\Testwork\ServiceContainer\Exception\ConfigurationLoadingException;
 
 use function is_string;
 
+/**
+ * @api
+ */
 final class Config implements ConfigInterface
 {
     public const IMPORTS_SETTING = 'imports';
     private const PREFERRED_PROFILE_NAME_SETTING = 'preferredProfileName';
 
+    /**
+     * @api
+     */
     public function __construct(
         private array $settings = [],
     ) {

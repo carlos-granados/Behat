@@ -10,6 +10,7 @@
 
 namespace Behat\Testwork\Hook\Call;
 
+use Behat\Testwork\Call\RuntimeCallee;
 use Behat\Testwork\Hook\FilterableHook;
 use Stringable;
 
@@ -17,6 +18,8 @@ use Stringable;
  * Represents runtime hook, filterable by filter string.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
+ *
+ * @phpstan-import-type TBehatCallable from RuntimeCallee
  */
 abstract class RuntimeFilterableHook extends RuntimeHook implements Stringable, FilterableHook
 {
@@ -25,14 +28,14 @@ abstract class RuntimeFilterableHook extends RuntimeHook implements Stringable, 
      *
      * @param string      $scopeName
      * @param string|null $filterString
-     * @param callable    $callable
-     * @param string|null $description
+     *
+     * @phpstan-param TBehatCallable $callable
      */
     public function __construct(
         $scopeName,
         private $filterString,
-        $callable,
-        $description = null,
+        callable|array $callable,
+        ?string $description = null,
     ) {
         parent::__construct($scopeName, $callable, $description);
     }
