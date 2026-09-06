@@ -122,11 +122,10 @@ final class PrettyStepPrinter implements StepPrinter
      */
     private function printStdOut(OutputPrinter $printer, StepResult $result): void
     {
-        if (!$result instanceof ExecutedStepResult || null === $result->getCallResult()->getStdOut()) {
+        if (!$result instanceof ExecutedStepResult || null === $result->getStdOut()) {
             return;
         }
 
-        $callResult = $result->getCallResult();
         $indentedText = $this->subIndentText;
 
         $pad = (fn ($line): string => sprintf(
@@ -135,7 +134,7 @@ final class PrettyStepPrinter implements StepPrinter
             $line
         ));
 
-        $printer->writeln(implode("\n", array_map($pad, explode("\n", (string) $callResult->getStdOut()))));
+        $printer->writeln(implode("\n", array_map($pad, explode("\n", (string) $result->getStdOut()))));
     }
 
     /**

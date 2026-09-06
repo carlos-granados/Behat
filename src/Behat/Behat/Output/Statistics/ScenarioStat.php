@@ -27,11 +27,11 @@ final class ScenarioStat implements Stringable
      * @param TestResult::*|TestResults::NO_TESTS $resultCode
      */
     public function __construct(
-        private ?string $title,
+        private readonly ?string $title,
         private readonly string $path,
         private readonly int $resultCode,
+        private readonly ?string $suiteName = null,
     ) {
-        $this->title = null;
     }
 
     /**
@@ -58,6 +58,14 @@ final class ScenarioStat implements Stringable
     public function getResultCode(): int
     {
         return $this->resultCode;
+    }
+
+    /**
+     * Returns the name of the suite the scenario was executed in, if known.
+     */
+    public function getSuiteName(): ?string
+    {
+        return $this->suiteName;
     }
 
     /**

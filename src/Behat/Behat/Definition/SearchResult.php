@@ -14,11 +14,15 @@ namespace Behat\Behat\Definition;
  * Step definition search result.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
+ *
+ * @api
  */
 final class SearchResult
 {
     /**
      * Registers search match.
+     *
+     * @api
      *
      * @param mixed[]|null $arguments
      */

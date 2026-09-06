@@ -12,6 +12,8 @@ Feature: Append snippets option
       """
       <?php
 
+      use Behat\Step\DataTable;
+      use Behat\Step\DocString;
       use Behat\Behat\Context\Context;
       use Behat\Behat\Tester\Exception\PendingException;
       use Behat\Gherkin\Node\PyStringNode;
@@ -19,6 +21,7 @@ Feature: Append snippets option
       use Behat\Step\Given;
       use Behat\Step\Then;
       use Behat\Step\When;
+      use Behat\Tests\Fixtures\Assert;
 
       class FeatureContext implements Context
       {
@@ -51,20 +54,20 @@ Feature: Append snippets option
           #[Then('/^I should have (\\d+) apples$/')]
           public function iShouldHaveApples($count)
           {
-              PHPUnit\Framework\Assert::assertEquals(intval($count), $this->apples);
+              Assert::assertEquals(intval($count), $this->apples);
           }
 
           #[Then('/^context parameter "([^"]*)" should be equal to "([^"]*)"$/')]
           public function contextParameterShouldBeEqualTo($key, $val)
           {
-              PHPUnit\Framework\Assert::assertEquals($val, $this->parameters[$key]);
+              Assert::assertEquals($val, $this->parameters[$key]);
           }
 
           #[Given('/^context parameter "([^"]*)" should be array with (\\d+) elements$/')]
           public function contextParameterShouldBeArrayWithElements($key, $count)
           {
-              PHPUnit\Framework\Assert::assertIsArray($this->parameters[$key]);
-              PHPUnit\Framework\Assert::assertEquals(2, count($this->parameters[$key]));
+              Assert::assertIsArray($this->parameters[$key]);
+              Assert::assertEquals(2, count($this->parameters[$key]));
           }
 
           private function doSomethingUndefinedWith()
@@ -93,19 +96,19 @@ Feature: Append snippets option
           }
 
           #[Given('/^pystring:$/')]
-          public function pystring(PyStringNode $string): void
+          public function pystring(DocString $docString): void
           {
               throw new PendingException();
           }
 
           #[Given('/^pystring (\d+):$/')]
-          public function pystring2($arg1, PyStringNode $string): void
+          public function pystring2($arg1, DocString $docString): void
           {
               throw new PendingException();
           }
 
           #[Given('/^table:$/')]
-          public function table(TableNode $table): void
+          public function table(DataTable $table): void
           {
               throw new PendingException();
           }
@@ -118,6 +121,8 @@ Feature: Append snippets option
       """
       <?php
 
+      use Behat\Step\DataTable;
+      use Behat\Step\DocString;
       use Behat\Behat\Tester\Exception\PendingException;
       use Behat\Behat\Context\Context;
       use Behat\Gherkin\Node\PyStringNode;
@@ -125,6 +130,7 @@ Feature: Append snippets option
       use Behat\Step\Given;
       use Behat\Step\Then;
       use Behat\Step\When;
+      use Behat\Tests\Fixtures\Assert;
 
       class FeatureContextNoPendingException implements Context
       {
@@ -157,20 +163,20 @@ Feature: Append snippets option
           #[Then('/^I should have (\\d+) apples$/')]
           public function iShouldHaveApples($count)
           {
-              PHPUnit\Framework\Assert::assertEquals(intval($count), $this->apples);
+              Assert::assertEquals(intval($count), $this->apples);
           }
 
           #[Then('/^context parameter "([^"]*)" should be equal to "([^"]*)"$/')]
           public function contextParameterShouldBeEqualTo($key, $val)
           {
-              PHPUnit\Framework\Assert::assertEquals($val, $this->parameters[$key]);
+              Assert::assertEquals($val, $this->parameters[$key]);
           }
 
           #[Given('/^context parameter "([^"]*)" should be array with (\\d+) elements$/')]
           public function contextParameterShouldBeArrayWithElements($key, $count)
           {
-              PHPUnit\Framework\Assert::assertIsArray($this->parameters[$key]);
-              PHPUnit\Framework\Assert::assertEquals(2, count($this->parameters[$key]));
+              Assert::assertIsArray($this->parameters[$key]);
+              Assert::assertEquals(2, count($this->parameters[$key]));
           }
 
           private function doSomethingUndefinedWith()
@@ -198,19 +204,19 @@ Feature: Append snippets option
           }
 
           #[Given('/^pystring:$/')]
-          public function pystring(PyStringNode $string): void
+          public function pystring(DocString $docString): void
           {
               throw new PendingException();
           }
 
           #[Given('/^pystring (\d+):$/')]
-          public function pystring2($arg1, PyStringNode $string): void
+          public function pystring2($arg1, DocString $docString): void
           {
               throw new PendingException();
           }
 
           #[Given('/^table:$/')]
-          public function table(TableNode $table): void
+          public function table(DataTable $table): void
           {
               throw new PendingException();
           }
@@ -223,13 +229,14 @@ Feature: Append snippets option
       """
       <?php
 
-      use Behat\Gherkin\Node\TableNode;
-      use Behat\Gherkin\Node\PyStringNode;
+      use Behat\Step\DataTable;
+      use Behat\Step\DocString;
       use Behat\Behat\Tester\Exception\PendingException;
       use Behat\Behat\Context\Context;
       use Behat\Step\Given;
       use Behat\Step\Then;
       use Behat\Step\When;
+      use Behat\Tests\Fixtures\Assert;
 
       class FeatureContextMinimalImports implements Context
       {
@@ -262,20 +269,20 @@ Feature: Append snippets option
           #[Then('/^I should have (\\d+) apples$/')]
           public function iShouldHaveApples($count)
           {
-              PHPUnit\Framework\Assert::assertEquals(intval($count), $this->apples);
+              Assert::assertEquals(intval($count), $this->apples);
           }
 
           #[Then('/^context parameter "([^"]*)" should be equal to "([^"]*)"$/')]
           public function contextParameterShouldBeEqualTo($key, $val)
           {
-              PHPUnit\Framework\Assert::assertEquals($val, $this->parameters[$key]);
+              Assert::assertEquals($val, $this->parameters[$key]);
           }
 
           #[Given('/^context parameter "([^"]*)" should be array with (\\d+) elements$/')]
           public function contextParameterShouldBeArrayWithElements($key, $count)
           {
-              PHPUnit\Framework\Assert::assertIsArray($this->parameters[$key]);
-              PHPUnit\Framework\Assert::assertEquals(2, count($this->parameters[$key]));
+              Assert::assertIsArray($this->parameters[$key]);
+              Assert::assertEquals(2, count($this->parameters[$key]));
           }
 
           private function doSomethingUndefinedWith()
@@ -295,19 +302,19 @@ Feature: Append snippets option
           }
 
           #[Given('/^pystring:$/')]
-          public function pystring(PyStringNode $string): void
+          public function pystring(DocString $docString): void
           {
               throw new PendingException();
           }
 
           #[Given('/^pystring (\d+):$/')]
-          public function pystring2($arg1, PyStringNode $string): void
+          public function pystring2($arg1, DocString $docString): void
           {
               throw new PendingException();
           }
 
           #[Given('/^table:$/')]
-          public function table(TableNode $table): void
+          public function table(DataTable $table): void
           {
               throw new PendingException();
           }
@@ -360,8 +367,8 @@ Feature: Append snippets option
       """
       <?php
 
-      use Behat\Gherkin\Node\TableNode;
-      use Behat\Gherkin\Node\PyStringNode;
+      use Behat\Step\DataTable;
+      use Behat\Step\DocString;
       use Behat\Step\Then;
       use Behat\Step\When;
       use Behat\Step\Given;
@@ -414,19 +421,19 @@ Feature: Append snippets option
           }
 
           #[Given('/^pystring:$/')]
-          public function pystring(PyStringNode $string): void
+          public function pystring(DocString $docString): void
           {
               throw new PendingException();
           }
 
           #[Given('/^pystring (\d+):$/')]
-          public function pystring2($arg1, PyStringNode $string): void
+          public function pystring2($arg1, DocString $docString): void
           {
               throw new PendingException();
           }
 
           #[Given('/^table:$/')]
-          public function table(TableNode $table): void
+          public function table(DataTable $table): void
           {
               throw new PendingException();
           }
