@@ -144,6 +144,7 @@ Feature: Tag expressions
         Scenario Outline:
           Given Some normal step N<num>
 
+          @quick
           Examples:
             | num |
             | 51  |
