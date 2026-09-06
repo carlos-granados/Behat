@@ -28,7 +28,7 @@ final class CurrentFeatureListener implements EventListener
 {
     private ?FeatureNode $currentFeature = null;
 
-    public function listenEvent(Formatter $formatter, Event $event, $eventName): void
+    public function listenEvent(Formatter $formatter, Event $event, string $eventName): void
     {
         if ($event instanceof BeforeFeatureTested) {
             $this->currentFeature = $event->getFeature();

@@ -30,6 +30,7 @@ use Behat\Testwork\Environment\Environment;
 use ReflectionFunctionAbstract;
 use ReflectionIntersectionType;
 use ReflectionNamedType;
+use ReflectionType;
 use ReflectionUnionType;
 
 /**
@@ -188,7 +189,7 @@ final class RepositorySearchEngine implements SearchEngine
     private function wrapMultilineArguments(ReflectionFunctionAbstract $function, array $multiline): array
     {
         return array_map(
-            function (ArgumentInterface $argument) use ($function) {
+            function (ArgumentInterface $argument) use ($function): DataTable|DocString|ArgumentInterface {
                 if ($argument instanceof TableNode
                     && $this->someParameterAccepts($function, DataTable::class)
                 ) {
@@ -219,7 +220,7 @@ final class RepositorySearchEngine implements SearchEngine
                 $type instanceof ReflectionUnionType,
                 $type instanceof ReflectionIntersectionType => array_filter(
                     $type->getTypes(),
-                    static fn ($member) => $member instanceof ReflectionNamedType,
+                    static fn (ReflectionType $member): bool => $member instanceof ReflectionNamedType,
                 ),
                 default => [],
             };

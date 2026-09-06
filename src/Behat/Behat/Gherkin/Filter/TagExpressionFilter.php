@@ -89,7 +89,7 @@ final class TagExpressionFilter extends ComplexFilter
         // tag expressions reference tags with their `@` prefix, but the legacy
         // parsing mode strips the prefix from the parsed nodes: add it back
         $tags = array_map(
-            static fn (string $tag) => str_starts_with($tag, '@') ? $tag : '@' . $tag,
+            static fn (string $tag): string => str_starts_with($tag, '@') ? $tag : '@' . $tag,
             $tags
         );
 

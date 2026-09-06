@@ -25,6 +25,7 @@ use Behat\Testwork\Output\Printer\OutputPrinter;
 use Behat\Testwork\PathOptions\Printer\ConfigurablePathPrinter;
 use Behat\Testwork\Tester\Result\ExceptionResult;
 use Behat\Testwork\Tester\Result\TestResult;
+use Throwable;
 
 /**
  * Behat progress step printer.
@@ -164,7 +165,7 @@ final class ProgressStepPrinter implements StepPrinter
         }
 
         $exception = $result->getException();
-        if ($exception === null) {
+        if (!$exception instanceof Throwable) {
             return;
         }
 
