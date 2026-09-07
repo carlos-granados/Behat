@@ -53,6 +53,8 @@ final class ExtensionManager
 
     /**
      * Sets path to directory in which manager will try to find extension files.
+     *
+     * @internal behat sets this up before extensions are initialized
      */
     public function setExtensionsPath(?string $path): void
     {
@@ -63,6 +65,8 @@ final class ExtensionManager
      * Activate extension by its locator.
      *
      * @param string $locator phar file name, php file name, class name
+     *
+     * @internal behat activates extensions from the loaded configuration
      */
     public function activateExtension(string $locator): Extension
     {
@@ -103,6 +107,8 @@ final class ExtensionManager
 
     /**
      * Initializes all activated and predefined extensions.
+     *
+     * @internal called once by Behat; this is what triggers Extension::initialize()
      */
     public function initializeExtensions(): void
     {
@@ -115,6 +121,8 @@ final class ExtensionManager
      * Returns array with extensions debug information.
      *
      * @return array{extensions_list: list<string>}
+     *
+     * @internal
      */
     public function debugInformation(): array
     {
