@@ -6,12 +6,18 @@ use Behat\Config\Filter\FilterInterface;
 use Behat\Gherkin\GherkinCompatibilityMode;
 use Behat\Testwork\ServiceContainer\Exception\ConfigurationLoadingException;
 
+/**
+ * @api
+ */
 final class GherkinOptions
 {
     private const CACHE_SETTING = 'cache';
     private const COMPATIBILITY_SETTING = 'compatibility';
     private const FILTERS_SETTING = 'filters';
 
+    /**
+     * @api
+     */
     public function __construct(
         private array $settings = [],
     ) {

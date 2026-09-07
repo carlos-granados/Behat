@@ -158,6 +158,7 @@ final class ProfileTest extends TestCase
                     'timer' => false,
                     'show_output' => 'in-summary',
                     'short_summary' => false,
+                    'inline_failures' => false,
                 ],
                 'junit' => [
                     'timer' => true,
@@ -198,6 +199,7 @@ final class ProfileTest extends TestCase
                     'timer' => true,
                     'show_output' => 'yes',
                     'short_summary' => false,
+                    'inline_failures' => false,
                 ],
                 'junit' => false,
             ],

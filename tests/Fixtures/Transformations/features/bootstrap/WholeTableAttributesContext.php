@@ -4,8 +4,8 @@ use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Step\Given;
 use Behat\Step\Then;
+use Behat\Tests\Fixtures\Assert;
 use Behat\Transformation\Transform;
-use PHPUnit\Framework\Assert;
 
 class WholeTableAttributesContext implements Context
 {

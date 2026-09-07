@@ -51,9 +51,9 @@ final class ListPrinter
      * Prints scenarios list.
      *
      * @param ScenarioStat[] $scenarioStats
-     * @param StepStatV2[]     $stepStats
+     * @param StepStatV2[] $stepStats
      */
-    public function printScenariosList(OutputPrinter $printer, string $intro, int $resultCode, array $scenarioStats, ?array $stepStats = null): void
+    public function printScenariosList(OutputPrinter $printer, string $intro, int $resultCode, array $scenarioStats, ?array $stepStats = null, bool $printSuiteNames = false): void
     {
         if (!count($scenarioStats)) {
             return;
@@ -65,7 +65,7 @@ final class ListPrinter
         $printer->writeln(sprintf('--- {+%s}%s{-%s}' . PHP_EOL, $style, $intro, $style));
         foreach ($scenarioStats as $stat) {
             $path = $this->configurablePathPrinter->processPathsInText((string) $stat);
-
+            $path = $this->appendSuiteName($path, $printSuiteNames ? $stat->getSuiteName() : null);
             $path = $this->appendFailingStepText($stepStats, $path, $stat);
 
             $printer->writeln(sprintf('    {+%s}%s{-%s}', $style, $path, $style));
@@ -85,6 +85,7 @@ final class ListPrinter
         int $resultCode,
         array $stepStats,
         ?ShowOutputOption $showOutput = ShowOutputOption::InSummary,
+        bool $printSuiteNames = false,
     ): void {
         if (!count($stepStats)) {
             return;
@@ -96,7 +97,7 @@ final class ListPrinter
         $printer->writeln(sprintf('--- {+%s}%s{-%s}' . PHP_EOL, $style, $intro, $style));
 
         foreach ($stepStats as $num => $stepStat) {
-            $this->printStepStat($printer, $num + 1, $stepStat, $style, $showOutput);
+            $this->printStepStat($printer, $num + 1, $stepStat, $style, $showOutput, $printSuiteNames);
         }
     }
 
@@ -169,6 +170,7 @@ final class ListPrinter
         StepStatV2 $stat,
         string $style,
         ?ShowOutputOption $showOutput,
+        bool $printSuiteName = false,
     ): void {
         $maxLength = max(mb_strlen($stat->getScenarioText(), 'utf8'), mb_strlen($stat->getStepText(), 'utf8') + 2) + 1;
 
@@ -180,7 +182,10 @@ final class ListPrinter
                 $stat->getScenarioText(),
                 $style,
                 str_pad(' ', $maxLength - mb_strlen($stat->getScenarioText(), 'utf8')),
-                $this->configurablePathPrinter->processPathsInText($stat->getScenarioPath())
+                $this->appendSuiteName(
+                    $this->configurablePathPrinter->processPathsInText($stat->getScenarioPath()),
+                    $printSuiteName ? $stat->getSuiteName() : null
+                )
             )
         );
 
@@ -222,7 +227,10 @@ final class ListPrinter
 
         $foundStepStat = null;
         foreach ($stepStats as $stepStat) {
-            if ($stepStat->getScenarioPath() === $scenarioStat->getPath()) {
+            if (
+                $stepStat->getScenarioPath() === $scenarioStat->getPath()
+                && $stepStat->getSuiteName() === $scenarioStat->getSuiteName()
+            ) {
                 $foundStepStat = $stepStat;
                 break;
             }
@@ -242,6 +250,15 @@ final class ListPrinter
         }
 
         return $path . $lineHelper;
+    }
+
+    private function appendSuiteName(string $path, ?string $suiteName): string
+    {
+        if (null === $suiteName) {
+            return $path;
+        }
+
+        return sprintf('%s (%s)', $path, $suiteName);
     }
 
     private function extractLineNumber(string $path): ?string

@@ -18,10 +18,20 @@ use Behat\Behat\Definition\SearchResult;
 use Behat\Behat\Definition\Translator\DefinitionTranslator;
 use Behat\Gherkin\Node\ArgumentInterface;
 use Behat\Gherkin\Node\FeatureNode;
+use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\StepNode;
+use Behat\Gherkin\Node\TableNode;
+use Behat\Step\DataTable;
+use Behat\Step\DocString;
 use Behat\Testwork\Argument\ArgumentOrganiser;
 use Behat\Testwork\Argument\Exception\UnexpectedMultilineArgumentException;
+use Behat\Testwork\Deprecation\DeprecationCollector;
 use Behat\Testwork\Environment\Environment;
+use ReflectionFunctionAbstract;
+use ReflectionIntersectionType;
+use ReflectionNamedType;
+use ReflectionType;
+use ReflectionUnionType;
 
 /**
  * Searches for a step definition using definition repository.
@@ -94,7 +104,7 @@ final class RepositorySearchEngine implements SearchEngine
         }
 
         $function = $definition->getReflection();
-        $match = array_merge($match, array_values($multiline));
+        $match = array_merge($match, $this->wrapMultilineArguments($function, array_values($multiline)));
 
         try {
             $arguments = $this->argumentOrganiser->organiseArguments($function, $match);
@@ -110,6 +120,118 @@ final class RepositorySearchEngine implements SearchEngine
             );
         }
 
+        $this->checkForUnusedArguments($definition, $match);
+
         return new SearchResult($definition, $stepText, $arguments);
+    }
+
+    /**
+     * Reports a deprecation if the pattern provides more arguments than the definition can accept.
+     *
+     * @param array<int|string, mixed> $match the pattern match, with any multiline arguments appended
+     */
+    private function checkForUnusedArguments(Definition $definition, array $match): void
+    {
+        $function = $definition->getReflection();
+
+        if ($function->isVariadic()) {
+            return;
+        }
+
+        $providedCount = $this->countProvidedArguments($match);
+        $parameterCount = $function->getNumberOfParameters();
+
+        if ($providedCount <= $parameterCount) {
+            return;
+        }
+
+        DeprecationCollector::trigger(sprintf(
+            'The pattern "%s" provides %d argument%s but %s only accepts %d. '
+            . 'Silently discarding the extra argument%s is deprecated and will be an error in Behat 4.0: '
+            . 'either add the missing parameters or use non-capturing groups "(?:...)" in the pattern.',
+            $definition->getPattern(),
+            $providedCount,
+            $providedCount === 1 ? '' : 's',
+            $definition->getPath(),
+            $parameterCount,
+            $providedCount - $parameterCount === 1 ? '' : 's',
+        ), $function->getFileName() ?: null, $function->getStartLine() ?: null);
+    }
+
+    /**
+     * Counts the arguments a pattern match will provide to the definition.
+     *
+     * The first element of a `preg_match` result is the full match rather than an argument, and every
+     * named capturing group is represented twice - once under its name and once under its number.
+     *
+     * @param array<int|string, mixed> $match
+     */
+    private function countProvidedArguments(array $match): int
+    {
+        $namedGroups = count(array_filter(array_keys($match), is_string(...)));
+
+        return count($match) - 1 - $namedGroups;
+    }
+
+    /**
+     * Wraps multiline arguments into their dedicated Behat representation
+     * when the definition asks for it.
+     *
+     * A step cannot mix both representations of the same multiline argument, so
+     * asking for the wrapper anywhere in the signature is enough to wrap. When no
+     * parameter accepts it, the raw Gherkin node is passed through unchanged and
+     * existing definitions keep working.
+     *
+     * @param list<ArgumentInterface> $multiline
+     *
+     * @return list<ArgumentInterface|DataTable|DocString>
+     */
+    private function wrapMultilineArguments(ReflectionFunctionAbstract $function, array $multiline): array
+    {
+        return array_map(
+            function (ArgumentInterface $argument) use ($function): DataTable|DocString|ArgumentInterface {
+                if ($argument instanceof TableNode
+                    && $this->someParameterAccepts($function, DataTable::class)
+                ) {
+                    return new DataTable($argument);
+                }
+
+                if ($argument instanceof PyStringNode
+                    && $this->someParameterAccepts($function, DocString::class)
+                ) {
+                    return new DocString($argument);
+                }
+
+                return $argument;
+            },
+            $multiline,
+        );
+    }
+
+    /**
+     * @param class-string $class
+     */
+    private function someParameterAccepts(ReflectionFunctionAbstract $function, string $class): bool
+    {
+        foreach ($function->getParameters() as $parameter) {
+            $type = $parameter->getType();
+            $namedTypes = match (true) {
+                $type instanceof ReflectionNamedType => [$type],
+                $type instanceof ReflectionUnionType,
+                $type instanceof ReflectionIntersectionType => array_filter(
+                    $type->getTypes(),
+                    static fn (ReflectionType $member): bool => $member instanceof ReflectionNamedType,
+                ),
+                default => [],
+            };
+
+            foreach ($namedTypes as $namedType) {
+                if (!$namedType->isBuiltin() && is_a($class, $namedType->getName(), true)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

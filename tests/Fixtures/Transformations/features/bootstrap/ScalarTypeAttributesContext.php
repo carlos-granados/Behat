@@ -2,8 +2,8 @@
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Then;
+use Behat\Tests\Fixtures\Assert;
 use Behat\Transformation\Transform;
-use PHPUnit\Framework\Assert;
 
 class ScalarTypeAttributesContext implements Context
 {
