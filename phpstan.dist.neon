@@ -4,8 +4,4 @@ parameters:
         - src
     ignoreErrors:
         -
-            identifier: class.notFound
-            paths:
-                - src/Behat/Testwork/Exception/Stringer/PHPUnitExceptionStringer.php
-        -
             identifier: missingType.iterableValue
