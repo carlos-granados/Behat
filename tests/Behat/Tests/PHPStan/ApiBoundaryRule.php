@@ -60,7 +60,7 @@ final class ApiBoundaryRule implements Rule
             return [];
         }
 
-        if (!$this->apiTags->isApiMethod($class, $method->getName()) || !$method->isPublic()) {
+        if ($method->isPrivate() || !$this->apiTags->isApiMethod($class, $method)) {
             return [];
         }
 
@@ -92,15 +92,11 @@ final class ApiBoundaryRule implements Rule
         // Behat has no overloaded signatures, so the single variant is the whole signature.
         $variant = $method->getVariants()[0];
 
-        $types = [$variant->getReturnType()];
-        foreach ($variant->getParameters() as $parameter) {
-            $types[] = $parameter->getType();
-        }
+        // getReferencedClasses() unwraps unions, nullables, arrays-of and generic type arguments for us.
+        $referenced = array_fill_keys($variant->getReturnType()->getReferencedClasses(), true);
 
-        $referenced = [];
-        foreach ($types as $type) {
-            // getReferencedClasses() unwraps unions, nullables, arrays-of and generic type arguments for us.
-            foreach ($type->getReferencedClasses() as $class) {
+        foreach ($variant->getParameters() as $parameter) {
+            foreach ($parameter->getType()->getReferencedClasses() as $class) {
                 $referenced[$class] = true;
             }
         }

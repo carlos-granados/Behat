@@ -11,6 +11,7 @@
 namespace Behat\Tests\PHPStan;
 
 use PHPStan\Reflection\ClassReflection;
+use PHPStan\Reflection\ExtendedMethodReflection;
 use PHPStan\Reflection\ReflectionProvider;
 
 /**
@@ -55,7 +56,7 @@ final class ApiTags
             return false;
         }
 
-        return $this->hasTag($this->reflectionProvider->getClass($class)->getNativeReflection()->getDocComment(), 'api');
+        return $this->hasTag($this->reflectionProvider->getClass($class)->getResolvedPhpDoc()?->getPhpDocString(), 'api');
     }
 
     public function isClassMarkedInternal(string $class): bool
@@ -64,31 +65,28 @@ final class ApiTags
             return false;
         }
 
-        return $this->hasTag($this->reflectionProvider->getClass($class)->getNativeReflection()->getDocComment(), 'internal');
+        return $this->reflectionProvider->getClass($class)->isInternal();
     }
 
     public function isApiClass(ClassReflection $class): bool
     {
-        $doc = $class->getNativeReflection()->getDocComment();
-
-        return !$this->hasTag($doc, 'internal') && $this->hasTag($doc, 'api');
+        return !$class->isInternal() && $this->hasTag($class->getResolvedPhpDoc()?->getPhpDocString(), 'api');
     }
 
     /**
      * A member marked `@internal` is excluded from the promise even when its class is `@api`, and a member marked
      * `@api` is included even when its class is not.
      */
-    public function isApiMethod(ClassReflection $class, string $method): bool
+    public function isApiMethod(ClassReflection $class, ExtendedMethodReflection $method): bool
     {
-        $native = $class->getNativeReflection();
-        $reflection = $native->hasMethod($method) ? $native->getMethod($method) : null;
-        $doc = $reflection?->getDocComment() ?? false;
-
-        if ($this->hasTag($doc, 'internal')) {
+        if ($method->isInternal()->yes()) {
             return false;
         }
 
-        if ($this->hasTag($doc, 'api')) {
+        $native = $class->getNativeReflection();
+        $reflection = $native->hasMethod($method->getName()) ? $native->getMethod($method->getName()) : null;
+
+        if ($this->hasTag($reflection?->getDocComment() ?? false, 'api')) {
             return true;
         }
 

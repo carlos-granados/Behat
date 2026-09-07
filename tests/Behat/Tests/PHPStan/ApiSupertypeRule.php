@@ -13,10 +13,9 @@ namespace Behat\Tests\PHPStan;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
-use ReflectionClass;
-use ReflectionException;
 
 /**
  * Keeps the supertypes of an `@api` type inside the public API.
@@ -53,7 +52,7 @@ final class ApiSupertypeRule implements Rule
         }
 
         $errors = [];
-        foreach ($this->supertypes($class->getName()) as $supertype) {
+        foreach ($this->supertypes($class) as $supertype) {
             if (!$this->apiTags->isOurs($supertype) || $this->apiTags->isClassMarkedApi($supertype)) {
                 continue;
             }
@@ -81,29 +80,18 @@ final class ApiSupertypeRule implements Rule
     /**
      * @return list<string>
      */
-    private function supertypes(string $class): array
+    private function supertypes(ClassReflection $class): array
     {
-        $native = $this->apiTagsReflection($class);
+        $supertypes = [];
 
-        if ($native === null) {
-            return [];
+        foreach ($class->getInterfaces() as $interface) {
+            $supertypes[$interface->getName()] = true;
         }
 
-        $supertypes = $native->getInterfaceNames();
-
-        for ($parent = $native->getParentClass(); $parent !== false; $parent = $parent->getParentClass()) {
-            $supertypes[] = $parent->getName();
+        for ($parent = $class->getParentClass(); $parent !== null; $parent = $parent->getParentClass()) {
+            $supertypes[$parent->getName()] = true;
         }
 
-        return array_values(array_unique($supertypes));
-    }
-
-    private function apiTagsReflection(string $class): ?ReflectionClass
-    {
-        try {
-            return new ReflectionClass($class);
-        } catch (ReflectionException) {
-            return null;
-        }
+        return array_keys($supertypes);
     }
 }
